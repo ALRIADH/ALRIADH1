@@ -83,10 +83,14 @@ const nameOverlay = document.getElementById('nameOverlay');
 const firstNameInput = document.getElementById('firstNameInput');
 const saveFirstBtn = document.getElementById('saveFirstNameBtn');
 
+// إنشاء clientId عند أول دخول
+if(!localStorage.getItem('chatClientId')) {
+  localStorage.setItem('chatClientId', Math.random().toString(36).slice(2,12));
+}
+
 let roomId = 'main';
 const messagesRef = ref(db, `rooms/${roomId}/messages`);
 
-function genClientId() { return Math.random().toString(36).slice(2,12); }
 function avatarFromName(name) { return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=random&bold=true`; }
 
 if(!localStorage.getItem('chatName')) { nameOverlay.style.display = 'flex'; } else { nameInput.value = localStorage.getItem('chatName'); }
@@ -137,7 +141,7 @@ form.addEventListener('submit', e => {
     name: localStorage.getItem('chatName'),
     text: text,
     avatar: localStorage.getItem('chatAvatar'),
-    clientId: localStorage.getItem('chatClientId') || genClientId(),
+    clientId: localStorage.getItem('chatClientId'),
     ts: serverTimestamp()
   });
   input.value='';
@@ -145,4 +149,3 @@ form.addEventListener('submit', e => {
 </script>
 </body>
 </html>
-
