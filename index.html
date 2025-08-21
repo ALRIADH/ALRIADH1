@@ -1,156 +1,1117 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>دردشة المدرسين</title>
-<style>
-  body { margin:0; font-family: sans-serif; background:#0f172a; color:#e2e8f0; }
-  .wrap { max-width:780px; margin:0 auto; padding:12px; }
-  .card { background:#111827; border-radius:18px; overflow:hidden; padding:10px; display:flex; flex-direction:column; height:90vh; }
-  header { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
-  #chat { display:flex; flex-direction:column; flex:1; }
-  #messages { list-style:none; margin:0; padding:0; overflow:auto; display:flex; flex-direction:column; gap:10px; }
-  #messages li { display:flex; align-items:flex-end; gap:8px; max-width:80%; }
-  #messages li.mine { margin-inline-start:auto; flex-direction:row-reverse; }
-  #messages li .bubble { cursor: pointer; }
-  #messages img { width:36px; height:36px; border-radius:50%; object-fit:cover; border:1px solid #334155; }
-  .bubble { background:#0b1220; border:1px solid #1f2937; padding:9px 12px; border-radius:14px; }
-  .mine .bubble { background:#1d4ed8; border-color:#1d4ed8; color:white; }
-  .meta { font-size:11px; opacity:.85; margin-bottom:4px; }
-  form { display:flex; gap:8px; margin-top:auto; }
-  input[type="text"] { flex:1; padding:10px; border-radius:12px; border:1px solid #374151; background:#0b1220; color:#e5e7eb; }
-  button { padding:10px 12px; border-radius:12px; border:none; cursor:pointer; background:#3b82f6; color:white; }
-  .overlay { position:fixed; inset:0; background:rgba(0,0,0,.6); display:none; align-items:center; justify-content:center; padding:16px; }
-  .modal { width:100%; max-width:420px; background:#111827; border-radius:16px; padding:16px; }
-  .modal input { width:100%; padding:12px; border-radius:12px; border:1px solid #374151; background:#0b1220; color:#e5e7eb; }
-  .topbar { display:flex; align-items:center; gap:12px; margin-bottom:12px; }
-  .topbar a { color:#3b82f6; text-decoration:none; font-size:18px; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>R.D.F - نظام الدخول المتقدم</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --dark-bg: #0a0a12;
+            --primary: #fff;
+            --secondary: #fff;
+            --accent: #ff003c;
+            --text: #e0e0e0;
+            --glw: 0 0 15px rgba(0 47, 85, 0.7);
+            --ark-glow: 0 0 15px ra(138, 0, 255, 0.5);
+        }
+        
+        body {
+            background:#000000;
+            color: var(--text);
+            min-height: 100vh;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        /* تأثيرات الخلفية */
+        .floating-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        /*.shape {*/
+            position: absolute;
+            border-radius: 80%;
+            background: radial-gradient(circle, rgba(0, 47, 85, 0.8), transparent);
+            filter: blur(20px);
+            opacity: 0.7;
+        }
+        
+        .shape-1 {
+            width: 300px;
+            height: 300px;
+            top: 10%;
+            left: 20%;
+            animation: float1 2s infinite alternate ease-in-out;
+        }
+        
+        .shape-2 {
+            width: 200px;
+            height: 200px;
+            top: 60%;
+            left: 70%;
+            animation: float2 12s infinite alternate ease-in-out;
+        }
+        
+        .shape-3 {
+            width: 150px;
+            height: 150px;
+            top: 30%;
+            left: 50%;
+            animation: float3 10s infinite alternate ease-in-out;
+        }
+        
+        @keyframes float1 {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(100px, 100px) rotate(360deg); }
+        }
+        
+        @keyframes float2 {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(-150px, -80px) rotate(-360deg); }
+        }
+        
+        @keyframes float3 {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(120px, -100px) rotate(180deg); }
+        }
+        
+        /* تصميم لوحة الدخول */
+        /*.login-container {*/
+            backgound: rgba(15, 15, 25, 0.85);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 0 40px rgba(0, 0, 0, .7), var(--glow);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+        
+        .login-container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            /*background: linear-gradient(to right, var(--primary), var(--secondary));*/
+        }
+        
+        .login-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .login-logo {
+            font-size: 3.5rem;
+            font-weight: 800;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 1rem;
+            text-shadow: var(--glow);
+        }
+        
+        .login-title {
+            font-size: 1.8rem;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+            font-weight: 300;
+        }
+        
+        .login-subtitle {
+            color: #aaa;
+            font-size: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        /* حقول الإدخال */
+        .input-group {
+            margin-bottom: 0.8rem;
+            position: relative;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+            font-weight: 500;
+        }
+        
+        .input-group input {
+            width: 100%;
+            padding: 0.7rem 1.2rem;
+            background:#373737;
+            border: 1px solid rgba(0, 17, 5, 0.1);
+            border-radius: 8px;
+            color: var(--text);
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: var(--glow);
+        }
+        
+        .input-group i {
+            position: absolute;
+            right: 15px;
+            top: 42px;
+            color: #555;
+        }
+        
+        /* زر الدخول */
+        .login-btn {
+            width: 100%;
+            padding: 0.9rem;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            border: none;
+            border-radius: 5px;
+            color: black;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            margin-top: 1rem;
+        }
+        
+        .login-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .login-btn:active {
+            transform: translateY(1px);
+        }
+        
+        .login-btn::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+        
+        .login-btn:hover::after {
+            left: 100%;
+        }
+        
+        /* نظام المحاولات والحظر */
+        .attempts-info {
+            text-align: center;
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: rgba(255, 0, 60, 0.1);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 0, 60, 0.3);
+            display: none;
+        }
+        
+        .attempts-count {
+            color: var(--accent);
+            font-weight: bold;
+        }
+        
+        .blocked-message {
+            text-align: center;
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: rgba(255, 0, 60, 0.2);
+            border-radius: 8px;
+            border: 1px solid var(--accent);
+            display: none;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .blocked-message::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--accent);
+            animation: scanning 2s infinite linear;
+        }
+        
+        .blocked-title {
+            color: var(--accent);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .timer {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-shadow: var(--glow);
+            margin: 1rem 0;
+        }
+        
+        .blocked-info {
+            color: #ff9999;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+        }
+        
+        /* منطقة التخمين */
+        .hacking-section {
+            margin-top: 1rem;
+            background: rgba(10, 5, 15, 0.7);
+            border: 1px solid rgba(255, 0, 60, 0.3);
+            border-radius: 8px;
+            padding: 0.5rem;
+            display: none;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hacking-section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: var(--accent);
+            animation: scanning 2s infinite linear;
+        }
+        
+        .hacking-header {
+            display: flex;
+            align-items: center;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+        
+        .hacking-header i {
+            margin-left: 0.8rem;
+            animation: pulse 1s infinite;
+        }
+        
+        .password-attempts {
+            height: 100px;
+            overflow-y: auto;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 5px;
+            padding: 0.8rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.8;
+        }
+        
+        .password-attempt {
+            color: #ff5555;
+            animation: fadeIn 0.2s forwards;
+        }
+        
+        .success-attempt {
+            color: green;
+            font-weight: bold;
+        }
+        
+        /* رسالة الترحيب بعد الدخول - التصميم الجديد */
+        .welcome-message {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.97);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1s ease;
+        }
+        
+        .welcome-content {
+            text-align: center;
+            max-width: 800px;
+            padding: 2rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .nexus-logo {
+            width: 180px;
+            height: 180px;
+            margin: 0 auto 2rem;
+            position: relative;
+            background: linear-gradient(135deg, rgba(0, 47, 85, 0.8), rgba(138, 0, 255, 0.6));
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 50px rgba(0, 47, 85, 0.7), 0 0 80px rgba(138, 0, 255, 0.5);
+            animation: pulseLogo 3s infinite alternate;
+        }
+        
+        .nexus-logo::before {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: rotate 10s linear infinite;
+        }
+        
+        .nexus-logo i {
+            font-size: 5rem;
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 0 0 20px rgba(0, 47, 85, 0.9), 0 0 40px rgba(138, 0, 255, 0.7);
+        }
+        
+        .welcome-title {
+            font-size: 3.5rem;
+            background: linear-gradient(to right, #00aaff, #00ffaa);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+            letter-spacing: 3px;
+            line-height: 1.2;
+            text-shadow: 0 0 15px rgba(0, 170, 255, 0.5);
+            animation: glitch 1.5s infinite;
+        }
+        
+        .welcome-subtitle {
+            font-size: 1.8rem;
+            color: #e0e0e0;
+            margin-bottom: 1rem;
+            font-weight: 300;
+            line-height: 1.6;
+        }
+        
+        .member-name {
+            color: #00aaff;
+            font-weight: 700;
+            font-size: 2.5rem;
+            margin: 0rem 0;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: #00aaff;
+            animation: glow 2s infinite alternate;
+        }
+        
+        .access-code {
+            font-size: 1.8rem;
+            letter-spacing: 10px;
+            font-weight: 700;
+            color: #00aaff;
+            text-shadow: 0 0 20px rgba(0, 170, 255, 0.7);
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: rgba(0, 10, 20, 0.6);
+            border: 1px solid rgba(0, 170, 255, 0.5);
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(0, 170, 255, 0.3);
+            animation: pulseBorder 3s infinite alternate;
+        }
+        
+        /* تأثيرات التحميل */
+        .loading-container {
+            width: 100%;
+            max-width: 500px;
+            margin: 0.5rem auto;
+            background: rgba(10, 15, 30, 0.7);
+            border-radius: 10px;
+            padding: 1.5rem;
+            border: 1px solid rgba(0, 170, 255, 0.3);
+        }
+        
+        .loading-text {
+            text-align: center;
+            font-size: 1.4rem;
+            color: #00aaff;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 0 10px rgba(0, 55, 170, 0.5);
+        }
+        
+        .loading-bar {
+            height: 20px;
+            background: rgba(0, 20, 40, 0.8);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(0, 170, 255, 0.3);
+        }
+        
+        .loading-progress {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #00aaff, #00ff);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .loading-progress::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: loadingShine 1.5s infinite;
+        }
+        
+        .loading-percentage {
+            text-align: center;
+            font-size: 1.3rem;
+            color: #00aaff;
+            font-weight: 700;
+        }
+        
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            margin: 2rem auto;
+            position: relative;
+        }
+        
+        .spinner-circle {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 4px solid transparent;
+            border-top-color: #00aaff;
+            border-radius: 50%;
+            animation: spin 1.5s linear infinite;
+        }
+        
+        .spinner-circle:nth-child(2) {
+            width: 80%;
+            height: 80%;
+            top: 10%;
+            left: 10%;
+            border-top-color: #aa11ff;
+            animation: spinReverse 2s linear infinite;
+        }
+        
+        .spinner-circle:nth-child(3) {
+            width: 60%;
+            height: 60%;
+            top: 20%;
+            left: 20%;
+            border-top-color: #00aaff;
+            animation: spin 2.5s linear infinite;
+        }
+        
+        /* الرسوم المتحركة */
+        @keyframes scanning {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 0.4; }
+            50% { opacity: 1; }
+            100% { opacity: 0.4; }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes glitch {
+            0% { text-shadow: 0 0 5px var(--primary), 0 0 10px #00aaff; }
+            25% { text-shadow: 5px 0 5px #ff003c, 0 0 15px #00aaff; }
+            50% { text-shadow: -5px 0 5px #00ff, 0 0 20px #00aaff; }
+            100% { text-shadow: 0 0 5px var(--primary), 0 0 10px #00aaff; }
+        }
+        
+        @keyframes glow {
+            0% { text-shadow: 0 0 10px rgba(0, 25, 170, 0.5); }
+            100% { text-shadow: 0 0 25px rgba(138, 0, 255, 0.7), 0 0 50px rgba(0, 25, 170, 0.4); }
+        }
+        
+        @keyframes pulseLogo {
+            0% { transform: scale(1); box-shadow: 0 0 40px rgba(0, 47, 85, 0.7), 0 0 60px rgba(138, 0, 255, 0.5); }
+            100% { transform: scale(1.05); box-shadow: 0 0 60px rgba(0, 47, 85, 0.9), 0 0 80px rgba(138, 0, 255, 0.7); }
+        }
+        
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes loadingShine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(200%); }
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes spinReverse {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(-360deg); }
+        }
+        
+        @keyframes pulseBorder {
+            0% { border-color: rgba(0, 170, 255, 0.5); box-shadow: 0 0 30px rgba(0, 170, 255, 0.3); }
+            100% { border-color: rgba(0, 25, 170, 0.7); box-shadow: 0 0 50px rgba(0, 25, 170, 0.5); }
+        }
+        
+        /* تصميم متجاوب */
+        @media (max-width: 768px) {
+            .welcome-title {
+                font-size: 2.5rem;
+            }
+            
+            .member-name {
+                font-size: 2rem;
+            }
+            
+            .access-code {
+                font-size: 1.4rem;
+                letter-spacing: 5px;
+                padding: 1rem;
+            }
+            
+            .nexus-logo {
+                width: 140px;
+                height: 140px;
+            }
+            
+            .nexus-logo i {
+                font-size: 4rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .login-container {
+                padding: 1.5rem;
+                margin: 1rem;
+            }
+            
+            .login-logo {
+                font-size: 2.5rem;
+            }
+            
+            .login-title {
+                font-size: 1.5rem;
+            }
+            
+            .welcome-title {
+                font-size: 2rem;
+            }
+            
+            .welcome-subtitle {
+                font-size: 1.3rem;
+            }
+            
+            .member-name {
+                font-size: 1.8rem;
+            }
+            
+            .access-code {
+                font-size: 1.2rem;
+                letter-spacing: 3px;
+            }
+            
+            .nexus-logo {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .nexus-logo i {
+                font-size: 3rem;
+            }
+        }
+    </style>
 </head>
 <body>
-<div class="wrap">
-  <div class="card">
-    <div class="topbar">
-      <a href="ddd.html">← القائمة الرئيسية</a>
-      <h1>دردشة المدرسين</h1>
+    <!-- التأثيرات البصرية -->
+    <div class="floating-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
     </div>
-    <section id="chat">
-      <ul id="messages"></ul>
-      <form id="messageForm">
-        <input id="messageInput" type="text" placeholder="اكتب رسالتك..." maxlength="1000" autocomplete="off" />
-        <button type="submit">إرسال</button>
-      </form>
-    </section>
-  </div>
-</div>
-
-<div id="nameOverlay" class="overlay">
-  <div class="modal">
-    <h2>أهلاً 👋</h2>
-    <p>اكتب اسمك. سيتم حفظه نهائيًا من الإدارة:</p>
-    <input id="firstNameInput" type="text" placeholder="اسمك" maxlength="20" />
-    <div style="margin-top:12px; display:flex; justify-content:flex-end;">
-      <button id="saveFirstNameBtn">ابدأ</button>
+    
+    <!-- لوحة تسجيل الدخول -->
+    <div class="login-container">
+        <div class="login-header">
+            <div class="login-logo"> <img src="https://i.postimg.cc/rm34kd1f/image.png" with="1" height="50" top="50" alt="ᑎEXᑌS"></div>
+            <h1 class="login-title">ᑎEXᑌS</h1>
+            <p class="login-subtitle">تسجيل الدخول إلى نكسس</p>
+        </div>
+        
+        <form id="loginForm">
+            <div class="input-group">
+                <label for="username">اسم المستخدم</label>
+                <input type="text" id="username" name="username" required>
+                <!--i class="fas fa-user-secret"></i-->
+            </div>
+            
+            <div class="input-group">
+                <label for="password">كلمة المرور</label>
+                <input type="password" id="password" name="password" required autocomplete="off">
+                <!--i class="fas fa-lock"></i-->
+            </div>
+            
+            <button type="submit" class="login-btn">تفعيل الدخول</button>
+        </form>
+        
+        <!-- معلومات المحاولات -->
+        <div class="attempts-info" id="attemptsInfo">
+            <p>لديك <span class="attempts-count" id="remainingAttempts">3</span> محاولات متبقية</p>
+        </div>
+        
+        <!-- رسالة الحظر -->
+        <div class="blocked-message" id="blockedMessage">
+            <h2 class="blocked-title">تم حظر حسابك مؤقتًا</h2>
+            <p>لقد تجاوزت عدد المحاولات المسموح بها</p>
+            <div class="timer" id="timer">15:00</div>
+            <p class="blocked-info">الوقت المتبقي حتى فك الحظر:</p>
+            <p class="blocked-info">عند محاولة دخول أخرى بعد انتهاء الحظر سيكون وقت الحظر 30 دقيقة</p>
+        </div>
+        
+        <!-- منطقة تخمين كلمات المرور -->
+        <div class="hacking-section" id="hackingSection">
+            <div class="hacking-header">
+                <i class="fas fa-shield-alt"></i>
+                <h2>جاري فك تشفير كلمة المرور  ...</h2>
+            </div>
+            <div class="password-attempts" id="passwordAttempts"></div>
+        </div>
     </div>
-  </div>
-</div>
-
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
-import { getDatabase, ref, push, onChildAdded, serverTimestamp, query, orderByChild, limitToLast, remove } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyD-ATbhT7UbESmsW_cSdVNqb7JhLobsTT4",
-  authDomain: "chat-4f717.firebaseapp.com",
-  databaseURL: "https://chat-4f717-default-rtdb.firebaseio.com",
-  projectId: "chat-4f717",
-  storageBucket: "chat-4f717.firebasestorage.app",
-  messagingSenderId: "1049833929365",
-  appId: "1:1049833929365:web:212eee0b364fb0ab11799c",
-  measurementId: "G-022MRFC60Z"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
-
-const messagesEl = document.getElementById('messages');
-const form = document.getElementById('messageForm');
-const input = document.getElementById('messageInput');
-const nameOverlay = document.getElementById('nameOverlay');
-const firstNameInput = document.getElementById('firstNameInput');
-const saveFirstBtn = document.getElementById('saveFirstNameBtn');
-
-// clientId ثابت لكل مستخدم
-if(!localStorage.getItem('chatClientId')) {
-  localStorage.setItem('chatClientId', Math.random().toString(36).slice(2,12));
-}
-
-function avatarFromName(name) { return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=random&bold=true`; }
-
-// التحقق من الاسم المخزن
-if(!localStorage.getItem('chatName')) { nameOverlay.style.display = 'flex'; }
-
-saveFirstBtn.addEventListener('click', () => {
-  const name = firstNameInput.value.trim();
-  if(!name) return;
-  localStorage.setItem('chatName', name);
-  localStorage.setItem('chatAvatar', avatarFromName(name));
-  nameOverlay.style.display = 'none';
-});
-
-let roomId = 'main';
-const messagesRef = ref(db, `rooms/${roomId}/messages`);
-
-function renderMessage(m, key) {
-  const li = document.createElement('li');
-  li.className = (m.clientId === localStorage.getItem('chatClientId')) ? 'mine':'theirs';
-  const img = document.createElement('img');
-  img.src = m.avatar || 'https://i.pravatar.cc/40';
-
-  const bubble = document.createElement('div');
-  bubble.className='bubble';
-  bubble.dataset.key = key;
-
-  const meta = document.createElement('div');
-  meta.className='meta';
-  meta.textContent = `${m.name} • ${new Date(m.ts).toLocaleString()}`;
-
-  const text = document.createElement('div');
-  text.className='text';
-  text.textContent = m.text;
-
-  bubble.append(meta,text);
-  li.append(img,bubble);
-  messagesEl.appendChild(li);
-  messagesEl.lastElementChild.scrollIntoView({behavior:'smooth'});
-
-  // حذف الرسالة عند النقر إذا كانت من المستخدم نفسه
-  if(m.clientId === localStorage.getItem('chatClientId')) {
-    bubble.addEventListener('click', () => {
-      if(confirm('هل تريد حذف هذه الرسالة؟')) {
-        remove(ref(db, `rooms/${roomId}/messages/${key}`));
-      }
-    });
-  }
-}
-
-const messagesQuery = query(messagesRef, orderByChild('ts'), limitToLast(200));
-onChildAdded(messagesQuery, snapshot => renderMessage(snapshot.val(), snapshot.key));
-
-form.addEventListener('submit', e => {
-  e.preventDefault();
-  const text = input.value.trim();
-  if(!text) return;
-  push(messagesRef, {
-    name: localStorage.getItem('chatName'),
-    text: text,
-    avatar: localStorage.getItem('chatAvatar'),
-    clientId: localStorage.getItem('chatClientId'),
-    ts: serverTimestamp()
-  });
-  input.value='';
-});
-</script>
+    
+    <!-- رسالة الترحيب بعد الدخول - التصميم الجديد -->
+    <div class="welcome-message" id="welcomeMessage">
+        <div class="welcome-content">
+            <div class="nexus-logo">
+                <i class="fas fa-shield-alt"></i>
+            </div>
+            <!--h1 class="welcome-title">تم التحقق بنجاح</h1-->
+            <p class="welcome-subtitle">تمت المصادقة على هويتك بنجاح</p>
+            <div class="member-name" id="memberName">اسم العضو</div>
+            <p class="welcome-subtitle">مرحبًا بك في النظام الأساسي</p>
+            <!--div class="access-code">RDF-9-ALPHA-X</div-->
+            
+            <!-- تأثير التحميل الجديد -->
+            <div class="loaing-container">
+                <div class="loading-text">جاري تحويلك إلى منطقة العمليات...</div>
+                <div class="loading-bar">
+                    <div class="loading-progress" id="loadingProgress"></div>
+                </div>
+                <div class="loading-percentage" id="loadingPercentage">0%</div>
+                <div class="loading-spinner">
+                    <div class="spinner-circle"></div>
+                    <div class="spinner-circle"></div>
+                    <div class="spinner-circle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // بيانات الأعضاء (المستخدمين وكلمات المرور وصفحاتهم)
+        const members = [
+            { username: "agent_x", password: "shadow007", name: "العميل X", page: "aaa.html" },
+            { username: "phantom", password: "ghost123", name: "الفانتوم", page: "bbb.html" },
+            { username: "dark_knight", password: "bat2023", name: "الفارس المظلم", page: "ccc.html" },
+            { username: "silent_wolf", password: "forest88", name: "الذئب الصامت", page: "ddd.html" },
+            { username: "ملك بلا مملكة", password: "sifx77", name: "سيف علي عبدة الشوكي", page: "sif.html" }
+        ];
+        
+        // كلمات مرور عشوائية للتأثير
+        const randomPasswords = [
+            "********", "#######", "%%%%%%%", "$$$$$$$", 
+            "letmein", "password123", "adminadmin", "secret007",
+            "qwertyuiop", "asdfghjkl", "zxcvbnm", "1234567890",
+            "iloveyou", "sunshine", "football", "baseball",
+            "welcome", "login", "passw0rd", "access",
+            "dragon", "superman", "trustno1", "starwars"
+        ];
+        
+        // العناصر الرئيسية
+        const loginForm = document.getElementById('loginForm');
+        const hackingSection = document.getElementById('hackingSection');
+        const passwordAttempts = document.getElementById('passwordAttempts');
+        const welcomeMessage = document.getElementById('welcomeMessage');
+        const memberName = document.getElementById('memberName');
+        const attemptsInfo = document.getElementById('attemptsInfo');
+        const remainingAttempts = document.getElementById('remainingAttempts');
+        const blockedMessage = document.getElementById('blockedMessage');
+        const timer = document.getElementById('timer');
+        const loadingProgress = document.getElementById('loadingProgress');
+        const loadingPercentage = document.getElementById('loadingPercentage');
+        
+        // تهيئة المحاولات
+        const MAX_ATTEMPTS = 3;
+        let attempts = MAX_ATTEMPTS;
+        let timerInterval = null;
+        
+        // إنشاء بصمة رقمية فريدة للمستخدم
+        async function createFingerprint() {
+            const components = [];
+            
+            // 1. معلومات المتصفح
+            components.push(navigator.userAgent);
+            components.push(navigator.platform);
+            components.push(navigator.language);
+            components.push(navigator.hardwareConcurrency);
+            components.push(screen.width + 'x' + screen.height + 'x' + screen.colorDepth);
+            
+            // 2. معلومات الوقت
+            const timezone = new Date().getTimezoneOffset();
+            components.push(timezone);
+            
+            // 3. إمكانيات المتصفح
+            const canvas = document.createElement('canvas');
+            if (canvas.getContext) {
+                const ctx = canvas.getContext('2d');
+                ctx.textBaseline = 'top';
+                ctx.font = '14px Arial';
+                ctx.fillStyle = '#f60';
+                ctx.fillRect(125, 1, 62, 20);
+                ctx.fillStyle = '#069';
+                ctx.fillText('RDF_SECURITY', 2, 15);
+                ctx.fillStyle = 'rgba(102, 204, 0, 0.7)';
+                ctx.fillText('RDF_SECURITY', 4, 17);
+                
+                const canvasData = canvas.toDataURL();
+                components.push(canvasData);
+            }
+            
+            // 4. WebGL fingerprint
+            if (window.WebGLRenderingContext) {
+                const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+                if (gl) {
+                    const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+                    if (debugInfo) {
+                        components.push(gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL));
+                        components.push(gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL));
+                    }
+                }
+            }
+            
+            // 5. تجميع البصمة
+            const combined = components.join('|');
+            const encoder = new TextEncoder();
+            const data = encoder.encode(combined);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+        
+        // الحصول على البصمة الرقمية
+        let userFingerprint = '';
+        createFingerprint().then(fp => {
+            userFingerprint = fp;
+            console.log('Fingerprint generated:', userFingerprint);
+        });
+        
+        // عند تحميل الصفحة، تحقق من حالة الحظر
+        document.addEventListener('DOMContentLoaded', async function() {
+            // محاولة الحصول على البصمة أولاً
+            if (!userFingerprint) {
+                userFingerprint = await createFingerprint();
+            }
+            
+            // التحقق من حالة الحظر باستخدام البصمة
+            const blockedUsers = JSON.parse(localStorage.getItem('blockedUsers') || '{}');
+            const userBlockData = blockedUsers[userFingerprint];
+            
+            if (userBlockData) {
+                const currentTime = new Date().getTime();
+                const remainingTime = userBlockData.blockedUntil - currentTime;
+                
+                if (remainingTime > 0) {
+                    showBlockedMessage(remainingTime);
+                    return;
+                } else {
+                    // إزالة الحظر إذا انتهى الوقت
+                    delete blockedUsers[userFingerprint];
+                    localStorage.setItem('blockedUsers', JSON.stringify(blockedUsers));
+                }
+            }
+            
+            // استعادة عدد المحاولات
+            const savedAttempts = localStorage.getItem('remainingAttempts_' + userFingerprint);
+            if (savedAttempts) {
+                attempts = parseInt(savedAttempts);
+                if (attempts < MAX_ATTEMPTS) {
+                    attemptsInfo.style.display = 'block';
+                    remainingAttempts.textContent = attempts;
+                }
+            }
+        });
+        
+        // عند تقديم النموذج
+        loginForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // التأكد من وجود البصمة الرقمية
+            if (!userFingerprint) {
+                userFingerprint = await createFingerprint();
+            }
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            // التحقق من حالة الحظر
+            const blockedUsers = JSON.parse(localStorage.getItem('blockedUsers') || '{}');
+            const userBlockData = blockedUsers[userFingerprint];
+            
+            if (userBlockData) {
+                const currentTime = new Date().getTime();
+                const remainingTime = userBlockData.blockedUntil - currentTime;
+                
+                if (remainingTime > 0) {
+                    showBlockedMessage(remainingTime);
+                    return;
+                } else {
+                    // إزالة الحظر إذا انتهى الوقت
+                    delete blockedUsers[userFingerprint];
+                    localStorage.setItem('blockedUsers', JSON.stringify(blockedUsers));
+                }
+            }
+            
+            // إخفاء رسالة المحاولات
+            attemptsInfo.style.display = 'none';
+            
+            // إظهار منطقة التخمين
+            hackingSection.style.display = 'block';
+            loginForm.style.opacity = '0.3';
+            passwordAttempts.innerHTML = '';
+            
+            // بدء عملية المحاكاة
+            simulateHacking(username, password);
+        });
+        
+        // محاكاة عملية تخمين كلمات المرور
+        function simulateHacking(username, enteredPassword) {
+            let hackingAttempts = 0;
+            const maxHackingAttempts = 15;
+            const correctMember = members.find(m => m.username === username && m.password === enteredPassword);
+            
+            const hackingInterval = setInterval(() => {
+                if (hackingAttempts >= maxHackingAttempts) {
+                    clearInterval(hackingInterval);
+                    
+                    // التأخير قبل عرض النتيجة
+                    setTimeout(() => {
+                        if (correctMember) {
+                            // إذا كان الدخول ناجحًا
+                            showSuccessMessage(correctMember.name, correctMember.page);
+                        } else {
+                            // إذا كان الدخول فاشلًا
+                            handleFailedLogin(username);
+                        }
+                    }, 1000);
+                    return;
+                }
+                
+                // إضافة محاولة عشوائية
+                const randomIndex = Math.floor(Math.random() * randomPasswords.length);
+                const randomPassword = randomPasswords[randomIndex];
+                
+                const attemptElement = document.createElement('div');
+                attemptElement.classList.add('password-attempt');
+                
+                if (hackingAttempts === maxHackingAttempts - 1 && correctMember) {
+                    // في المحاولة الأخيرة، إظهار كلمة المرور الصحيحة
+                    attemptElement.textContent = `> Trying: ${correctMember.password}`;
+                    attemptElement.classList.add('success-attempt');
+                } else {
+                    attemptElement.textContent = `> Trying: ${randomPassword}`;
+                }
+                
+                passwordAttempts.appendChild(attemptElement);
+                passwordAttempts.scrollTop = passwordAttempts.scrollHeight;
+                
+                hackingAttempts++;
+            }, 200);
+        }
+        
+        // معالجة فشل تسجيل الدخول
+        function handleFailedLogin(username) {
+            attempts--;
+            localStorage.setItem('remainingAttempts_' + userFingerprint, attempts);
+            
+            if (attempts > 0) {
+                // إظهار عدد المحاولات المتبقية
+                attemptsInfo.style.display = 'block';
+                remainingAttempts.textContent = attempts;
+                
+                passwordAttempts.innerHTML += `<div class="password-attempt" style="color:${getComputedStyle(document.documentElement).getPropertyValue('--accent')}">> فشل التحقق! لديك ${attempts} محاولات متبقية</div>`;
+            } else {
+                // حظر المستخدم
+                blockUser(username);
+            }
+            
+            // إعادة تعيين النموذج بعد التأخير
+            setTimeout(() => {
+                hackingSection.style.display = 'none';
+                loginForm.style.opacity = '1';
+                document.getElementById('password').value = '';
+            }, 3000);
+        }
+        
+        // حظر المستخدم
+        function blockUser(username) {
+            // الحصول على عدد مرات الحظر السابقة
+            const blockedUsers = JSON.parse(localStorage.getItem('blockedUsers') || '{}');
+            const userBlockData = blockedUsers[userFingerprint] || { blockCount: 0 };
+            
+            const newBlockCount = userBlockData.blockCount + 1;
+            
+            // تحديد مدة الحظر
+            const blockDuration = newBlockCount === 1 ? 15 : 30; // 15 دقيقة للحظر الأول، 30 دقيقة للثاني
+            const blockTime = blockDuration * 60 * 1000; // تحويل إلى مللي ثانية
+            
+            // حساب وقت نهاية الحظر
+            const currentTime = new Date().getTime();
+            const blockedUntil = currentTime + blockTime;
+            
+            // تحديث بيانات الحظر
+            blockedUsers[userFingerprint] = {
+                blockedUntil,
+                blockCount: newBlockCount,
+                lastUsername: username,
+                timestamp: new Date().toISOString()
+            };
+            
+            // حفظ بيانات الحظر
+            localStorage.setItem('blockedUsers', JSON.stringify(blockedUsers));
+            localStorage.removeItem('remainingAttempts_' + userFingerprint);
+            
+            // إظهار رسالة الحظر
+            showBlockedMessage(blockTime);
+        }
+        
+        // إظهار رسالة الحظر
+        function showBlockedMessage(duration) {
+            hackingSection.style.display = 'none';
+            loginForm.style.display = 'none';
+            attemptsInfo.style.display = 'none';
+            blockedMessage.style.display = 'block';
+            
+            // بدء العداد التنازلي
+            startTimer(duration);
+        }
+        
+        // بدء العداد التنازلي
+        function startTimer(duration) {
+            let timeLeft = duration;
+            
+            // إيقاف أي عداد سابق
+            if (timerInterval) clearInterval(timerInterval);
+            
+            // تحديث العداد فوراً
+            updateTimerDisplay(timeLeft);
+            
+            timerInterval = setInterval(() => {
+                timeLeft -= 1000;
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    
+                    // إزالة الحظر
+                    const blockedUsers = JSON.parse(localStorage.getItem('blockedUsers') || '{}');
+                    delete blockedUsers[userFingerprint];
+                    localStorage.setItem('blockedUsers', JSON.stringify(blockedUsers));
+                    
+                    // إعادة تعيين الصفحة
+                    blockedMessage.style.display = 'none';
+                    loginForm.style.display = 'block';
+                    attempts = MAX_ATTEMPTS;
+                    localStorage.setItem('remainingAttempts_' + userFingerprint, attempts);
+                    attemptsInfo.style.display = 'block';
+                    remainingAttempts.textContent = attempts;
+                    return;
+                }
+                
+                // تحديث العداد
+                updateTimerDisplay(timeLeft);
+            }, 1000);
+        }
+        
+        // تحديث عرض العداد
+        function updateTimerDisplay(timeLeft) {
+            const minutes = Math.floor(timeLeft / (1000 * 60));
+            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+            
+            timer.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+        
+        // عرض رسالة النجاح مع تأثير التحميل الجديد
+        function showSuccessMessage(name, page) {
+            memberName.textContent = name;
+            welcomeMessage.style.opacity = '1';
+            welcomeMessage.style.pointerEvents = 'auto';
+            
+            // بدء تأثير التحميل
+            let progress = 0;
+            const progressInterval = setInterval(() => {
+                progress += 1;
+                loadingProgress.style.width = `${progress}%`;
+                loadingPercentage.textContent = `${progress}%`;
+                
+                if (progress >= 100) {
+                    clearInterval(progressInterval);
+                    // الانتقال إلى الصفحة بعد التأخير
+                    setTimeout(() => {
+                        window.location.href = page;
+                        // إعادة تعيين المحاولات عند نجاح الدخول
+                        attempts = MAX_ATTEMPTS;
+                        localStorage.removeItem('remainingAttempts_' + userFingerprint);
+                    }, 500);
+                }
+            }, 50);
+        }
+        
+        // تأثيرات عشوائية لزيارة الرعب
+        setInterval(() => {
+            const hackingHeader = document.querySelector('.hacking-header h2');
+            if (hackingHeader && hackingSection.style.display === 'block') {
+                hackingHeader.classList.toggle('glitch-text');
+            }
+        }, 3000);
+    </script>
 </body>
 </html>
