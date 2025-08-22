@@ -13,7 +13,6 @@
 <button onclick="login()">دخول</button>
 
 <script>
-// إعدادات Firebase من ملفك
 const firebaseConfig = {
     apiKey: "AIzaSyB7KCJpm8S2kA0OStfd8utJqs1FdgOXLoc",
     authDomain: "password-a409.firebaseapp.com",
@@ -24,7 +23,6 @@ const firebaseConfig = {
     appId: "1:883669716957:android:51306477ae67104f497034"
 };
 
-// تهيئة Firebase
 const app = firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
@@ -42,26 +40,24 @@ function login() {
         const data = snapshot.val();
         const now = Date.now();
 
-        // تحقق من الحظر
         if (now < (data.blockedUntil || 0)) {
             alert("أنت محظور حتى " + new Date(data.blockedUntil));
             return;
         }
 
-        // كلمة المرور صحيحة
         if (data.password === password) {
             userRef.update({ loginAttempts: 0, blockedUntil: 0 });
-            window.location.href = "/profiles/" + username + ".html"; // تحويل للصفحة الشخصية
+            window.location.href = "/profiles/" + username + ".html";
         } else {
             let attempts = (data.loginAttempts || 0) + 1;
             let blockedUntil = 0;
 
             if (attempts === 3) {
-                blockedUntil = now + (30 * 60 * 1000); // حظر 30 دقيقة
+                blockedUntil = now + (30 * 60 * 1000); // 30 دقيقة
                 attempts = 0;
                 alert("تم حظرك 30 دقيقة");
             } else if (attempts > 3) {
-                blockedUntil = now + (24 * 60 * 60 * 1000); // حظر 24 ساعة
+                blockedUntil = now + (24 * 60 * 60 * 1000); // 24 ساعة
                 attempts = 0;
                 alert("تم حظرك 24 ساعة");
             } else {
