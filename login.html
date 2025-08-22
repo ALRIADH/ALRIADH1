@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>تسجيل الدخول</title>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js"></script>
+</head>
+<body>
+<h1>تسجيل الدخول</h1>
+<input type="text" id="username" placeholder="اسم المستخدم"><br><br>
+<input type="password" id="password" placeholder="كلمة المرور"><br><br>
+<button onclick="login()">دخول</button>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+  import { getDatabase, ref, get, update } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js";
+
+  // هذا هو الكود اللي نسخته من Firebase Project Settings (Web App)
+  const firebaseConfig = {
+    apiKey: "AIzaSyCXeOtXWIc1qyDIxh4EPu1nxmGswrNiqLo",
+    authDomain: "password-a409.firebaseapp.com",
+    databaseURL: "https://password-a409-default-rtdb.firebaseio.com",
+    projectId: "password-a409",
+    storageBucket: "password-a409.appspot.com",
+    messagingSenderId: "883669716957",
+    appId: "1:883669716957:web:e9c1222757dd10f3497034",
+    measurementId: "G-B3DBSGVC7T"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+
+  // الدالة login هنا تستعمل db مع Users/username
+  async function login() {
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value;
+
+    if (!username || !password) {
+      alert("الرجاء إدخال اسم المستخدم وكلمة المرور");
+      return;
+    }
+
+    const userRef = ref(db, "Users/" + username);
+    const snap = await get(userRef);
+
+    if (!snap.exists()) {
+      alert("المستخدم غير موجود");
+      return;
+    }
+
+    const data = snap.val();
+    const now = Date.now();
+
+    if (now < (data.blockedUntil || 0)) {
+      alert("محظور حتى: " + new Date(data.blockedUntil).toLocaleString());
+      return;
+    }
+
+    if (data.password === password) {
+      await update(userRef, { attempts: 0, blockedUntil: 0 });
+      window.location.href = "profiles/" + username + ".html";
+    } else {
+      let attempts = (data.attempts || 0) + 1;
+      let blockedUntil = 0;
+
+      if (attempts >= 3) {
+        blockedUntil = now + (30 * 60 * 1000); // 30 دقيقة
+        attempts = 0;
+        alert("تم حظرك 30 دقيقة");
+      } else {
+        alert("كلمة المرور خاطئة. المحاولات المتبقية: " + (3 - attempts));
+      }
+
+      await update(userRef, { attempts, blockedUntil });
+    }
+  }
+
+  // تعريف الدالة على النافذة عشان يقدر زر HTML يستخدمها
+  window.login = login;
+</script>
+</body>
+</html>
