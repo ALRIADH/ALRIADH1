@@ -1,87 +1,124 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>تسجيل الدخول</title>
-<style>
-  body { font-family: Tahoma, Arial; background:#f6f7fb; display:flex; justify-content:center; align-items:center; min-height:100vh; margin:0; }
-  .card { background:#fff; width:320px; padding:20px; border-radius:16px; box-shadow:0 10px 30px rgba(0,0,0,.08); }
-  input { width:100%; padding:12px; margin:8px 0; border:1px solid #ddd; border-radius:10px; font-size:14px; }
-  button { width:100%; padding:12px; border:0; border-radius:10px; font-size:15px; cursor:pointer; background:#2563eb; color:#fff; }
-</style>
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-import { getDatabase, ref, get, update } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js";
-
-// ضع هنا إعدادات Firebase Web الخاصة بك
-const firebaseConfig = {
-  apiKey: "AIzaSyCXeOtXWIc1qyDIxh4EPu1nxmGswrNiqLo",
-  authDomain: "password-a409.firebaseapp.com",
-  databaseURL: "https://password-a409-default-rtdb.firebaseio.com",
-  projectId: "password-a409",
-  storageBucket: "password-a409.firebasestorage.app",
-  messagingSenderId: "883669716957",
-  appId: "1:883669716957:web:e9c1222757dd10f3497034",
-  measurementId: "G-B3DBSGVC7T"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
-
-async function login() {
-  const username = document.getElementById("username").value.trim();
-  const password = document.getElementById("password").value;
-
-  if (!username || !password) return alert("الرجاء إدخال اسم المستخدم وكلمة المرور");
-
-  const userRef = ref(db, "Users/" + username);
-  const snap = await get(userRef);
-  if (!snap.exists()) return alert("المستخدم غير موجود");
-
-  const data = snap.val() || {};
-  const now = Date.now();
-  const attempts = Number(data.attempts || 0);
-  const blockedUntil = Number(data.blockedUntil || 0);
-  const blockStage = Number(data.blockStage || 0);
-
-  if (now < blockedUntil) {
-    const mins = Math.ceil((blockedUntil - now)/60000);
-    return alert("أنت محظور. جرّب بعد " + mins + " دقيقة.");
-  }
-
-  if (data.password === password) {
-    await update(userRef, { attempts: 0, blockedUntil: 0, blockStage: 0 });
-    window.location.href = "profiles/" + username + ".html";
-    return;
-  }
-
-  if (blockStage === 1) {
-    const nextBlock = now + 24*60*60*1000;
-    await update(userRef, { attempts: 0, blockedUntil: nextBlock, blockStage: 0 });
-    return alert("محاولة خاطئة بعد الحظر. تم حظرك 24 ساعة.");
-  }
-
-  const newAttempts = attempts + 1;
-  if (newAttempts >= 3) {
-    const nextBlock = now + 30*60*1000;
-    await update(userRef, { attempts: 0, blockedUntil: nextBlock, blockStage: 1 });
-    return alert("تم استنفاذ المحاولات. تم حظرك 30 دقيقة.");
-  } else {
-    await update(userRef, { attempts: newAttempts });
-    return alert("كلمة المرور خاطئة. المحاولات المتبقية: " + (3-newAttempts));
-  }
-}
-
-window.login = login;
-</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تسجيل دخول</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(120deg, #2563eb, #1e40af);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .login-box {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      text-align: center;
+      width: 320px;
+    }
+    h2 {
+      margin-bottom: 20px;
+      color: #1e40af;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background: #2563eb;
+      border: none;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background: #1e40af;
+    }
+    .error {
+      color: red;
+      font-size: 14px;
+      margin-top: 10px;
+    }
+  </style>
 </head>
 <body>
-  <div class="card">
-    <h1>تسجيل الدخول</h1>
-    <input id="username" type="text" placeholder="اسم المستخدم">
-    <input id="password" type="password" placeholder="كلمة المرور">
+  <div class="login-box">
+    <h2>تسجيل دخول</h2>
+    <input type="text" id="username" placeholder="اسم المستخدم">
+    <input type="password" id="password" placeholder="كلمة المرور">
     <button onclick="login()">دخول</button>
+    <p id="errorMsg" class="error"></p>
   </div>
+
+  <script>
+    // بيانات افتراضية للمستخدمين
+    const users = {
+      "abdulrahman": "12345",
+      "admin": "admin123",
+      "test": "0000"
+    };
+
+    // نظام المحاولات
+    let attempts = localStorage.getItem("attempts") ? parseInt(localStorage.getItem("attempts")) : 3;
+    let blockedUntil = localStorage.getItem("blockedUntil");
+
+    // التحقق من الحظر
+    function checkBlock() {
+      if (blockedUntil) {
+        let now = Date.now();
+        if (now < blockedUntil) {
+          document.getElementById("errorMsg").innerText = "تم حظرك مؤقتًا. حاول لاحقًا.";
+          return true;
+        } else {
+          // انتهاء الحظر
+          localStorage.removeItem("blockedUntil");
+          attempts = 3;
+          localStorage.setItem("attempts", attempts);
+        }
+      }
+      return false;
+    }
+
+    function login() {
+      if (checkBlock()) return;
+
+      let username = document.getElementById("username").value.trim();
+      let password = document.getElementById("password").value.trim();
+
+      if (users[username] && users[username] === password) {
+        alert("تم تسجيل الدخول بنجاح ✅");
+        localStorage.setItem("attempts", 3); // إعادة المحاولات
+        window.location.href = "home.html"; // غيرها للصفحة اللي تشتغل بعدها
+      } else {
+        attempts--;
+        localStorage.setItem("attempts", attempts);
+
+        if (attempts > 0) {
+          document.getElementById("errorMsg").innerText =
+            `بيانات خاطئة. تبقى لك ${attempts} محاولات.`;
+        } else {
+          let blockTime = Date.now() + (1 * 60 * 1000); // دقيقة حظر
+          localStorage.setItem("blockedUntil", blockTime);
+          document.getElementById("errorMsg").innerText =
+            "تم حظرك مؤقتًا لمدة دقيقة.";
+        }
+      }
+    }
+
+    // أول ما يفتح الصفحة نتحقق
+    checkBlock();
+  </script>
 </body>
 </html>
