@@ -3,122 +3,62 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>تسجيل دخول</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(120deg, #2563eb, #1e40af);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-    }
-    .login-box {
-      background: white;
-      padding: 30px;
-      border-radius: 15px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-      text-align: center;
-      width: 320px;
-    }
-    h2 {
-      margin-bottom: 20px;
-      color: #1e40af;
-    }
-    input {
-      width: 100%;
-      padding: 10px;
-      margin: 8px 0;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-    }
-    button {
-      width: 100%;
-      padding: 10px;
-      background: #2563eb;
-      border: none;
-      color: white;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 16px;
-    }
-    button:hover {
-      background: #1e40af;
-    }
-    .error {
-      color: red;
-      font-size: 14px;
-      margin-top: 10px;
-    }
-  </style>
+  <title>مشاركة الموقع</title>
 </head>
-<body>
-  <div class="login-box">
-    <h2>تسجيل دخول</h2>
-    <input type="text" id="username" placeholder="اسم المستخدم">
-    <input type="password" id="password" placeholder="كلمة المرور">
-    <button onclick="login()">دخول</button>
-    <p id="errorMsg" class="error"></p>
-  </div>
+<body style="text-align:center; font-family:Tahoma; margin-top:50px;">
+
+  <h2>إرسال إحداثيات موقعي إلى Google Sheet</h2>
+  <button onclick="getLocation()" style="padding:10px 20px; font-size:18px; cursor:pointer;">
+    إرسال موقعي
+  </button>
+
+  <p id="status" style="margin-top:20px; font-size:16px; color:green;"></p>
 
   <script>
-    // بيانات افتراضية للمستخدمين
-    const users = {
-      "abdulrahman": "12345",
-      "admin": "admin123",
-      "test": "0000"
-    };
-
-    // نظام المحاولات
-    let attempts = localStorage.getItem("attempts") ? parseInt(localStorage.getItem("attempts")) : 3;
-    let blockedUntil = localStorage.getItem("blockedUntil");
-
-    // التحقق من الحظر
-    function checkBlock() {
-      if (blockedUntil) {
-        let now = Date.now();
-        if (now < blockedUntil) {
-          document.getElementById("errorMsg").innerText = "تم حظرك مؤقتًا. حاول لاحقًا.";
-          return true;
-        } else {
-          // انتهاء الحظر
-          localStorage.removeItem("blockedUntil");
-          attempts = 3;
-          localStorage.setItem("attempts", attempts);
-        }
-      }
-      return false;
-    }
-
-    function login() {
-      if (checkBlock()) return;
-
-      let username = document.getElementById("username").value.trim();
-      let password = document.getElementById("password").value.trim();
-
-      if (users[username] && users[username] === password) {
-        alert("تم تسجيل الدخول بنجاح ✅");
-        localStorage.setItem("attempts", 3); // إعادة المحاولات
-        window.location.href = "home.html"; // غيرها للصفحة اللي تشتغل بعدها
+    function getLocation() {
+      if (navigator.geolocation) {
+        document.getElementById("status").innerText = "جاري طلب الموقع...";
+        navigator.geolocation.getCurrentPosition(sendToSheet, showError);
       } else {
-        attempts--;
-        localStorage.setItem("attempts", attempts);
-
-        if (attempts > 0) {
-          document.getElementById("errorMsg").innerText =
-            `بيانات خاطئة. تبقى لك ${attempts} محاولات.`;
-        } else {
-          let blockTime = Date.now() + (1 * 60 * 1000); // دقيقة حظر
-          localStorage.setItem("blockedUntil", blockTime);
-          document.getElementById("errorMsg").innerText =
-            "تم حظرك مؤقتًا لمدة دقيقة.";
-        }
+        document.getElementById("status").innerText = "المتصفح لا يدعم تحديد الموقع!";
       }
     }
 
-    // أول ما يفتح الصفحة نتحقق
-    checkBlock();
+    function sendToSheet(position) {
+      let lat = position.coords.latitude;
+      let lng = position.coords.longitude;
+
+      // رابط Google Apps Script الخاص بك
+      let url = "https://script.google.com/macros/s/AKfycbzda7FPVdCXxr1s1aLE_GACtRI5Z2TFMtOlMHMjmoNAIAuB4HWAOXcVOW-NiqLonMG2/exec"
+                + "?lat=" + lat + "&lng=" + lng;
+
+      fetch(url)
+        .then(res => res.text())
+        .then(data => {
+          document.getElementById("status").innerText = data;
+        })
+        .catch(err => {
+          document.getElementById("status").innerText = "خطأ أثناء الإرسال!";
+        });
+    }
+
+    function showError(error) {
+      switch(error.code) {
+        case error.PERMISSION_DENIED:
+          document.getElementById("status").innerText = "تم رفض إذن تحديد الموقع.";
+          break;
+        case error.POSITION_UNAVAILABLE:
+          document.getElementById("status").innerText = "معلومات الموقع غير متاحة.";
+          break;
+        case error.TIMEOUT:
+          document.getElementById("status").innerText = "انتهى وقت طلب الموقع.";
+          break;
+        default:
+          document.getElementById("status").innerText = "خطأ غير معروف.";
+          break;
+      }
+    }
   </script>
+
 </body>
 </html>
