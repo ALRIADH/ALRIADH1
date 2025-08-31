@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>تسجيل دخول الأعضاء | R.D.F</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="container">
+    <h1>R.D.F — تسجيل دخول الأعضاء</h1>
+
+    <div class="card">
+      <label for="username">اسم المستخدم</label>
+      <input id="username" type="text" placeholder="اكتب اسم المستخدم" autocomplete="username" />
+
+      <label for="password">كلمة المرور</label>
+      <input id="password" type="password" placeholder="••••••" autocomplete="current-password" />
+
+      <button id="loginBtn">دخول</button>
+      <p id="msg" class="msg"></p>
+    </div>
+  </main>
+
+  <!-- Firebase (ESM via CDN) -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
+
+    // \u2699\ufe0f Firebase Config — خاص بمشروعك
+    const firebaseConfig = {
+      apiKey: "AIzaSyCXeOtXWIc1qyDIxh4EPu1nxmGswrNiqLo",
+      authDomain: "password-a409.firebaseapp.com",
+      databaseURL: "https://password-a409-default-rtdb.firebaseio.com",
+      projectId: "password-a409",
+      storageBucket: "password-a409.firebasestorage.app",
+      messagingSenderId: "883669716957",
+      appId: "1:883669716957:web:e9c1222757dd10f3497034",
+      measurementId: "G-B3DBSGVC7T"
+    };
+
+    // Init
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const $ = (s) => document.querySelector(s);
+    const msg = $("#msg");
+    const btn = $("#loginBtn");
+
+    const normalize = (u) => u.trim().toLowerCase();
+
+    async function login() {
+      msg.textContent = "";
+      btn.disabled = true;
+      btn.textContent = "جاري التحقق...";
+
+      try {
+        const usernameRaw = $("#username").value || "";
+        const password = $("#password").value || "";
+        const username = normalize(usernameRaw);
+
+        if (!username || !password) {
+          throw new Error("اكتب اسم المستخدم وكلمة المرور");
+        }
+
+        // الخطوة 1: نجيب الإيميل المقابل لاسم المستخدم من مجموعة usernames
+        const mapRef = doc(db, "usernames", username);
+        const mapSnap = await getDoc(mapRef);
+        if (!mapSnap.exists()) {
+          throw new Error("اسم المستخدم غير موجود");
+        }
+
+        const { email } = mapSnap.data(); // مثال: abdulrahman@rdf.local
+        if (!email) throw new Error("لا يوجد بريد مرتبط بهذا المستخدم");
+
+        // الخطوة 2: نسوي تسجيل دخول فعلي عبر Firebase Auth
+        await signInWithEmailAndPassword(auth, email, password);
+
+        // حفظ الاسم المفيد للعرض لاحقًا (اختياري)
+        sessionStorage.setItem("rdf_username", username);
+        // تحويل لصفحة العضو
+        window.location.href = "profile.html";
+      } catch (err) {
+        const map = {
+          "Firebase: Error (auth/invalid-credential).": "بيانات الدخول غير صحيحة",
+          "Firebase: Error (auth/user-not-found).": "المستخدم غير موجود",
+          "Firebase: Error (auth/wrong-password).": "كلمة المرور غير صحيحة",
+          "Firebase: Error (auth/too-many-requests).": "محاولات كثيرة، جرّب لاحقًا",
+        };
+        msg.textContent = map[err.message] || err.message || "حدث خطأ";
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "دخول";
+      }
+    }
+
+    // Events
+    btn.addEventListener("click", login);
+    ["#username", "#password"].forEach((s) => {
+      $(s).addEventListener("keydown", (e) => {
+        if (e.key === "Enter") login();
+      });
+    });
+  </script>
+</body>
+</html>
