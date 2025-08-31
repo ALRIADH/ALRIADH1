@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>صفحتي | R.D.F</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="container">
+    <h1>ملفي الشخصي</h1>
+
+    <div class="card" id="card">
+      <p><strong>اسم المستخدم:</strong> <span id="username">—</span></p>
+      <p><strong>البيانات:</strong> <span id="extra">—</span></p>
+      <p><strong>الدور/الصلاحية:</strong> <span id="role">—</span></p>
+    </div>
+
+    <button id="logoutBtn" class="danger">خروج</button>
+    <p id="msg" class="msg"></p>
+  </main>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCXeOtXWIc1qyDIxh4EPu1nxmGswrNiqLo",
+      authDomain: "password-a409.firebaseapp.com",
+      databaseURL: "https://password-a409-default-rtdb.firebaseio.com",
+      projectId: "password-a409",
+      storageBucket: "password-a409.firebasestorage.app",
+      messagingSenderId: "883669716957",
+      appId: "1:883669716957:web:e9c1222757dd10f3497034",
+      measurementId: "G-B3DBSGVC7T"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const $ = (s) => document.querySelector(s);
+    const msg = $("#msg");
+
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        window.location.href = "index.html";
+        return;
+      }
+
+      try {
+        const profRef = doc(db, "members", user.uid);
+        const profSnap = await getDoc(profRef);
+
+        if (!profSnap.exists()) {
+          msg.textContent = "لا توجد بيانات لهذا الحساب — تواصل مع الإدارة";
+          return;
+        }
+
+        const data = profSnap.data();
+        $("#username").textContent = data.username || sessionStorage.getItem("rdf_username") || "—";
+        $("#extra").textContent = data.extraData || "—";
+        $("#role").textContent = data.role || "عضو";
+      } catch (e) {
+        msg.textContent = e.message || "تعذر تحميل البيانات";
+      }
+    });
+
+    $("#logoutBtn").addEventListener("click", async () => {
+      try { await signOut(auth); } finally { window.location.href = "index.html"; }
+    });
+  </script>
+</body>
+</html>
