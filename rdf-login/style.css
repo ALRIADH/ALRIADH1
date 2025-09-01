@@ -1,28 +1,75 @@
-<style>
+/* عام للجسم */
 body {
-  font-family: Arial, sans-serif;
-  text-align: center;
-  padding: 50px;
-  background-color: #f0f0f0;
+  font-family: 'Cairo', sans-serif;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  color: #fff;
 }
 
+/* حاوية تسجيل الدخول */
 .login-container {
-  background-color: #fff;
-  padding: 20px;
-  display: inline-block;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  background-color: rgba(0,0,0,0.7);
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+  text-align: center;
+  width: 320px;
 }
 
+/* عنوان الصفحة */
+h2 {
+  margin-bottom: 25px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+/* حقول الادخال */
 input {
-  display: block;
-  margin: 10px auto;
-  padding: 10px;
-  width: 200px;
+  width: 100%;
+  padding: 12px 15px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 8px;
+  outline: none;
+  font-size: 16px;
 }
 
+/* زر الدخول والخروج */
 button {
-  padding: 10px 20px;
+  width: 100%;
+  padding: 12px;
+  margin-top: 15px;
+  border: none;
+  border-radius: 8px;
+  background-color: #ff6b6b;
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
   cursor: pointer;
+  transition: 0.3s;
 }
-</style>
+
+button:hover {
+  background-color: #ff4757;
+  transform: translateY(-2px);
+}
+
+/* الصفحة الشخصية */
+.profile-container {
+  background-color: rgba(0,0,0,0.6);
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+  text-align: center;
+  width: 350px;
+}
+
+span {
+  font-weight: bold;
+  color: #ffd700;
+}
