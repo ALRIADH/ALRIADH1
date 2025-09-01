@@ -1,9 +1,7 @@
-// استدعاء Firebase SDK
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-import { getFirestore, collection, query, where, getDocs, doc, getDoc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
-import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics.js";
+import { getFirestore, collection, getDocs, query, where, doc, getDoc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
-// تكوين Firebase (RDF-web)
+// 🔹 ضع هنا بيانات مشروع Firebase الخاص بك
 const firebaseConfig = {
   apiKey: "AIzaSyCXeOtXWIc1qyDIxh4EPu1nxmGswrNiqLo",
   authDomain: "password-a409.firebaseapp.com",
@@ -15,56 +13,38 @@ const firebaseConfig = {
   measurementId: "G-B3DBSGVC7T"
 };
 
-// تهيئة Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
 const db = getFirestore(app);
 
-// =======================
-// دالة تسجيل الدخول
-// =======================
-async function login() {
+// 🔹 تسجيل الدخول
+export async function login() {
   const username = document.getElementById("username").value.trim();
   const password = document.getElementById("password").value.trim();
-
-  if (!username || !password) {
-    alert("الرجاء إدخال اسم المستخدم وكلمة المرور");
-    return;
-  }
 
   const q = query(collection(db, "members"), where("username", "==", username));
   const querySnapshot = await getDocs(q);
 
-  if (querySnapshot.empty) {
+  if(querySnapshot.empty){
     alert("اسم المستخدم غير موجود");
     return;
   }
 
-  let loggedIn = false;
-
-  querySnapshot.forEach((docSnap) => {
-    const userData = docSnap.data();
-    if (userData.password === password) {
-      localStorage.setItem("uid", docSnap.id);
+  let valid = false;
+  querySnapshot.forEach(docItem => {
+    if(docItem.data().password === password){
+      localStorage.setItem("uid", docItem.id);
+      valid = true;
       window.location.href = "profile.html";
-      loggedIn = true;
     }
   });
 
-  if (!loggedIn) {
-    alert("كلمة المرور خطأ");
-  }
+  if(!valid) alert("كلمة المرور خطأ");
 }
 
-// إضافة login للنطاق العالمي ليعمل مع onclick في HTML
-window.login = login;
-
-// =======================
-// دالة تحميل صفحة العضو
-// =======================
-async function loadProfile() {
+// 🔹 تحميل بيانات العضو في الصفحة الشخصية
+export async function loadProfile() {
   const uid = localStorage.getItem("uid");
-  if (!uid) {
+  if(!uid){
     window.location.href = "index.html";
     return;
   }
@@ -72,32 +52,19 @@ async function loadProfile() {
   const docRef = doc(db, "members", uid);
   const docSnap = await getDoc(docRef);
 
-  if (docSnap.exists()) {
+  if(docSnap.exists()){
     document.getElementById("userName").innerText = docSnap.data().username;
     document.getElementById("userData").innerText = docSnap.data().extraData;
-  } else {
-    alert("بيانات العضو غير موجودة");
-    logout();
   }
 }
 
-// إضافة loadProfile للنطاق العالمي
-window.loadProfile = loadProfile;
-
-// =======================
-// دالة الخروج
-// =======================
-function logout() {
+// 🔹 خروج
+export function logout(){
   localStorage.removeItem("uid");
   window.location.href = "index.html";
 }
 
-// إضافة logout للنطاق العالمي
-window.logout = logout;
-
-// =======================
-// تنفيذ loadProfile تلقائي إذا الصفحة profile.html
-// =======================
-if (window.location.pathname.includes("profile.html")) {
+// 🔹 إذا الصفحة profile.html
+if(window.location.href.includes("profile.html")){
   loadProfile();
 }
