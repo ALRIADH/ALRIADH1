@@ -1,7 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
 import { getFirestore, collection, getDocs, query, where, doc, getDoc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
-// 🔹 ضع هنا بيانات مشروع Firebase الخاص بك
+// 🔹 بيانات مشروعك في Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyCXeOtXWIc1qyDIxh4EPu1nxmGswrNiqLo",
   authDomain: "password-a409.firebaseapp.com",
@@ -41,7 +41,7 @@ export async function login() {
   if(!valid) alert("كلمة المرور خطأ");
 }
 
-// 🔹 تحميل بيانات العضو في الصفحة الشخصية
+// 🔹 تحميل بيانات العضو
 export async function loadProfile() {
   const uid = localStorage.getItem("uid");
   if(!uid){
@@ -64,7 +64,7 @@ export function logout(){
   window.location.href = "index.html";
 }
 
-// 🔹 إذا الصفحة profile.html
+// 🔹 تحميل بيانات profile تلقائي
 if(window.location.href.includes("profile.html")){
   loadProfile();
 }
