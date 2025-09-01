@@ -1,4 +1,6 @@
-// Firebase
+// =======================
+// Firebase Initialization
+// =======================
 const firebaseConfig = {
   apiKey: "AIzaSyCXeOtXWIc1qyDIxh4EPu1nxmGswrNiqLo",
   authDomain: "password-a409.firebaseapp.com",
@@ -14,31 +16,44 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-// 🔹 تسجيل الدخول
+// =======================
+// تسجيل الدخول
+// =======================
 async function login() {
   const username = document.getElementById("username").value.trim();
   const password = document.getElementById("password").value.trim();
 
-  const snapshot = await db.collection("members").where("username","==",username).get();
-
-  if(snapshot.empty){
-    alert("اسم المستخدم غير موجود");
+  if(!username || !password){
+    alert("الرجاء إدخال اسم المستخدم وكلمة المرور");
     return;
   }
 
-  let valid = false;
-  snapshot.forEach(docItem => {
-    if(docItem.data().password === password){
-      localStorage.setItem("uid", docItem.id);
-      valid = true;
-      window.location.href = "profile.html";
+  try {
+    // البحث عن المستخدم في Firestore لإيجاد UID
+    const snapshot = await db.collection("members").where("username","==",username).get();
+    if(snapshot.empty){
+      alert("اسم المستخدم غير موجود");
+      return;
     }
-  });
 
-  if(!valid) alert("كلمة المرور خطأ");
+    let uid = "";
+    snapshot.forEach(doc => uid = doc.id);
+
+    // تسجيل الدخول عبر Firebase Auth (email = username@rdf.com مؤقت)
+    await firebase.auth().signInWithEmailAndPassword(username + "@rdf.com", password);
+
+    // حفظ UID في localStorage
+    localStorage.setItem("uid", uid);
+    window.location.href = "profile.html";
+
+  } catch (error) {
+    alert(error.message);
+  }
 }
 
-// 🔹 تحميل بيانات العضو
+// =======================
+// تحميل بيانات العضو في profile.html
+// =======================
 async function loadProfile() {
   const uid = localStorage.getItem("uid");
   if(!uid){
@@ -46,22 +61,34 @@ async function loadProfile() {
     return;
   }
 
-  const docRef = db.collection("members").doc(uid);
-  const docSnap = await docRef.get();
+  try {
+    const docRef = db.collection("members").doc(uid);
+    const docSnap = await docRef.get();
 
-  if(docSnap.exists){
-    document.getElementById("userName").innerText = docSnap.data().username;
-    document.getElementById("userData").innerText = docSnap.data().extraData;
+    if(docSnap.exists){
+      document.getElementById("userName").innerText = docSnap.data().username;
+      document.getElementById("userData").innerText = docSnap.data().extraData;
+    } else {
+      alert("لم يتم العثور على بياناتك!");
+      logout();
+    }
+  } catch (error) {
+    alert(error.message);
   }
 }
 
-// 🔹 خروج
-function logout(){
+// =======================
+// خروج المستخدم
+// =======================
+function logout() {
+  firebase.auth().signOut();
   localStorage.removeItem("uid");
   window.location.href = "index.html";
 }
 
-// 🔹 ربط أزرار مع الدوال
+// =======================
+// ربط الأزرار بالدوال
+// =======================
 document.addEventListener("DOMContentLoaded", () => {
   const loginBtn = document.getElementById("loginBtn");
   const logoutBtn = document.getElementById("logoutBtn");
@@ -69,5 +96,6 @@ document.addEventListener("DOMContentLoaded", () => {
   if(loginBtn) loginBtn.addEventListener("click", login);
   if(logoutBtn) logoutBtn.addEventListener("click", logout);
 
+  // إذا صفحة profile.html، حمّل بيانات العضو
   if(window.location.href.includes("profile.html")) loadProfile();
 });
