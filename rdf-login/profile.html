@@ -5,11 +5,57 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>الصفحة الشخصية</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    /* إضافات بسيطة لتنسيق الصفحة الشخصية */
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+      background-color: #f4f4f4;
+    }
+
+    .profile-container {
+      background-color: #fff;
+      padding: 20px 30px;
+      margin: auto;
+      width: 90%;
+      max-width: 400px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      color: #333;
+    }
+
+    p {
+      font-size: 16px;
+      color: #555;
+    }
+
+    button {
+      padding: 10px 20px;
+      cursor: pointer;
+      background-color: #007BFF;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      margin-top: 20px;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
 </head>
 <body>
-  <h2>مرحبا بك <span id="userName"></span></h2>
-  <p>بيانات إضافية: <span id="userData"></span></p>
-  <button onclick="logout()">خروج</button>
+  <div class="profile-container">
+    <h2>مرحبا بك <span id="userName"></span></h2>
+    <p><strong>بيانات إضافية:</strong> <span id="userData"></span></p>
+    <button onclick="logout()">خروج</button>
+  </div>
+
   <script type="module" src="script.js"></script>
 </body>
 </html>
