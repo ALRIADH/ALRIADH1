@@ -1,28 +1,16 @@
-<style>
-body {
-  font-family: Arial, sans-serif;
-  text-align: center;
-  padding: 50px;
-  background-color: #f0f0f0;
-}
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>الصفحة الشخصية</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h2>مرحبا بك <span id="userName"></span></h2>
+  <p>بيانات إضافية: <span id="userData"></span></p>
+  <button onclick="logout()">خروج</button>
 
-.login-container {
-  background-color: #fff;
-  padding: 20px;
-  display: inline-block;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.2);
-}
-
-input {
-  display: block;
-  margin: 10px auto;
-  padding: 10px;
-  width: 200px;
-}
-
-button {
-  padding: 10px 20px;
-  cursor: pointer;
-}
-</style>
+  <script type="module" src="script.js"></script>
+</body>
+</html>
