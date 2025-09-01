@@ -1,4 +1,3 @@
-/* عام للجسم */
 body {
   font-family: 'Cairo', sans-serif;
   background: linear-gradient(135deg, #667eea, #764ba2);
@@ -11,8 +10,7 @@ body {
   color: #fff;
 }
 
-/* حاوية تسجيل الدخول */
-.login-container {
+.login-container, .profile-container {
   background-color: rgba(0,0,0,0.7);
   padding: 40px;
   border-radius: 15px;
@@ -21,14 +19,12 @@ body {
   width: 320px;
 }
 
-/* عنوان الصفحة */
 h2 {
   margin-bottom: 25px;
   font-size: 24px;
   font-weight: bold;
 }
 
-/* حقول الادخال */
 input {
   width: 100%;
   padding: 12px 15px;
@@ -39,7 +35,6 @@ input {
   font-size: 16px;
 }
 
-/* زر الدخول والخروج */
 button {
   width: 100%;
   padding: 12px;
@@ -57,16 +52,6 @@ button {
 button:hover {
   background-color: #ff4757;
   transform: translateY(-2px);
-}
-
-/* الصفحة الشخصية */
-.profile-container {
-  background-color: rgba(0,0,0,0.6);
-  padding: 30px;
-  border-radius: 15px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
-  text-align: center;
-  width: 350px;
 }
 
 span {
