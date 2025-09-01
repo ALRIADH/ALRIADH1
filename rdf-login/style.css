@@ -1,3 +1,4 @@
+/* عام للجسم */
 body {
   font-family: 'Cairo', sans-serif;
   background: linear-gradient(135deg, #667eea, #764ba2);
@@ -10,40 +11,52 @@ body {
   color: #fff;
 }
 
+/* حاوية تسجيل الدخول وprofile */
 .login-container, .profile-container {
-  background-color: rgba(0,0,0,0.7);
+  background-color: rgba(0,0,0,0.75);
   padding: 40px;
-  border-radius: 15px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
   text-align: center;
-  width: 320px;
+  width: 350px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+.login-container:hover, .profile-container:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+}
+
+/* العناوين */
 h2 {
   margin-bottom: 25px;
-  font-size: 24px;
-  font-weight: bold;
+  font-size: 26px;
+  font-weight: 700;
+  color: #ffd700;
 }
 
+/* الحقول */
 input {
   width: 100%;
-  padding: 12px 15px;
+  padding: 14px 15px;
   margin: 10px 0;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   outline: none;
   font-size: 16px;
+  box-sizing: border-box;
 }
 
+/* الأزرار */
 button {
   width: 100%;
-  padding: 12px;
+  padding: 14px;
   margin-top: 15px;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   background-color: #ff6b6b;
   color: #fff;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: bold;
   cursor: pointer;
   transition: 0.3s;
@@ -54,7 +67,9 @@ button:hover {
   transform: translateY(-2px);
 }
 
+/* نصوص في profile */
 span {
   font-weight: bold;
-  color: #ffd700;
+  color: #00ffff;
+  font-size: 18px;
 }
