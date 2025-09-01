@@ -1,7 +1,4 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-import { getFirestore, collection, getDocs, query, where, doc, getDoc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
-
-// 🔹 بيانات مشروعك في Firebase
+// Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyCXeOtXWIc1qyDIxh4EPu1nxmGswrNiqLo",
   authDomain: "password-a409.firebaseapp.com",
@@ -13,24 +10,24 @@ const firebaseConfig = {
   measurementId: "G-B3DBSGVC7T"
 };
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
 
 // 🔹 تسجيل الدخول
-export async function login() {
+async function login() {
   const username = document.getElementById("username").value.trim();
   const password = document.getElementById("password").value.trim();
 
-  const q = query(collection(db, "members"), where("username", "==", username));
-  const querySnapshot = await getDocs(q);
+  const snapshot = await db.collection("members").where("username","==",username).get();
 
-  if(querySnapshot.empty){
+  if(snapshot.empty){
     alert("اسم المستخدم غير موجود");
     return;
   }
 
   let valid = false;
-  querySnapshot.forEach(docItem => {
+  snapshot.forEach(docItem => {
     if(docItem.data().password === password){
       localStorage.setItem("uid", docItem.id);
       valid = true;
@@ -42,29 +39,35 @@ export async function login() {
 }
 
 // 🔹 تحميل بيانات العضو
-export async function loadProfile() {
+async function loadProfile() {
   const uid = localStorage.getItem("uid");
   if(!uid){
     window.location.href = "index.html";
     return;
   }
 
-  const docRef = doc(db, "members", uid);
-  const docSnap = await getDoc(docRef);
+  const docRef = db.collection("members").doc(uid);
+  const docSnap = await docRef.get();
 
-  if(docSnap.exists()){
+  if(docSnap.exists){
     document.getElementById("userName").innerText = docSnap.data().username;
     document.getElementById("userData").innerText = docSnap.data().extraData;
   }
 }
 
 // 🔹 خروج
-export function logout(){
+function logout(){
   localStorage.removeItem("uid");
   window.location.href = "index.html";
 }
 
-// 🔹 تحميل بيانات profile تلقائي
-if(window.location.href.includes("profile.html")){
-  loadProfile();
-}
+// 🔹 ربط أزرار مع الدوال
+document.addEventListener("DOMContentLoaded", () => {
+  const loginBtn = document.getElementById("loginBtn");
+  const logoutBtn = document.getElementById("logoutBtn");
+
+  if(loginBtn) loginBtn.addEventListener("click", login);
+  if(logoutBtn) logoutBtn.addEventListener("click", logout);
+
+  if(window.location.href.includes("profile.html")) loadProfile();
+});
