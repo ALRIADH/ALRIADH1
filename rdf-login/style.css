@@ -1,27 +1,37 @@
 body {
   font-family: Arial, sans-serif;
   text-align: center;
-  background-color: #f0f0f0;
   padding: 50px;
+  background-color: #e0f7fa;
 }
 
-.login-container, .profile-container {
+.login-container {
   background-color: #fff;
-  padding: 20px;
+  padding: 30px;
   display: inline-block;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  border-radius: 15px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
 }
 
 input {
   display: block;
   margin: 10px auto;
   padding: 10px;
-  width: 200px;
+  width: 250px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
 }
 
 button {
-  padding: 10px 20px;
-  cursor: pointer;
+  padding: 10px 25px;
   margin-top: 10px;
+  cursor: pointer;
+  background-color: #00796b;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+}
+
+button:hover {
+  background-color: #004d40;
 }
