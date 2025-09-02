@@ -12,19 +12,32 @@
     <input type="text" id="username" placeholder="اسم المستخدم">
     <input type="password" id="password" placeholder="كلمة المرور">
     <button onclick="login()">دخول</button>
-
     <hr>
     <h3>تسجيل عضوية جديدة</h3>
-    <input type="text" id="newUsername" placeholder="اسم المستخدم الجديد">
+    <input type="text" id="newUsername" placeholder="اسم المستخدم">
     <input type="email" id="newEmail" placeholder="البريد الإلكتروني">
     <input type="password" id="newPassword" placeholder="كلمة المرور">
     <input type="text" id="newExtra" placeholder="بيانات إضافية">
-    <button onclick="register()">تسجيل جديد</button>
+    <button onclick="register()">سجل الآن</button>
   </div>
 
+  <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js"></script>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCXeOtXWIc1qyDIxh4EPu1nxmGswrNiqLo",
+      authDomain: "password-a409.firebaseapp.com",
+      projectId: "password-a409",
+      storageBucket: "password-a409.firebasestorage.app",
+      messagingSenderId: "883669716957",
+      appId: "1:883669716957:web:e9c1222757dd10f3497034"
+    };
+    firebase.initializeApp(firebaseConfig);
+  </script>
+
   <script src="script.js"></script>
 </body>
 </html>
