@@ -1,75 +1,27 @@
-/* عام للجسم */
 body {
-  font-family: 'Cairo', sans-serif;
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  color: #fff;
-}
-
-/* حاوية تسجيل الدخول وprofile */
-.login-container, .profile-container {
-  background-color: rgba(0,0,0,0.75);
-  padding: 40px;
-  border-radius: 20px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+  font-family: Arial, sans-serif;
   text-align: center;
-  width: 350px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background-color: #f0f0f0;
+  padding: 50px;
 }
 
-.login-container:hover, .profile-container:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+.login-container, .profile-container {
+  background-color: #fff;
+  padding: 20px;
+  display: inline-block;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
 }
 
-/* العناوين */
-h2 {
-  margin-bottom: 25px;
-  font-size: 26px;
-  font-weight: 700;
-  color: #ffd700;
-}
-
-/* الحقول */
 input {
-  width: 100%;
-  padding: 14px 15px;
-  margin: 10px 0;
-  border: none;
-  border-radius: 10px;
-  outline: none;
-  font-size: 16px;
-  box-sizing: border-box;
+  display: block;
+  margin: 10px auto;
+  padding: 10px;
+  width: 200px;
 }
 
-/* الأزرار */
 button {
-  width: 100%;
-  padding: 14px;
-  margin-top: 15px;
-  border: none;
-  border-radius: 10px;
-  background-color: #ff6b6b;
-  color: #fff;
-  font-size: 18px;
-  font-weight: bold;
+  padding: 10px 20px;
   cursor: pointer;
-  transition: 0.3s;
-}
-
-button:hover {
-  background-color: #ff4757;
-  transform: translateY(-2px);
-}
-
-/* نصوص في profile */
-span {
-  font-weight: bold;
-  color: #00ffff;
-  font-size: 18px;
+  margin-top: 10px;
 }
