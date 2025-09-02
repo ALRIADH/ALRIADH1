@@ -1,101 +1,87 @@
-// =======================
-// Firebase Initialization
-// =======================
+// Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyCXeOtXWIc1qyDIxh4EPu1nxmGswrNiqLo",
   authDomain: "password-a409.firebaseapp.com",
-  databaseURL: "https://password-a409-default-rtdb.firebaseio.com",
   projectId: "password-a409",
   storageBucket: "password-a409.firebasestorage.app",
   messagingSenderId: "883669716957",
-  appId: "1:883669716957:web:e9c1222757dd10f3497034",
-  measurementId: "G-B3DBSGVC7T"
+  appId: "1:883669716957:web:e9c1222757dd10f3497034"
 };
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
 const db = firebase.firestore();
 
-// =======================
 // تسجيل الدخول
-// =======================
-async function login() {
-  const username = document.getElementById("username").value.trim();
-  const password = document.getElementById("password").value.trim();
+function login(){
+  const username = document.getElementById("username").value;
+  const password = document.getElementById("password").value;
 
-  if(!username || !password){
-    alert("الرجاء إدخال اسم المستخدم وكلمة المرور");
-    return;
-  }
-
-  try {
-    // البحث عن المستخدم في Firestore لإيجاد UID
-    const snapshot = await db.collection("members").where("username","==",username).get();
+  // البحث عن العضو في Firestore
+  db.collection("members").where("username","==",username).get()
+  .then(snapshot=>{
     if(snapshot.empty){
       alert("اسم المستخدم غير موجود");
-      return;
-    }
-
-    let uid = "";
-    snapshot.forEach(doc => uid = doc.id);
-
-    // تسجيل الدخول عبر Firebase Auth (email = username@rdf.com مؤقت)
-    await firebase.auth().signInWithEmailAndPassword(username + "@rdf.com", password);
-
-    // حفظ UID في localStorage
-    localStorage.setItem("uid", uid);
-    window.location.href = "profile.html";
-
-  } catch (error) {
-    alert(error.message);
-  }
-}
-
-// =======================
-// تحميل بيانات العضو في profile.html
-// =======================
-async function loadProfile() {
-  const uid = localStorage.getItem("uid");
-  if(!uid){
-    window.location.href = "index.html";
-    return;
-  }
-
-  try {
-    const docRef = db.collection("members").doc(uid);
-    const docSnap = await docRef.get();
-
-    if(docSnap.exists){
-      document.getElementById("userName").innerText = docSnap.data().username;
-      document.getElementById("userData").innerText = docSnap.data().extraData;
     } else {
-      alert("لم يتم العثور على بياناتك!");
-      logout();
+      snapshot.forEach(doc=>{
+        const userData = doc.data();
+        const uid = doc.id;
+
+        // تسجيل الدخول باستخدام UID من Auth
+        auth.signInWithEmailAndPassword(userData.email,password)
+        .then(()=> {
+          localStorage.setItem("uid", uid);
+          window.location.href = "profile.html";
+        })
+        .catch(err=>{
+          alert("كلمة المرور خطأ");
+        });
+      });
     }
-  } catch (error) {
-    alert(error.message);
-  }
+  });
 }
 
-// =======================
-// خروج المستخدم
-// =======================
-function logout() {
-  firebase.auth().signOut();
+// تسجيل عضوية جديدة
+function register(){
+  const username = document.getElementById("newUsername").value;
+  const email = document.getElementById("newEmail").value;
+  const password = document.getElementById("newPassword").value;
+  const extra = document.getElementById("newExtra").value;
+
+  auth.createUserWithEmailAndPassword(email,password)
+  .then(userCredential=>{
+    const uid = userCredential.user.uid;
+    db.collection("members").doc(uid).set({
+      username: username,
+      extraData: extra,
+      email: email
+    })
+    .then(()=> {
+      alert("تم إنشاء العضوية بنجاح!");
+      document.getElementById("newUsername").value = "";
+      document.getElementById("newEmail").value = "";
+      document.getElementById("newPassword").value = "";
+      document.getElementById("newExtra").value = "";
+    });
+  })
+  .catch(err=> alert(err.message));
+}
+
+// صفحة العضو
+const uid = localStorage.getItem("uid");
+if(uid && window.location.pathname.includes("profile.html")){
+  db.collection("members").doc(uid).get().then(doc=>{
+    if(doc.exists){
+      document.getElementById("userName").innerText = doc.data().username;
+      document.getElementById("userData").innerText = doc.data().extraData;
+    }
+  });
+}
+
+// الخروج
+function logout(){
   localStorage.removeItem("uid");
-  window.location.href = "index.html";
+  auth.signOut();
+  window.location.href="index.html";
 }
-
-// =======================
-// ربط الأزرار بالدوال
-// =======================
-document.addEventListener("DOMContentLoaded", () => {
-  const loginBtn = document.getElementById("loginBtn");
-  const logoutBtn = document.getElementById("logoutBtn");
-
-  if(loginBtn) loginBtn.addEventListener("click", login);
-  if(logoutBtn) logoutBtn.addEventListener("click", logout);
-
-  // إذا صفحة profile.html، حمّل بيانات العضو
-  if(window.location.href.includes("profile.html")) loadProfile();
-});
