@@ -10,9 +10,12 @@
   <div class="profile-container">
     <h2>مرحبا بك <span id="userName"></span></h2>
     <p>بيانات إضافية: <span id="userData"></span></p>
-    <button id="logoutBtn">خروج</button>
+    <button onclick="logout()">خروج</button>
   </div>
 
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
