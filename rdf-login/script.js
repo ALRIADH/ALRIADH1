@@ -1,4 +1,3 @@
-// بعد ما تعمل initializeApp في HTML، نقدر نستخدم Auth و Firestore
 const auth = firebase.auth();
 const db = firebase.firestore();
 
@@ -12,7 +11,6 @@ function login() {
     return;
   }
 
-  // البحث عن العضو في Firestore
   db.collection("members").where("username", "==", username).get()
     .then(snapshot => {
       if (snapshot.empty) {
@@ -22,7 +20,6 @@ function login() {
           const userData = doc.data();
           const uid = doc.id;
 
-          // تسجيل الدخول باستخدام البريد من Firestore
           auth.signInWithEmailAndPassword(userData.email, password)
             .then(() => {
               localStorage.setItem("uid", uid);
