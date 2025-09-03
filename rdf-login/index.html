@@ -8,15 +8,26 @@
       font-family: Arial, sans-serif;
       text-align: center;
       margin-top: 100px;
+      background: #f2f2f2;
+    }
+    h2 {
+      margin-bottom: 20px;
     }
     input {
       padding: 10px;
       margin: 5px;
       width: 200px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
     }
     button {
       padding: 10px 20px;
+      margin-top: 10px;
       cursor: pointer;
+      border: none;
+      background-color: #4CAF50;
+      color: white;
+      border-radius: 5px;
     }
     #message {
       margin-top: 20px;
@@ -59,11 +70,15 @@
 
       db.ref("users").once("value").then(snapshot => {
         let users = snapshot.val();
+        console.log("📌 بيانات من Firebase:", users); // عرض البيانات
+
         let found = false;
 
         for (let key in users) {
+          console.log("🔍 نشيك:", users[key].username, users[key].password);
           if (users[key].username === username && users[key].password === password) {
             found = true;
+            console.log("✅ دخول ناجح → الصفحة:", users[key].page);
             window.location.href = users[key].page; // تحويل للصفحة الخاصة
             break;
           }
@@ -72,6 +87,9 @@
         if (!found) {
           document.getElementById("message").innerText = "❌ اسم المستخدم أو كلمة المرور خطأ";
         }
+      }).catch(error => {
+        console.error("⚠️ خطأ بالاتصال مع Firebase:", error);
+        document.getElementById("message").innerText = "مشكلة بالاتصال بقاعدة البيانات";
       });
     }
   </script>
