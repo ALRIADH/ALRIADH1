@@ -3,6 +3,52 @@
 <head>
   <meta charset="UTF-8">
   <title>تسجيل الدخول</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f0f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .login-container {
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      width: 300px;
+      text-align: center;
+    }
+    input {
+      width: 90%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    button {
+      width: 95%;
+      padding: 10px;
+      margin-top: 10px;
+      background: #4CAF50;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background: #45a049;
+    }
+    #message {
+      color: red;
+      margin-top: 10px;
+      white-space: pre-wrap;
+      text-align: left;
+    }
+  </style>
   <script type="module">
     // استدعاء مكتبات فايربيس
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
@@ -34,15 +80,9 @@
         const snapshot = await get(ref(db, "users"));
         if (snapshot.exists()) {
           const users = snapshot.val();
-          
-          // ✨ نعرض البيانات على الشاشة بدل الـ Console
-          message.innerText = "📌 بيانات من Firebase: " + JSON.stringify(users);
 
           let found = false;
           for (const key in users) {
-            // ✨ نعرض مقارنة القيم
-            message.innerText += `\nيدخل: ${username}, ${password} ← يقارن مع: ${users[key].username}, ${users[key].password}`;
-
             if (users[key].username === username && users[key].password === password) {
               found = true;
               window.location.href = users[key].page;
@@ -51,7 +91,7 @@
           }
 
           if (!found) {
-            message.innerText += "\n❌ اسم المستخدم أو كلمة المرور خطأ";
+            message.innerText = "❌ اسم المستخدم أو كلمة المرور خطأ";
           }
         } else {
           message.innerText = "🚨 لا توجد بيانات مستخدمين في قاعدة البيانات";
@@ -62,15 +102,16 @@
       }
     }
 
-    // ربط الزر بالدالة
     window.login = login;
   </script>
 </head>
 <body>
-  <h2>تسجيل الدخول</h2>
-  <input type="text" id="username" placeholder="اسم المستخدم"><br><br>
-  <input type="password" id="password" placeholder="كلمة المرور"><br><br>
-  <button onclick="login()">دخول</button>
-  <pre id="message" style="color:red; white-space:pre-wrap;"></pre>
+  <div class="login-container">
+    <h2>تسجيل الدخول</h2>
+    <input type="text" id="username" placeholder="اسم المستخدم">
+    <input type="password" id="password" placeholder="كلمة المرور">
+    <button onclick="login()">دخول</button>
+    <pre id="message"></pre>
+  </div>
 </body>
 </html>
