@@ -3,95 +3,69 @@
 <head>
   <meta charset="UTF-8">
   <title>تسجيل الدخول</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      margin-top: 100px;
-      background: #f2f2f2;
-    }
-    h2 {
-      margin-bottom: 20px;
-    }
-    input {
-      padding: 10px;
-      margin: 5px;
-      width: 200px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-    button {
-      padding: 10px 20px;
-      margin-top: 10px;
-      cursor: pointer;
-      border: none;
-      background-color: #4CAF50;
-      color: white;
-      border-radius: 5px;
-    }
-    #message {
-      margin-top: 20px;
-      color: red;
-      font-weight: bold;
-    }
-  </style>
-</head>
-<body>
-  <h2>تسجيل الدخول</h2>
-  <input type="text" id="username" placeholder="اسم المستخدم"><br>
-  <input type="password" id="password" placeholder="كلمة المرور"><br>
-  <button onclick="login()">دخول</button>
+  <script type="module">
+    // استدعاء مكتبات فايربيس
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
-  <p id="message"></p>
-
-  <!-- Firebase -->
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
-
-  <script>
     // إعدادات Firebase
     const firebaseConfig = {
       apiKey: "AIzaSyCXeOtXWIc1qyDIxh4EPu1nxmGswrNiqLo",
       authDomain: "password-a409.firebaseapp.com",
       databaseURL: "https://password-a409-default-rtdb.firebaseio.com",
       projectId: "password-a409",
-      storageBucket: "password-a409.firebasestorage.app",
+      storageBucket: "password-a409.appspot.com",
       messagingSenderId: "883669716957",
       appId: "1:883669716957:web:e9c1222757dd10f3497034",
       measurementId: "G-B3DBSGVC7T"
     };
 
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.database();
+    // تهيئة Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
 
-    function login() {
-      let username = document.getElementById("username").value;
-      let password = document.getElementById("password").value;
+    // دالة تسجيل الدخول
+    async function login() {
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const message = document.getElementById("message");
 
-      db.ref("users").once("value").then(snapshot => {
-        let users = snapshot.val();
-        console.log("📌 بيانات من Firebase:", users); // عرض البيانات
+      try {
+        const snapshot = await get(ref(db, "users"));
+        if (snapshot.exists()) {
+          const users = snapshot.val();
+          console.log("📌 بيانات من Firebase:", users);
 
-        let found = false;
-
-        for (let key in users) {
-          console.log("🔍 نشيك:", users[key].username, users[key].password);
-          if (users[key].username === username && users[key].password === password) {
-            found = true;
-            console.log("✅ دخول ناجح → الصفحة:", users[key].page);
-            window.location.href = users[key].page; // تحويل للصفحة الخاصة
-            break;
+          let found = false;
+          for (const key in users) {
+            if (users[key].username === username && users[key].password === password) {
+              found = true;
+              window.location.href = users[key].page;
+              break;
+            }
           }
-        }
 
-        if (!found) {
-          document.getElementById("message").innerText = "❌ اسم المستخدم أو كلمة المرور خطأ";
+          if (!found) {
+            message.innerText = "❌ اسم المستخدم أو كلمة المرور خطأ";
+          }
+        } else {
+          message.innerText = "🚨 لا توجد بيانات مستخدمين في قاعدة البيانات";
         }
-      }).catch(error => {
-        console.error("⚠️ خطأ بالاتصال مع Firebase:", error);
-        document.getElementById("message").innerText = "مشكلة بالاتصال بقاعدة البيانات";
-      });
+      } catch (error) {
+        console.error("خطأ بالاتصال:", error);
+        message.innerText = "⚠️ مشكلة بالاتصال بقاعدة البيانات";
+      }
     }
+
+    // ربط الزر بالدالة
+    window.login = login;
   </script>
+</head>
+<body>
+  <h2>تسجيل الدخول</h2>
+  <input type="text" id="username" placeholder="اسم المستخدم"><br><br>
+  <input type="password" id="password" placeholder="كلمة المرور"><br><br>
+  <button onclick="login()">دخول</button>
+  <p id="message" style="color:red;"></p>
 </body>
 </html>
