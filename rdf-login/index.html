@@ -1,117 +1,477 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <title>تسجيل الدخول</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f0f0f0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-    }
-    .login-container {
-      background: #fff;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-      width: 300px;
-      text-align: center;
-    }
-    input {
-      width: 90%;
-      padding: 10px;
-      margin: 10px 0;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-    }
-    button {
-      width: 95%;
-      padding: 10px;
-      margin-top: 10px;
-      background: #4CAF50;
-      color: #fff;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 16px;
-    }
-    button:hover {
-      background: #45a049;
-    }
-    #message {
-      color: red;
-      margin-top: 10px;
-      white-space: pre-wrap;
-      text-align: left;
-    }
-  </style>
-  <script type="module">
-    // استدعاء مكتبات فايربيس
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
-
-    // إعدادات Firebase
-    const firebaseConfig = {
-      apiKey: "AIzaSyCXeOtXWIc1qyDIxh4EPu1nxmGswrNiqLo",
-      authDomain: "password-a409.firebaseapp.com",
-      databaseURL: "https://password-a409-default-rtdb.firebaseio.com",
-      projectId: "password-a409",
-      storageBucket: "password-a409.appspot.com",
-      messagingSenderId: "883669716957",
-      appId: "1:883669716957:web:e9c1222757dd10f3497034",
-      measurementId: "G-B3DBSGVC7T"
-    };
-
-    // تهيئة Firebase
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
-
-    // دالة تسجيل الدخول
-    async function login() {
-      const username = document.getElementById("username").value.trim();
-      const password = document.getElementById("password").value.trim();
-      const message = document.getElementById("message");
-
-      try {
-        const snapshot = await get(ref(db, "users"));
-        if (snapshot.exists()) {
-          const users = snapshot.val();
-
-          let found = false;
-          for (const key in users) {
-            if (users[key].username === username && users[key].password === password) {
-              found = true;
-              window.location.href = users[key].page;
-              break;
-            }
-          }
-
-          if (!found) {
-            message.innerText = "❌ اسم المستخدم أو كلمة المرور خطأ";
-          }
-        } else {
-          message.innerText = "🚨 لا توجد بيانات مستخدمين في قاعدة البيانات";
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نظام الدخول المتقدم</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-      } catch (error) {
-        console.error("خطأ بالاتصال:", error);
-        message.innerText = "⚠️ مشكلة بالاتصال بقاعدة البيانات";
-      }
-    }
-
-    window.login = login;
-  </script>
+        
+        :root {
+            --dark-bg: #0a0a12;
+            --primary: #1a73e8;
+            --secondary: #00aaff;
+            --accent: #ff003c;
+            --text: #e0e0e0;
+            --glow: 0 0 15px rgba(26, 115, 232, 0.7);
+            --dark-glow: 0 0 15px rgba(138, 0, 255, 0.5);
+        }
+        
+        body {
+            background: #000000;
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        /* تأثيرات الخلفية */
+        .floating-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(26, 115, 232, 0.8), transparent);
+            filter: blur(20px);
+            opacity: 0.7;
+        }
+        
+        .shape-1 {
+            width: 300px;
+            height: 300px;
+            top: 10%;
+            left: 20%;
+            animation: float1 20s infinite alternate ease-in-out;
+        }
+        
+        .shape-2 {
+            width: 200px;
+            height: 200px;
+            top: 60%;
+            left: 70%;
+            animation: float2 15s infinite alternate ease-in-out;
+        }
+        
+        .shape-3 {
+            width: 150px;
+            height: 150px;
+            top: 30%;
+            left: 50%;
+            animation: float3 18s infinite alternate ease-in-out;
+        }
+        
+        @keyframes float1 {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(100px, 100px) rotate(360deg); }
+        }
+        
+        @keyframes float2 {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(-150px, -80px) rotate(-360deg); }
+        }
+        
+        @keyframes float3 {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(120px, -100px) rotate(180deg); }
+        }
+        
+        /* تصميم لوحة الدخول */
+        .login-container {
+            background: rgba(15, 15, 25, 0.85);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.7), var(--glow);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+        
+        .login-container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+        }
+        
+        .login-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .login-logo {
+            font-size: 3.5rem;
+            font-weight: 800;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 1rem;
+            text-shadow: var(--glow);
+        }
+        
+        .login-title {
+            font-size: 1.8rem;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+            font-weight: 300;
+        }
+        
+        .login-subtitle {
+            color: #aaa;
+            font-size: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        /* حقول الإدخال */
+        .input-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+            font-weight: 500;
+        }
+        
+        .input-group input {
+            width: 100%;
+            padding: 0.9rem 1.2rem;
+            background: rgba(55, 55, 55, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: var(--text);
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: var(--glow);
+        }
+        
+        .input-group i {
+            position: absolute;
+            right: 15px;
+            top: 42px;
+            color: #555;
+        }
+        
+        /* زر الدخول */
+        .login-btn {
+            width: 100%;
+            padding: 0.9rem;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            margin-top: 1rem;
+        }
+        
+        .login-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .login-btn:active {
+            transform: translateY(1px);
+        }
+        
+        .login-btn::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+        
+        .login-btn:hover::after {
+            left: 100%;
+        }
+        
+        /* منطقة الرسائل */
+        .message {
+            color: var(--accent);
+            margin-top: 1rem;
+            text-align: center;
+            padding: 0.8rem;
+            background: rgba(255, 0, 60, 0.1);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 0, 60, 0.3);
+            display: none;
+        }
+        
+        /* تأثيرات التحميل */
+        .loading-container {
+            width: 100%;
+            max-width: 500px;
+            margin: 0.5rem auto;
+            background: rgba(10, 15, 30, 0.7);
+            border-radius: 10px;
+            padding: 1.5rem;
+            border: 1px solid rgba(0, 170, 255, 0.3);
+            display: none;
+        }
+        
+        .loading-text {
+            text-align: center;
+            font-size: 1.4rem;
+            color: #00aaff;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 0 10px rgba(0, 55, 170, 0.5);
+        }
+        
+        .loading-bar {
+            height: 20px;
+            background: rgba(0, 20, 40, 0.8);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(0, 170, 255, 0.3);
+        }
+        
+        .loading-progress {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #00aaff, #00ff);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .loading-progress::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: loadingShine 1.5s infinite;
+        }
+        
+        .loading-percentage {
+            text-align: center;
+            font-size: 1.3rem;
+            color: #00aaff;
+            font-weight: 700;
+        }
+        
+        /* الرسوم المتحركة */
+        @keyframes loadingShine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(200%); }
+        }
+        
+        /* تصميم متجاوب */
+        @media (max-width: 768px) {
+            .login-container {
+                padding: 1.5rem;
+            }
+            
+            .login-logo {
+                font-size: 2.5rem;
+            }
+            
+            .login-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="login-container">
-    <h2>تسجيل الدخول</h2>
-    <input type="text" id="username" placeholder="اسم المستخدم">
-    <input type="password" id="password" placeholder="كلمة المرور">
-    <button onclick="login()">دخول</button>
-    <pre id="message"></pre>
-  </div>
+    <!-- التأثيرات البصرية -->
+    <div class="floating-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+    </div>
+    
+    <!-- لوحة تسجيل الدخول -->
+    <div class="login-container">
+        <div class="login-header">
+            <div class="login-logo">NEXUS</div>
+            <h1 class="login-title">نظام الدخول المتقدم</h1>
+            <p class="login-subtitle">يرجى إدخال بيانات الاعتماد الخاصة بك</p>
+        </div>
+        
+        <div class="input-group">
+            <label for="username">اسم المستخدم</label>
+            <input type="text" id="username" name="username" required>
+        </div>
+        
+        <div class="input-group">
+            <label for="password">كلمة المرور</label>
+            <input type="password" id="password" name="password" required autocomplete="off">
+        </div>
+        
+        <button class="login-btn" id="loginBtn">تفعيل الدخول</button>
+        
+        <div class="message" id="message"></div>
+        
+        <div class="loading-container" id="loadingContainer">
+            <div class="loading-text">جاري التحقق من البيانات...</div>
+            <div class="loading-bar">
+                <div class="loading-progress" id="loadingProgress"></div>
+            </div>
+            <div class="loading-percentage" id="loadingPercentage">0%</div>
+        </div>
+    </div>
+
+    <script type="module">
+        // استدعاء مكتبات فايربيس
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+        // إعدادات Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyCXeOtXWIc1qyDIxh4EPu1nxmGswrNiqLo",
+            authDomain: "password-a409.firebaseapp.com",
+            databaseURL: "https://password-a409-default-rtdb.firebaseio.com",
+            projectId: "password-a409",
+            storageBucket: "password-a409.appspot.com",
+            messagingSenderId: "883669716957",
+            appId: "1:883669716957:web:e9c1222757dd10f3497034",
+            measurementId: "G-B3DBSGVC7T"
+        };
+
+        // تهيئة Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // عناصر DOM
+        const loginBtn = document.getElementById('loginBtn');
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const messageDiv = document.getElementById('message');
+        const loadingContainer = document.getElementById('loadingContainer');
+        const loadingProgress = document.getElementById('loadingProgress');
+        const loadingPercentage = document.getElementById('loadingPercentage');
+
+        // تأثيرات بصرية أثناء التحميل
+        function simulateProgress() {
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += Math.random() * 5;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(interval);
+                }
+                loadingProgress.style.width = `${progress}%`;
+                loadingPercentage.textContent = `${Math.round(progress)}%`;
+            }, 200);
+        }
+
+        // دالة تسجيل الدخول
+        async function login() {
+            const username = usernameInput.value.trim();
+            const password = passwordInput.value.trim();
+            
+            // إخفاء أي رسالة سابقة
+            messageDiv.style.display = 'none';
+            
+            // التحقق من إدخال البيانات
+            if (!username || !password) {
+                messageDiv.textContent = "❌ يرجى إدخال اسم المستخدم وكلمة المرور";
+                messageDiv.style.display = 'block';
+                return;
+            }
+            
+            // إظهار رسالة التحميل
+            loadingContainer.style.display = 'block';
+            simulateProgress();
+            
+            try {
+                const snapshot = await get(ref(db, "users"));
+                
+                if (snapshot.exists()) {
+                    const users = snapshot.val();
+                    let found = false;
+                    
+                    for (const key in users) {
+                        if (users[key].username === username && users[key].password === password) {
+                            found = true;
+                            
+                            // تأثير نجاح الدخول
+                            loadingProgress.style.width = '100%';
+                            loadingPercentage.textContent = '100%';
+                            loadingContainer.querySelector('.loading-text').textContent = 'تم التحقق بنجاح!';
+                            
+                            // الانتقال إلى الصفحة بعد تأخير بسيط
+                            setTimeout(() => {
+                                window.location.href = users[key].page;
+                            }, 1000);
+                            
+                            break;
+                        }
+                    }
+                    
+                    if (!found) {
+                        loadingContainer.style.display = 'none';
+                        messageDiv.textContent = "❌ اسم المستخدم أو كلمة المرور خطأ";
+                        messageDiv.style.display = 'block';
+                    }
+                } else {
+                    loadingContainer.style.display = 'none';
+                    messageDiv.textContent = "🚨 لا توجد بيانات مستخدمين في قاعدة البيانات";
+                    messageDiv.style.display = 'block';
+                }
+            } catch (error) {
+                console.error("خطأ بالاتصال:", error);
+                loadingContainer.style.display = 'none';
+                messageDiv.textContent = "⚠️ مشكلة بالاتصال بقاعدة البيانات";
+                messageDiv.style.display = 'block';
+            }
+        }
+
+        // إضافة مستمع الأحداث لزر الدخول
+        loginBtn.addEventListener('click', login);
+        
+        // السماح بالدخول باستخدام زر Enter
+        document.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                login();
+            }
+        });
+    </script>
 </body>
 </html>
