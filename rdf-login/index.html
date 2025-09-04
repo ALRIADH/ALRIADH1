@@ -122,24 +122,29 @@
             margin-bottom: 2rem;
         }
         
-        .login-logo {
-            font-size: 3.5rem;
-            font-weight: 800;
-            letter-spacing: 4px;
-            text-transform: uppercase;
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .nexus-logo {
+            width: 180px;
+            height: 180px;
+            object-fit: contain;
+            filter: drop-shadow(0 0 15px rgba(0, 170, 255, 0.7));
+            animation: pulseLogo 3s infinite alternate;
+        }
+        
+        .login-title {
+            font-size: 2.2rem;
             background: linear-gradient(to right, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            margin-bottom: 1rem;
-            text-shadow: var(--glow);
-        }
-        
-        .login-title {
-            font-size: 1.8rem;
-            color: var(--text);
             margin-bottom: 0.5rem;
-            font-weight: 300;
+            font-weight: 700;
+            text-shadow: var(--glow);
         }
         
         .login-subtitle {
@@ -176,13 +181,6 @@
             outline: none;
             border-color: var(--primary);
             box-shadow: var(--glow);
-        }
-        
-        .input-group i {
-            position: absolute;
-            right: 15px;
-            top: 42px;
-            color: #555;
         }
         
         /* زر الدخول */
@@ -226,16 +224,90 @@
             left: 100%;
         }
         
-        /* منطقة الرسائل */
-        .message {
-            color: var(--accent);
-            margin-top: 1rem;
+        /* نوافذ منبثقة */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal {
+            background: rgba(15, 15, 25, 0.95);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 2rem;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.7), var(--glow);
+            position: relative;
             text-align: center;
-            padding: 0.8rem;
-            background: rgba(255, 0, 60, 0.1);
-            border-radius: 8px;
-            border: 1px solid rgba(255, 0, 60, 0.3);
-            display: none;
+            transform: translateY(-50px);
+            transition: transform 0.3s ease;
+        }
+        
+        .modal-overlay.active .modal {
+            transform: translateY(0);
+        }
+        
+        .modal-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .modal-success .modal-icon {
+            color: #4CAF50;
+        }
+        
+        .modal-error .modal-icon {
+            color: var(--accent);
+        }
+        
+        .modal-loading .modal-icon {
+            color: var(--primary);
+            animation: spin 1.5s linear infinite;
+        }
+        
+        .modal-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text);
+        }
+        
+        .modal-message {
+            margin-bottom: 1.5rem;
+            color: #aaa;
+        }
+        
+        .modal-btn {
+            padding: 0.7rem 2rem;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .modal-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
         
         /* تأثيرات التحميل */
@@ -271,7 +343,7 @@
         .loading-progress {
             height: 100%;
             width: 0%;
-            background: linear-gradient(90deg, #00aaff, #00ff);
+            background: linear-gradient(90deg, #00aaff, #0011ff);
             border-radius: 10px;
             transition: width 0.5s ease;
             position: relative;
@@ -302,18 +374,48 @@
             100% { transform: translateX(200%); }
         }
         
+        @keyframes pulseLogo {
+            0% { transform: scale(1); filter: drop-shadow(0 0 15px rgba(0, 170, 255, 0.7)); }
+            100% { transform: scale(1.05); filter: drop-shadow(0 0 25px rgba(0, 170, 255, 0.9)); }
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
         /* تصميم متجاوب */
         @media (max-width: 768px) {
             .login-container {
                 padding: 1.5rem;
             }
             
-            .login-logo {
-                font-size: 2.5rem;
+            .nexus-logo {
+                width: 140px;
+                height: 140px;
             }
             
             .login-title {
-                font-size: 1.5rem;
+                font-size: 1.8rem;
+            }
+            
+            .modal {
+                padding: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .nexus-logo {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .login-title {
+                font-size: 1.6rem;
+            }
+            
+            .modal-title {
+                font-size: 1.3rem;
             }
         }
     </style>
@@ -329,7 +431,9 @@
     <!-- لوحة تسجيل الدخول -->
     <div class="login-container">
         <div class="login-header">
-            <div class="login-logo">NEXUS</div>
+            <div class="logo-container">
+                <img src="https://i.postimg.cc/rm34kd1f/image.png" alt="NEXUS Logo" class="nexus-logo">
+            </div>
             <h1 class="login-title">نظام الدخول المتقدم</h1>
             <p class="login-subtitle">يرجى إدخال بيانات الاعتماد الخاصة بك</p>
         </div>
@@ -346,14 +450,38 @@
         
         <button class="login-btn" id="loginBtn">تفعيل الدخول</button>
         
-        <div class="message" id="message"></div>
-        
         <div class="loading-container" id="loadingContainer">
             <div class="loading-text">جاري التحقق من البيانات...</div>
             <div class="loading-bar">
                 <div class="loading-progress" id="loadingProgress"></div>
             </div>
             <div class="loading-percentage" id="loadingPercentage">0%</div>
+        </div>
+    </div>
+
+    <!-- نوافذ منبثقة -->
+    <div class="modal-overlay" id="loadingModal">
+        <div class="modal modal-loading">
+            <i class="fas fa-spinner modal-icon"></i>
+            <h2 class="modal-title">جاري التحقق من البيانات</h2>
+            <p class="modal-message">يرجى الانتظار...</p>
+        </div>
+    </div>
+    
+    <div class="modal-overlay" id="errorModal">
+        <div class="modal modal-error">
+            <i class="fas fa-times-circle modal-icon"></i>
+            <h2 class="modal-title">خطأ في الدخول</h2>
+            <p class="modal-message" id="errorMessage">اسم المستخدم أو كلمة المرور غير صحيحة</p>
+            <button class="modal-btn" id="errorBtn">موافق</button>
+        </div>
+    </div>
+    
+    <div class="modal-overlay" id="successModal">
+        <div class="modal modal-success">
+            <i class="fas fa-check-circle modal-icon"></i>
+            <h2 class="modal-title">تم التحقق بنجاح</h2>
+            <p class="modal-message">جاري تحويلك إلى الصفحة المطلوبة</p>
         </div>
     </div>
 
@@ -382,11 +510,26 @@
         const loginBtn = document.getElementById('loginBtn');
         const usernameInput = document.getElementById('username');
         const passwordInput = document.getElementById('password');
-        const messageDiv = document.getElementById('message');
         const loadingContainer = document.getElementById('loadingContainer');
         const loadingProgress = document.getElementById('loadingProgress');
         const loadingPercentage = document.getElementById('loadingPercentage');
+        
+        // النوافذ المنبثقة
+        const loadingModal = document.getElementById('loadingModal');
+        const errorModal = document.getElementById('errorModal');
+        const successModal = document.getElementById('successModal');
+        const errorMessage = document.getElementById('errorMessage');
+        const errorBtn = document.getElementById('errorBtn');
 
+        // وظائف إظهار وإخفاء النوافذ
+        function showModal(modal) {
+            modal.classList.add('active');
+        }
+        
+        function hideModal(modal) {
+            modal.classList.remove('active');
+        }
+        
         // تأثيرات بصرية أثناء التحميل
         function simulateProgress() {
             let progress = 0;
@@ -406,19 +549,15 @@
             const username = usernameInput.value.trim();
             const password = passwordInput.value.trim();
             
-            // إخفاء أي رسالة سابقة
-            messageDiv.style.display = 'none';
-            
             // التحقق من إدخال البيانات
             if (!username || !password) {
-                messageDiv.textContent = "❌ يرجى إدخال اسم المستخدم وكلمة المرور";
-                messageDiv.style.display = 'block';
+                errorMessage.textContent = "❌ يرجى إدخال اسم المستخدم وكلمة المرور";
+                showModal(errorModal);
                 return;
             }
             
-            // إظهار رسالة التحميل
-            loadingContainer.style.display = 'block';
-            simulateProgress();
+            // إظهار نافذة التحميل
+            showModal(loadingModal);
             
             try {
                 const snapshot = await get(ref(db, "users"));
@@ -431,40 +570,44 @@
                         if (users[key].username === username && users[key].password === password) {
                             found = true;
                             
-                            // تأثير نجاح الدخول
-                            loadingProgress.style.width = '100%';
-                            loadingPercentage.textContent = '100%';
-                            loadingContainer.querySelector('.loading-text').textContent = 'تم التحقق بنجاح!';
+                            // إخفاء نافذة التحميل وإظهار نافذة النجاح
+                            hideModal(loadingModal);
+                            showModal(successModal);
                             
                             // الانتقال إلى الصفحة بعد تأخير بسيط
                             setTimeout(() => {
                                 window.location.href = users[key].page;
-                            }, 1000);
+                            }, 2000);
                             
                             break;
                         }
                     }
                     
                     if (!found) {
-                        loadingContainer.style.display = 'none';
-                        messageDiv.textContent = "❌ اسم المستخدم أو كلمة المرور خطأ";
-                        messageDiv.style.display = 'block';
+                        hideModal(loadingModal);
+                        errorMessage.textContent = "❌ اسم المستخدم أو كلمة المرور خطأ";
+                        showModal(errorModal);
                     }
                 } else {
-                    loadingContainer.style.display = 'none';
-                    messageDiv.textContent = "🚨 لا توجد بيانات مستخدمين في قاعدة البيانات";
-                    messageDiv.style.display = 'block';
+                    hideModal(loadingModal);
+                    errorMessage.textContent = "🚨 لا توجد بيانات مستخدمين في قاعدة البيانات";
+                    showModal(errorModal);
                 }
             } catch (error) {
                 console.error("خطأ بالاتصال:", error);
-                loadingContainer.style.display = 'none';
-                messageDiv.textContent = "⚠️ مشكلة بالاتصال بقاعدة البيانات";
-                messageDiv.style.display = 'block';
+                hideModal(loadingModal);
+                errorMessage.textContent = "⚠️ مشكلة بالاتصال بقاعدة البيانات";
+                showModal(errorModal);
             }
         }
 
         // إضافة مستمع الأحداث لزر الدخول
         loginBtn.addEventListener('click', login);
+        
+        // إضافة مستمع الأحداث لزر الخطأ
+        errorBtn.addEventListener('click', function() {
+            hideModal(errorModal);
+        });
         
         // السماح بالدخول باستخدام زر Enter
         document.addEventListener('keypress', function(event) {
