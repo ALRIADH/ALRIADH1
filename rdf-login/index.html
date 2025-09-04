@@ -34,10 +34,15 @@
         const snapshot = await get(ref(db, "users"));
         if (snapshot.exists()) {
           const users = snapshot.val();
-          console.log("📌 بيانات من Firebase:", users);
+          
+          // ✨ نعرض البيانات على الشاشة بدل الـ Console
+          message.innerText = "📌 بيانات من Firebase: " + JSON.stringify(users);
 
           let found = false;
           for (const key in users) {
+            // ✨ نعرض مقارنة القيم
+            message.innerText += `\nيدخل: ${username}, ${password} ← يقارن مع: ${users[key].username}, ${users[key].password}`;
+
             if (users[key].username === username && users[key].password === password) {
               found = true;
               window.location.href = users[key].page;
@@ -46,7 +51,7 @@
           }
 
           if (!found) {
-            message.innerText = "❌ اسم المستخدم أو كلمة المرور خطأ";
+            message.innerText += "\n❌ اسم المستخدم أو كلمة المرور خطأ";
           }
         } else {
           message.innerText = "🚨 لا توجد بيانات مستخدمين في قاعدة البيانات";
@@ -66,6 +71,6 @@
   <input type="text" id="username" placeholder="اسم المستخدم"><br><br>
   <input type="password" id="password" placeholder="كلمة المرور"><br><br>
   <button onclick="login()">دخول</button>
-  <p id="message" style="color:red;"></p>
+  <pre id="message" style="color:red; white-space:pre-wrap;"></pre>
 </body>
 </html>
