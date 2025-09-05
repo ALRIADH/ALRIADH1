@@ -34,7 +34,50 @@
             align-items: center;
             padding: 20px;
         }
-        
+        /* ضبط الصفحة */
+/*body {*/
+  margin: 0;
+  padding: 0;
+  background: #000; /* خلفية سوداء */
+  overflow: hidden;
+  height: 100vh;
+  position: relative;
+  font-family: Arial, sans-serif;
+}
+
+/* الحاوية التي تحتوي النقاط */
+.ai-particles {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none; /* لا تتداخل مع النقر */
+  z-index: -100; /* خلف كل شيء */
+}
+
+/* شكل كل نقطة */
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(26, 115, 232, 0.7); /* اللون الأزرق */
+  filter: blur(4px);
+  opacity: 0.6;
+  animation-timing-function: ease-in-out;
+  animation-direction: alternate;
+  animation-iteration-count: infinite;
+  animation-name: floatParticle;
+}
+
+/* حركة النقاط */
+@keyframes floatParticle {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(var(--x), var(--y));
+  }
+}
         /* تأثيرات الخلفية */
         .floating-shapes {
             position: fixed;
@@ -43,7 +86,7 @@
             width: 100%;
             height: 100%;
             pointer-events: none;
-            z-index: -1;
+            z-index: -71;
         }
         
         .shape {
@@ -59,7 +102,7 @@
             height: 300px;
             top: 10%;
             left: 20%;
-            animation: float1 20s infinite alternate ease-in-out;
+            animation: float1 5s infinite alternate ease-in-out;
         }
         
         .shape-2 {
@@ -67,7 +110,7 @@
             height: 200px;
             top: 60%;
             left: 70%;
-            animation: float2 15s infinite alternate ease-in-out;
+            animation: float2 8s infinite alternate ease-in-out;
         }
         
         .shape-3 {
@@ -90,7 +133,7 @@
         
         @keyframes float3 {
             0% { transform: translate(0, 0) rotate(0deg); }
-            100% { transform: translate(120px, -100px) rotate(180deg); }
+            100% { transform: translate(120px, -100px) rotate(360deg); }
         }
         
         /* تصميم لوحة الدخول */
@@ -180,7 +223,6 @@
         .input-group input:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: var(--glow);
         }
         
         /* زر الدخول */
@@ -406,8 +448,8 @@
         
         @media (max-width: 480px) {
             .nexus-logo {
-                width: 120px;
-                height: 120px;
+                width: 70px;
+                height: 70px;
             }
             
             .login-title {
@@ -422,19 +464,15 @@
 </head>
 <body>
     <!-- التأثيرات البصرية -->
-    <div class="floating-shapes">
-        <div class="shape shape-1"></div>
-        <div class="shape shape-2"></div>
-        <div class="shape shape-3"></div>
-    </div>
+    <div class="ai-particles"></div>
     
     <!-- لوحة تسجيل الدخول -->
-    <div class="login-container">
+    <div class="ogin-container">
         <div class="login-header">
             <div class="logo-container">
-                <img src="https://i.postimg.cc/rm34kd1f/image.png" alt="NEXUS Logo" class="nexus-logo">
+                <img src="https://i.postimg.cc/ZYs199Rt/image.png" alt="NEXUS Logo" class="nexus-logo">
             </div>
-            <h1 class="login-title">نظام الدخول المتقدم</h1>
+            <h1 class="login-title">TOREX</h1>
             <p class="login-subtitle">يرجى إدخال بيانات الاعتماد الخاصة بك</p>
         </div>
         
@@ -481,11 +519,46 @@
         <div class="modal modal-success">
             <i class="fas fa-check-circle modal-icon"></i>
             <h2 class="modal-title">تم التحقق بنجاح</h2>
-            <p class="modal-message">جاري تحويلك إلى الصفحة المطلوبة</p>
+            <p class="modal-message">جاري تحويلك إلى الصفحة المطلوبة...</p>
         </div>
     </div>
 
     <script type="module">
+      // استهداف الحاوية
+const container = document.querySelector('.ai-particles');
+
+// عدد النقاط التي تريدها
+const numParticles = 60;
+
+// إنشاء النقاط وتحريكها
+for (let i = 0; i < numParticles; i++) {
+  const particle = document.createElement('div');
+  particle.classList.add('particle');
+
+  // تعيين حجم عشوائي بين 4px و 10px
+  const size = Math.random() * 6 + 4;
+  particle.style.width = `${size}px`;
+  particle.style.height = `${size}px`;
+
+  // تعيين موقع ابتدائي عشوائي ضمن النافذة
+  const posX = Math.random() * window.innerWidth;
+  const posY = Math.random() * window.innerHeight;
+  particle.style.left = `${posX}px`;
+  particle.style.top = `${posY}px`;
+
+  // تعيين حركة عشوائية (تحرك بحدود -100px إلى +100px)
+  const moveX = Math.random() * 200 - 100;
+  const moveY = Math.random() * 200 - 100;
+  particle.style.setProperty('--x', `${moveX}px`);
+  particle.style.setProperty('--y', `${moveY}px`);
+
+  // تعيين مدة حركة عشوائية بين 4 إلى 10 ثواني
+  const duration = Math.random() * 6 + 4;
+  particle.style.animationDuration = `${duration}s`;
+
+  // إضافة النقطة إلى الحاوية
+  container.appendChild(particle);
+}
         // استدعاء مكتبات فايربيس
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
