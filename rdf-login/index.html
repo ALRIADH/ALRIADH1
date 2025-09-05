@@ -34,42 +34,28 @@
             align-items: center;
             padding: 20px;
         }
-        /* ضبط الصفحة */
-/*body {*/
-  margin: 0;
-  padding: 0;
-  background: #000; /* خلفية سوداء */
-  overflow: hidden;
-  height: 100vh;
-  position: relative;
-  font-family: Arial, sans-serif;
-}
-
-/* الحاوية التي تحتوي النقاط */
-.ai-particles {
+        
+        /* تأثيرات الخلفية */
+      /* تأثير خلفية AI - نقاط متحركة */
+.floating-shapes {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
-  pointer-events: none; /* لا تتداخل مع النقر */
-  z-index: -100; /* خلف كل شيء */
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -71;
 }
 
-/* شكل كل نقطة */
 .particle {
   position: absolute;
   border-radius: 50%;
-  background: rgba(26, 115, 232, 0.7); /* اللون الأزرق */
-  filter: blur(4px);
+  background: rgba(26, 115, 232, 0.7); /* لون أزرق غامق */
+  filter: blur(6px);
   opacity: 0.6;
-  animation-timing-function: ease-in-out;
-  animation-direction: alternate;
-  animation-iteration-count: infinite;
-  animation-name: floatParticle;
+  animation: floatParticle infinite alternate ease-in-out;
 }
 
-/* حركة النقاط */
 @keyframes floatParticle {
   0% {
     transform: translate(0, 0);
@@ -78,64 +64,6 @@
     transform: translate(var(--x), var(--y));
   }
 }
-        /* تأثيرات الخلفية */
-        .floating-shapes {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -71;
-        }
-        
-        .shape {
-            position: absolute;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(26, 115, 232, 0.8), transparent);
-            filter: blur(20px);
-            opacity: 0.7;
-        }
-        
-        .shape-1 {
-            width: 300px;
-            height: 300px;
-            top: 10%;
-            left: 20%;
-            animation: float1 5s infinite alternate ease-in-out;
-        }
-        
-        .shape-2 {
-            width: 200px;
-            height: 200px;
-            top: 60%;
-            left: 70%;
-            animation: float2 8s infinite alternate ease-in-out;
-        }
-        
-        .shape-3 {
-            width: 150px;
-            height: 150px;
-            top: 30%;
-            left: 50%;
-            animation: float3 18s infinite alternate ease-in-out;
-        }
-        
-        @keyframes float1 {
-            0% { transform: translate(0, 0) rotate(0deg); }
-            100% { transform: translate(100px, 100px) rotate(360deg); }
-        }
-        
-        @keyframes float2 {
-            0% { transform: translate(0, 0) rotate(0deg); }
-            100% { transform: translate(-150px, -80px) rotate(-360deg); }
-        }
-        
-        @keyframes float3 {
-            0% { transform: translate(0, 0) rotate(0deg); }
-            100% { transform: translate(120px, -100px) rotate(360deg); }
-        }
-        
         /* تصميم لوحة الدخول */
         .login-container {
             background: rgba(15, 15, 25, 0.85);
@@ -174,9 +102,9 @@
         .nexus-logo {
             width: 180px;
             height: 180px;
-            object-fit: contain;
+            /*object-fit: contain;
             filter: drop-shadow(0 0 15px rgba(0, 170, 255, 0.7));
-            animation: pulseLogo 3s infinite alternate;
+            animation: pulseLogo 3s infinite alternate;*/
         }
         
         .login-title {
@@ -464,7 +392,7 @@
 </head>
 <body>
     <!-- التأثيرات البصرية -->
-    <div class="ai-particles"></div>
+    <div class="floating-shapes" id="particleContainer"></div>
     
     <!-- لوحة تسجيل الدخول -->
     <div class="ogin-container">
@@ -473,7 +401,7 @@
                 <img src="https://i.postimg.cc/ZYs199Rt/image.png" alt="NEXUS Logo" class="nexus-logo">
             </div>
             <h1 class="login-title">TOREX</h1>
-            <p class="login-subtitle">يرجى إدخال بيانات الاعتماد الخاصة بك</p>
+            <p class="login-subtitle">يرجى إدخال البيانات الخاصة بك</p>
         </div>
         
         <div class="input-group">
@@ -524,41 +452,38 @@
     </div>
 
     <script type="module">
-      // استهداف الحاوية
-const container = document.querySelector('.ai-particles');
+      //تأثير النقاط المتحركة في الخلفية
+  const container = document.getElementById("particleContainer");
+  const numberOfParticles = 60;
 
-// عدد النقاط التي تريدها
-const numParticles = 60;
+  for (let i = 0; i < numberOfParticles; i++) {
+    const particle = document.createElement("div");
+    particle.classList.add("particle");
 
-// إنشاء النقاط وتحريكها
-for (let i = 0; i < numParticles; i++) {
-  const particle = document.createElement('div');
-  particle.classList.add('particle');
+    // حجم عشوائي بين 4 و 10 بكسل
+    const size = Math.random() * 6 + 4;
+    particle.style.width = `${size}px`;
+    particle.style.height = `${size}px`;
 
-  // تعيين حجم عشوائي بين 4px و 10px
-  const size = Math.random() * 6 + 4;
-  particle.style.width = `${size}px`;
-  particle.style.height = `${size}px`;
+    // موقع ابتدائي عشوائي
+    const posX = Math.random() * window.innerWidth;
+    const posY = Math.random() * window.innerHeight;
+    particle.style.left = `${posX}px`;
+    particle.style.top = `${posY}px`;
 
-  // تعيين موقع ابتدائي عشوائي ضمن النافذة
-  const posX = Math.random() * window.innerWidth;
-  const posY = Math.random() * window.innerHeight;
-  particle.style.left = `${posX}px`;
-  particle.style.top = `${posY}px`;
+    // حركة عشوائية في الاتجاه
+    const moveX = Math.random() * 200 - 100; // من -100 إلى +100
+    const moveY = Math.random() * 200 - 100;
+    particle.style.setProperty("--x", `${moveX}px`);
+    particle.style.setProperty("--y", `${moveY}px`);
 
-  // تعيين حركة عشوائية (تحرك بحدود -100px إلى +100px)
-  const moveX = Math.random() * 200 - 100;
-  const moveY = Math.random() * 200 - 100;
-  particle.style.setProperty('--x', `${moveX}px`);
-  particle.style.setProperty('--y', `${moveY}px`);
+    // مدة حركة عشوائية
+    const duration = Math.random() * 6 + 4; // بين 4 إلى 10 ثواني
+    particle.style.animationDuration = `${duration}s`;
 
-  // تعيين مدة حركة عشوائية بين 4 إلى 10 ثواني
-  const duration = Math.random() * 6 + 4;
-  particle.style.animationDuration = `${duration}s`;
+    container.appendChild(particle);
+  }
 
-  // إضافة النقطة إلى الحاوية
-  container.appendChild(particle);
-}
         // استدعاء مكتبات فايربيس
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
