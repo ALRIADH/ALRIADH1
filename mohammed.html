@@ -29,7 +29,7 @@
             }
             fetch(url,{
                 method:"POST",
-                body:JSON.stringify(odj)
+                body:JSON.stringify(obj)
             })
             .then(r=>r.text())
             .then(data=>console.log(data))
