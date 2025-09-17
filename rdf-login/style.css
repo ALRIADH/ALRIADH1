@@ -1,0 +1,4 @@
+/* نحدد الخط الافتراضي لكل الصفحة */
+html, body {
+  font-family: 'Cairo', sans-serif;
+}
