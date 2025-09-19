@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>R.D.F - الصفحة الرئيسية</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+        }
+        
+        :root {
+            --dark-bg: #0a0a12;
+            --primary: #00aaff;
+            --accent: #ff003c;
+            --text: #e0e0e0;
+            --light-gray: #1e1e2a;
+            --card-bg: rgba(20, 20, 30, 0.7);
+            --glow: 0 0 15px rgba(0, 170, 255, 0.3);
+        }
+        
+        body {
+            background: linear-gradient(135deg, #080817, #0d0d1a);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* تأثيرات الخلفية */
+        .background-effects {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.1;
+        }
+        
+        .grid-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(rgba(0, 170, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 170, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        
+        /* شريط التنقل العلوي */
+        .navbar {
+            background: rgba(15, 15, 25, 0.95);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        
+        .logo-img {
+            width: 40px;
+            height: 40px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 2px solid var(--primary);
+            box-shadow: var(--glow);
+        }
+        
+        .logo-text {
+            font-size: 0.7rem;
+            font-weight: 700;
+            background: linear-gradient(to right, var(--primary), #00ddff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .nav-icons {
+            display: flex;
+            gap: 1.2rem;
+        }
+        
+        .nav-icon {
+            color: var(--text);
+            font-size: 1.4rem;
+            position: relative;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 5%;
+            background: rgba(255, 255, 255, 0.05);
+            text-decoration: none;
+        }
+        
+        .nav-icon:hover {
+            color: var(--primary);
+            transform: translateY(-3px);
+            background: rgba(0, 170, 255, 0.1);
+        }
+        
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ff003c;
+            color: white;
+            font-size: 0.7rem;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* تصميم يشبه تطبيق الجوال */
+        .app-container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 1rem;
+            padding-bottom: 80px;
+        }
+        
+        /* رأس الصفحة */
+        .user-header {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            padding: 1.5rem 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .user-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary);
+            box-shadow: var(--glow);
+        }
+        
+        .user-info {
+            flex: 1;
+        }
+        
+        .user-greeting {
+            font-size: 1rem;
+            color: #aaa;
+            margin-bottom: 0.3rem;
+        }
+        
+        .user-name {
+            font-size: 1.6rem;
+            font-weight: 700;
+            background: linear-gradient(to right, var(--primary), #00ddff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .user-rank {
+            font-size: 0.9rem;
+            background: rgba(255, 0, 60, 0.2);
+            color: #ff5577;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            display: inline-block;
+            margin-top: 0.5rem;
+            border: 1px solid rgba(255, 0, 60, 0.3);
+        }
+        
+        /* قسم خدمات المنظمة */
+        .services-section {
+            margin: 2rem 0;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            margin: 1.5rem 0 1.2rem;
+            padding-left: 0.5rem;
+            position: relative;
+            color: var(--text);
+            font-weight: 700;
+        }
+        
+        .section-title::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            right: -0.5rem;
+            transform: translateY(-50%);
+            width: 5px;
+            height: 70%;
+            background: var(--primary);
+            border-radius: 5px;
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .service-card {
+            background: var(--card-bg);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: inherit;
+            height: 120px;
+            justify-content: center;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 8px 20px rgba(0, 170, 255, 0.25);
+        }
+        
+        .service-icon {
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 170, 255, 0.1);
+            border-radius: 50%;
+            margin-bottom: 0.7rem;
+            font-size: 1.4rem;
+            color: var(--primary);
+        }
+        
+        .service-title {
+            font-size: 1rem;
+            margin-bottom: 0.3rem;
+            color: var(--text);
+            font-weight: 600;
+        }
+        
+        .service-description {
+            font-size: 0.75rem;
+            color: #aaa;
+            line-height: 1.4;
+        }
+        
+        /* قسم الإحصائيات - 4 عناصر في صف واحد */
+        .stats-section {
+            margin: 2rem 0;
+        }
+        
+        .stats-grid {
+            display: flex;
+            justify-content: space-between;
+            gap: 0.7rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, rgba(0, 170, 255, 0.15), rgba(20, 20, 30, 0.8));
+            border-radius: 12px;
+            padding: 1rem 0.7rem;
+            text-align: center;
+            border: 1px solid rgba(0, 170, 255, 0.2);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 170, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .stat-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at top right, rgba(0, 170, 255, 0.2), transparent 70%);
+            z-index: 0;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--primary);
+            box-shadow: 0 8px 25px rgba(0, 170, 255, 0.2);
+        }
+        
+        .stat-icon {
+            font-size: 1.4rem;
+            margin-bottom: 0.6rem;
+            color: var(--primary);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .stat-value {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 0.2rem;
+            color: var(--text);
+            position: relative;
+            z-index: 1;
+            background: linear-gradient(to right, var(--primary), #00ddff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .stat-label {
+            font-size: 0.7rem;
+            color: #aaa;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* قسم المهام المنظمة */
+        .recent-tasks {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .task-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .task-item:last-child {
+            border-bottom: none;
+        }
+        
+        .task-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 170, 255, 0.1);
+            border-radius: 50%;
+            margin-left: 1rem;
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+        
+        .task-content {
+            flex: 1;
+        }
+        
+        .task-title {
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .task-status {
+            font-size: 0.75rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            background: rgba(0, 170, 255, 0.15);
+            color: var(--primary);
+        }
+        
+        .task-status.completed {
+            background: rgba(0, 255, 102, 0.15);
+            color: #00ff66;
+        }
+        
+        .task-status.pending {
+            background: rgba(255, 204, 0, 0.15);
+            color: #ffcc00;
+        }
+        
+        .task-desc {
+            font-size: 0.85rem;
+            color: #aaa;
+        }
+        
+        .task-time {
+            font-size: 0.75rem;
+            color: #888;
+            margin-top: 0.3rem;
+        }
+        
+        /* شريط التنقل السفلي */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(15, 15, 25, 0.95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-around;
+            padding: 0.8rem 0;
+            z-index: 100;
+        }
+        
+ .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #aaa;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            padding: 5px 15px;
+            border-radius: 15px;
+        }
+        
+        .nav-item i {
+            font-size: 1.5rem;
+            margin-bottom: 0.3rem;
+        }
+        
+        .nav-item.active, .nav-item:hover {
+            color: var(--primary);
+            background: rgba(0, 170, 255, 0.1);
+            transform: translateY(-3px);
+        }
+        
+        /* التأثيرات والرسوم المتحركة */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animate-card {
+            animation: fadeIn 0.6s ease forwards;
+        }
+        
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+        
+        /* تصميم متجاوب */
+        @media (max-width: 600px) {
+            .app-container {
+                padding: 0.8rem;
+            }
+            
+            .user-header {
+                padding: 1rem 0.5rem;
+            }
+            
+            .services-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .stats-grid {
+                flex-wrap: wrap;
+                gap: 0.8rem;
+            }
+            
+            .stat-card {
+                flex: 1 0 calc(50% - 0.8rem);
+                min-width: calc(50% - 0.8rem);
+            }
+            
+            .service-card, .stat-card {
+                padding: 0.8rem 0.5rem;
+            }
+            
+            .service-icon {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+            
+            .service-title {
+                font-size: 0.9rem;
+            }
+            
+            .service-description {
+                display: none;
+            }
+            
+            .stat-icon {
+                font-size: 1.2rem;
+            }
+            
+            .stat-value {
+                font-size: 1.2rem;
+            }
+        }
+        
+        @media (max-width: 400px) {
+            .user-name {
+                font-size: 1.3rem;
+            }
+            
+            .user-rank {
+                font-size: 0.8rem;
+            }
+            
+            .custom-icon {
+                width: 24px;
+                height: 24px;
+            }
+            
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                flex-direction: column;
+            }
+            
+            .stat-card {
+                flex: 1 0 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- تأثيرات الخلفية -->
+    <div class="background-effects">
+        <div class="grid-overlay"></div>
+    </div>
+    
+    <!-- شريط التنقل العلوي -->
+    <nav class="navbar">
+        <div class="logo-container">
+            <img src="https://i.postimg.cc/0QwwyJj3/image.png" width="100" alt="شعار R.D.F" class="ogo-img">
+            <!--div class="logo-text">R.D.F</div-->
+        </div>
+        
+        <div class="nav-icons">
+            <a href="message.html" class="nav-icon">
+                <i class="fa-regular fa-bell"></i>
+                <!--span class="notification-badge">3</span-->
+                
+                <!--i class="fa-sharp fa-regular fa-bell fa-beat-fade" style="color: #ff0000;"></i-->
+            </a>
+            <a href="CUP.html" class="nav-icon">
+              <i class="fas fa-info" style="color: #DDDDDD; font-size: 19px;"></i>
+                <!--img src="https://i.postimg.cc/ydzX6THV/image.png" width="22" alt="عن الإصدار" class="custom-icon"-->
+            </a>
+        </div>
+    </nav>
+    
+    <!-- تصميم يشبه تطبيق الجوال -->
+    <div class="app-container">
+        <!-- رأس الصفحة -->
+        <div class="user-header">
+            <img src="https://i.postimg.cc/3x4gftZM/image.jpg" alt="صورة العضو" class="user-avatar">
+            <div class="user-info">
+                <div class="user-greeting">مرحباً بعودتك</div>
+                <div class="user-name">حسين  الجعفري</div>
+                <div class="user-rank">أبو صدام</div>
+            </div>
+        </div>
+        
+   
+        <!-- قسم خدمات المنظمة مع الإضافات -->
+        <div class="services-section">
+            <div class="services-grid">
+                <!-- الصف الأول -->
+                <a href="#" class="service-card animate-card">
+                    <div class="service-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <h3 class="service-title">تقديم اقتراح</h3>
+                    <p class="service-description">شاركنا أفكارك لتحسين خدماتنا</p>
+                </a>
+                
+                <a href="report.html" class="service-card animate-card delay-1">
+                    <div class="service-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3 class="service-title">الدعم الفني</h3>
+                    <p class="service-description">أبلغنا عن أي مشكلة تواجهك</p>
+                </a>
+                
+                <!-- الصف الثاني -->
+                <a href="request.html" class="service-card animate-card delay-2">
+                    <div class="service-icon">
+                        <i class="fas fa-hand-holding-usd"></i>
+                    </div>
+                    <h3 class="service-title">إدارة الأموال</h3>
+                    <p class="service-description">قدم طلباتك الخاصة للدعم</p>
+                </a>
+                
+                <a href="support.html" class="service-card animate-card delay-3">
+                    <div class="service-icon">
+                        <i class="fas fa-medal"></i>
+                    </div>
+                    <h3 class="service-title">الموسم</h3>
+                    <p class="service-description">تواصل مع فريق الدعم</p>
+                </a>
+                
+                <!-- الصف الثالث - الإضافات الجديدة -->
+                <a href="money-pool.html" class="service-card animate-card">
+                    <div class="service-icon">
+                        <i class="fas fa-hand-holding-heart"></i>
+                    </div>
+                    <h3 class="service-title">تقديم طلب</h3>
+                    <p class="service-description">إدارة الأموال والمصروفات</p>
+                </a>
+                
+                <a href="donations.html" class="service-card animate-card delay-1">
+                    <div class="service-icon">
+                        <i class="fas fa-exclamation-circle"></i>
+                    </div>
+                    <h3 class="service-title">إبلاغ عن مشكلة</h3>
+                    <p class="service-description">التبرع ودعم المنظمة</p>
+                </a>
+            </div>
+        </div>
+             <!-- قسم الإحصائيات - 4 عناصر في صف واحد -->
+        <div class="stats-section">
+            <h2 class="section-title">إحصائيات النظام</h2>
+            <div class="stats-grid">
+                <div class="stat-card animate-card">
+                    <div class="stat-icon">
+                        <i class="far fa-image"></i>
+                    </div>
+                    <div class="stat-value">87%</div>
+                    <div class="stat-label">عدد الصور التي قمت بنشرها</div>
+                </div>
+                
+                <div class="stat-card animate-card delay-1">
+                    <div class="stat-icon">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <div class="stat-value">24</div>
+                    <div class="stat-label">عدد الفيدوهات التي قمت بنشرها</div>
+                </div>
+                
+                <div class="stat-card animate-card delay-2">
+                    <div class="stat-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <div class="stat-value">48</div>
+                    <div class="stat-label">الفيديوهات المنشورة</div>
+                </div>
+                
+                <div class="stat-card animate-card delay-3">
+                    <div class="stat-icon">
+                        <i class=""></i>
+                    </div>
+                    <div class="stat-value">100%</div>
+                    <div class="stat-label">عدد الفيدوهات التي قمت بنشرها</div>
+                </div>
+            </div>
+        </div>
+                <!-- قسم مهام المنظمة -->
+        <div class="recent-tasks animate-card">
+            <h2 class="section-title">مهام المنظمة</h2>
+             ○ الصفحة خالية، لايوجد مهام حالياً
+        </div>
+        <div class="recent-tasks animate-card">
+        </div>
+        <!-- قسم المهام المنظمة --
+        <div class="recent-tasks animate-card">
+            <h2 class="section-title">المهام المنظمة</h2>
+            
+            <div class="task-item">
+                <div class="task-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <div class="task-content">
+                    <div class="task-title">
+                        <span>مراجعة نظام الحماية</span>
+                        <span class="task-status completed">مكتمل</span>
+                    </div>
+                    <div class="task-desc">فحص وتحديث جدران الحماية</div>
+                    <div class="task-time">منذ ساعتين</div>
+                </div>
+            </div>
+            
+            <div class="task-item">
+                <div class="task-icon">
+                    <i class="fas fa-bug"></i>
+                </div>
+                <div class="task-content">
+                    <div class="task-title">
+                        <span>فحص الثغرات الأمنية</span>
+                        <span class="task-status pending">قيد التنفيذ</span>
+                    </div>
+                    <div class="task-desc">فحص النظام الرئيسي للثغرات</div>
+                    <div class="task-time">منذ 5 ساعات</div>
+                </div>
+            </div>
+            
+            <div class="task-item">
+                <div class="task-icon">
+                    <i class="fas fa-code"></i>
+                </div>
+                <div class="task-content">
+                    <div class="task-title">
+                        <span>تطوير واجهة المستخدم</span>
+                        <span class="task-status">مخطط له</span>
+                    </div>
+                    <div class="task-desc">تحسين تجربة المستخدم للنظام</div>
+                    <div class="task-time">غداً 10:00 ص</div>
+                </div>
+            </div>
+        </div>
+    </div>
+            <div class="recent-tasks animate-card">
+              </div--!>
+    <!-- شريط التنقل السفلي -->
+    <div class="bottom-nav">
+        <a href="HHX.home.html" class="nav-item active">
+            <img src="https://i.postimg.cc/3w6S7GL1/image.png" width="24" alt="الرئيسية" class="custom-icon">
+            <span>الرئيسية</span>
+        </a>
+        <a href="HHX.chat.html" class="nav-item">
+            <img src="https://i.postimg.cc/jdWKK6dw/image.png" width="24" alt="الدردشة" class="custom-icon">
+            <span>الدردشة</span>
+        </a>
+<a href="reports.html" class="nav-item">
+    <img src="https://img.icons8.com/?size=100&id=3cQj5bRpA3X8&format=png&color=000000" width="24" alt="المحتوى" class="custom-icon1">
+    <span>المحتوى</span>
+</a>
+
+<style>
+.custom-icon1 {
+    filter: brightness(0) invert(1); /* يحول الأيقونة للون أبيض */
+}
+</style>
+        <a href="HHX.me.html" class="nav-item">
+            <img src="https://i.postimg.cc/ZKSjYVVC/image.png" width="24" alt="صفحتي" class="custom-icon">
+            <span>صفحتي</span>
+        </a>
+    </div>
+<script type="module">
+import { initializeApp as initActiveApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+import { getDatabase as getActiveDB, ref as activeRef, update as activeUpdate } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js";
+
+const activeConfig = {
+  apiKey: "AIzaSyBkdgdvqCMDazd_lVDjk3AxBQv_NuoT2CY",
+  authDomain: "activeusersproject.firebaseapp.com",
+  databaseURL: "https://activeusersproject-default-rtdb.firebaseio.com",
+  projectId: "activeusersproject",
+  storageBucket: "activeusersproject.firebasestorage.app",
+  messagingSenderId: "1758034379682",
+  appId: "1:578197913531:web:74f4b5c2b7d0f429424e9e",
+  measurementId: "G-TSP2J3ERRZ"
+};
+
+const activeApp = initActiveApp(activeConfig);
+const activeDB = getActiveDB(activeApp);
+
+// بيانات العضو
+const activeUsername = "kppb2dlno5";
+const activeName = "علي الفهد";
+const activeAvatar = "https://i.postimg.cc/3x4gftZM/image.jpg";
+
+function updateActivity() {
+  activeUpdate(activeRef(activeDB, 'activeUsersTest/' + activeUsername), {
+    name: activeName,
+    avatar: activeAvatar,
+    lastActive: Date.now()
+  }).then(() => {
+    console.log("تم تحديث النشاط بنجاح");
+  }).catch(err => {
+    console.error("خطأ في التحديث:", err);
+  });
+}
+
+// تحديث أولي
+updateActivity();
+
+// تحديث دوري كل 10 ثواني
+setInterval(updateActivity, 10000);
+</script>
+</body>
+</html>
