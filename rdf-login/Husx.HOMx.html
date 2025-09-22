@@ -279,79 +279,95 @@
             margin: 2rem 0;
         }
         
-        .stats-grid {
-            display: flex;
-            justify-content: space-between;
-            gap: 0.7rem;
-            margin-bottom: 2rem;
-        }
-        
-        .stat-card {
-            background: linear-gradient(135deg, rgba(0, 170, 255, 0.15), rgba(20, 20, 30, 0.8));
-            border-radius: 12px;
-            padding: 1rem 0.7rem;
-            text-align: center;
-            border: 1px solid rgba(0, 170, 255, 0.2);
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 170, 255, 0.1);
-            position: relative;
-            overflow: hidden;
-            flex: 1;
-            min-width: 0;
-        }
-        
-        .stat-card::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at top right, rgba(0, 170, 255, 0.2), transparent 70%);
-            z-index: 0;
-        }
-        
-        .stat-card:hover {
-            transform: translateY(-3px);
-            border-color: var(--primary);
-            box-shadow: 0 8px 25px rgba(0, 170, 255, 0.2);
-        }
-        
-        .stat-icon {
-            font-size: 1.4rem;
-            margin-bottom: 0.6rem;
-            color: var(--primary);
-            position: relative;
-            z-index: 1;
-        }
-        
-        .stat-value {
-            font-size: 1.4rem;
-            font-weight: 700;
-            margin-bottom: 0.2rem;
-            color: var(--text);
-            position: relative;
-            z-index: 1;
-            background: linear-gradient(to right, var(--primary), #00ddff);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-        
-        .stat-label {
-            font-size: 0.7rem;
-            color: #aaa;
-            position: relative;
-            z-index: 1;
-        }
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+}
+
+@keyframes fadeSlideUp {
+  0% { opacity: 0; transform: translateY(20px) scale(0.95); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.stat-card {
+  background: linear-gradient(145deg, rgba(0,170,255,0.15), rgba(20,20,30,0.9));
+  border-radius: 16px;
+  padding: 0.5rem 0.8rem;
+  border: 1px solid rgba(0,170,255,0.25);
+  box-shadow: 0 4px 12px rgba(0,170,255,0.12);
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  position: relative;
+  overflow: hidden;
+  animation: fadeSlideUp 0.6s ease forwards;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 10px 25px rgba(0,170,255,0.2);
+}
+
+.stat-card::before {
+  content: "";
+  position: absolute;
+  top: -30%;
+  left: -30%;
+  width: 160%;
+  height: 160%;
+  background: radial-gradient(circle at top right, rgba(0,170,255,0.25), transparent 70%);
+  z-index: 0;
+  opacity: 0.5;
+  transition: opacity 0.3s ease;
+}
+.stat-card:hover::before {
+  opacity: 0.8;
+}
+
+/* الأيقونة على اليمين */
+.stat-icon i {
+  font-size: 1.4rem;
+  color: var(--primary);
+  flex-shrink: 0;
+}
+
+/* العمود اللي فيه الرقم والنص */
+.stat-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* الرقم والنص في الوسط عموديًا */
+  align-items: center;     /* الرقم والنص في الوسط أفقيًا */
+  flex: 1;
+  text-align: center;
+}
+
+/* الرقم */
+.stat-value {
+  font-size: 1.1rem;
+  font-weight: 700;
+  background:#99E0FF;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: 0.1rem;
+}
+
+/* الوصف */
+.stat-label {
+  font-size: 0.65rem;
+  color: #aaa;
+}
         
         /* قسم المهام المنظمة */
         .recent-tasks {
-            background: var(--card-bg);
+            /*background: var(--card-bg);*/
             border-radius: 20px;
             padding: 1.5rem;
             margin-bottom: 1.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            /*border: 1px solid rgba(255, 255, 255, 0.08);*/
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
         
@@ -583,7 +599,7 @@
     <div class="app-container">
         <!-- رأس الصفحة -->
         <div class="user-header">
-            <img src="https://i.postimg.cc/3x4gftZM/image.jpg" alt="صورة العضو" class="user-avatar">
+            <img src="https://files.catbox.moe/bce293.jpg" alt="صورة العضو" class="user-avatar">
             <div class="user-info">
                 <div class="user-greeting">مرحباً بعودتك</div>
                 <div class="user-name">حسين  الجعفري</div>
@@ -653,34 +669,34 @@
             <div class="stats-grid">
                 <div class="stat-card animate-card">
                     <div class="stat-icon">
-                        <i class="far fa-image"></i>
+        <i class="fa-solid fa-images"></i>
                     </div>
-                    <div class="stat-value">87%</div>
-                    <div class="stat-label">عدد الصور التي قمت بنشرها</div>
+                    <div class="stat-value">0</div>
+                    <div class="stat-label">الصور التي نشرتها</div>
                 </div>
                 
                 <div class="stat-card animate-card delay-1">
                     <div class="stat-icon">
                         <i class="fas fa-video"></i>
                     </div>
-                    <div class="stat-value">24</div>
-                    <div class="stat-label">عدد الفيدوهات التي قمت بنشرها</div>
+                    <div class="stat-value">0</div>
+                    <div class="stat-label">الفيدوهات التي نشرتها</div>
                 </div>
                 
                 <div class="stat-card animate-card delay-2">
                     <div class="stat-icon">
                         <i class="fas fa-lightbulb"></i>
                     </div>
-                    <div class="stat-value">48</div>
-                    <div class="stat-label">الفيديوهات المنشورة</div>
+                    <div class="stat-value">0</div>
+        <div class="stat-label">الاقتراحات التي قدمتها</div>
                 </div>
                 
                 <div class="stat-card animate-card delay-3">
                     <div class="stat-icon">
-                        <i class=""></i>
+        <i class="fas fa-users"></i>
                     </div>
-                    <div class="stat-value">100%</div>
-                    <div class="stat-label">عدد الفيدوهات التي قمت بنشرها</div>
+          <div class="stat-value">0</div>
+        <div class="stat-label">الأجتماعات التي حضرتها</div>
                 </div>
             </div>
         </div>
@@ -786,7 +802,7 @@ const activeDB = getActiveDB(activeApp);
 // بيانات العضو
 const activeUsername = "Jkk";
 const activeName = "حسين الجعفري";
-const activeAvatar = "https://i.postimg.cc/3x4gftZM/image.jpg";
+const activeAvatar = "https://files.catbox.moe/bce293.jpg";
 
 function updateActivity() {
   activeUpdate(activeRef(activeDB, 'activeUsersTest/' + activeUsername), {
