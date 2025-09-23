@@ -554,7 +554,7 @@
     <!-- شريط التنقل العلوي -->
     <nav class="navbar">
         <div class="logo-container">
-            <img src="https://i.postimg.cc/0QwwyJj3/image.png" width="100" alt="شعار R.D.F" class="logoimg">
+            <img src="https://i.postimg.cc/0QwwyJj3/image.png" width="100" alt="شعار R.D.F" class="log-img">
         </div>
         
         <div class="nav-icons">
@@ -580,7 +580,7 @@
                     <div class="group-name"> أخوة تحت عرش الرحمن</div>
                 </div>
                 <!-- زر الأعضاء النشطين المضاف -->
-                <a href="Alix.ACTx.html" class="active-members-btn">
+                <a href="Mesx.ACTx.html" class="active-members-btn">
                     <i class="fas fa-users">النشطين</i>
                     <span>الأعضاء النشطين</span>
                 </a>
@@ -616,7 +616,7 @@
     <div id="deleteConfirmModal" class="overlay confirm-modal">
         <div class="modal">
             <h2>حذف الرسالة</h2>
-            <p>هل أنت متأكد من رغبتك في حذف هذه الرسالة؟</p>
+            <p>هل أنت متأكد من رغبتك في حذف هذه الرسالة?</p>
             <p>لن يتمكن الآخرون من رؤيتها بعد الحذف.</p>
             <div class="confirm-buttons">
                 <button class="modal-button delete-button" id="confirmDeleteYes">نعم، احذف</button>
@@ -812,6 +812,9 @@ const db = getChatDB(chatApp);
                 remove(ref(db, `rooms/${roomId}/messages/${currentMessageToDelete}`));
                 alertMessage.style.display='block';
                 setTimeout(()=>{alertMessage.style.display='none';},3000);
+                
+                // هذا هو السطر المضاف لتحديث الصفحة بعد الحذف
+                location.reload();
             }
             deleteConfirmModal.style.display='none';
             currentMessageToDelete=null;
@@ -820,6 +823,7 @@ const db = getChatDB(chatApp);
             deleteConfirmModal.style.display='none';
             currentMessageToDelete=null;
         });
+
 /*** 🔴 تحديث النشاط في قاعدة activeUsersTest 🔴 ***/
 import { initializeApp as initActiveApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
 import { getDatabase as getActiveDB, ref as activeRef, update as activeUpdate } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js";
