@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>R.D.F - الأعضاء المتصلين</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+        }
+        
+        :root {
+            --dark-bg: #0a0a12;
+            --primary: #00aaff;
+            --accent: #ff003c;
+            --text: #e0e0e0;
+            --light-gray: #1e1e2a;
+            --card-bg: rgba(20, 20, 30, 0.7);
+            --glow: 0 0 15px rgba(0, 170, 255, 0.3);
+        }
+        
+        body {
+            background: linear-gradient(135deg, #080817, #0d0d1a);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* تأثيرات الخلفية */
+        .background-effects {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.1;
+        }
+        
+        .grid-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(rgba(0, 170, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 170, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        
+        /* شريط التنقل العلوي */
+        .navbar {
+            background: rgba(15, 15, 25, 0.95);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        
+        .logo-img {
+            width: 40px;
+            height: 40px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 2px solid var(--primary);
+            box-shadow: var(--glow);
+        }
+        
+        .logo-text {
+            font-size: 0.7rem;
+            font-weight: 700;
+            background: linear-gradient(to right, var(--primary), #00ddff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .nav-icons {
+            display: flex;
+            gap: 1.2rem;
+        }
+        
+        .nav-icon {
+            color: var(--text);
+            font-size: 1.4rem;
+            position: relative;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 5%;
+            background: rgba(255, 255, 255, 0.05);
+            text-decoration: none;
+        }
+        
+        .nav-icon:hover {
+            color: var(--primary);
+            transform: translateY(-3px);
+            background: rgba(0, 170, 255, 0.1);
+        }
+        
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ff003c;
+            color: white;
+            font-size: 0.7rem;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* تصميم يشبه تطبيق الجوال */
+        .app-container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 1rem;
+            padding-bottom: 80px;
+        }
+        
+        /* تصميم صفحة الأعضاء المتصلين */
+        .online-members-section {
+            margin: 1.5rem 0;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            margin: 1.5rem 0 1.2rem;
+            padding-left: 0.5rem;
+            position: relative;
+            color: var(--text);
+            font-weight: 700;
+        }
+        
+        .section-title::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            right: -0.5rem;
+            transform: translateY(-50%);
+            width: 5px;
+            height: 70%;
+            background: var(--primary);
+            border-radius: 5px;
+        }
+        
+        .online-count {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            color: #aaa;
+        }
+        
+        .online-count span {
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 1.3rem;
+        }
+        
+        .members-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 2rem;
+        }
+        
+        .member-card {
+            background: linear-gradient(135deg, rgba(0, 170, 255, 0.15), rgba(20, 20, 30, 0.7));
+            border-radius: 12px;
+            padding: 12px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            width: calc(33.333% - 12px);
+            min-width: 100px;
+            transition: all 0.2s ease;
+        }
+        
+        .member-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 170, 255, 0.2);
+        }
+        
+        .member-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary);
+            box-shadow: 0 0 8px rgba(0, 170, 255, 0.4);
+            margin: 0 auto 8px;
+            position: relative;
+        }
+        
+        .member-avatar::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 12px;
+            height: 12px;
+            background: #00ff66;
+            border-radius: 50%;
+            border: 2px solid var(--light-gray);
+            box-shadow: 0 0 4px #00ff66;
+        }
+        
+        .member-name {
+            font-size: 0.70rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            background: linear-gradient(to right, var(--primary), #00ddff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        
+        .member-time {
+            font-size: 0.7rem;
+            color: #aaa;
+        }
+        
+        .offline-message {
+            text-align: center;
+            padding: 40px;
+            color: #aaa;
+            font-size: 1.2rem;
+            width: 100%;
+        }
+        
+        .offline-message i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--light-gray);
+        }
+        
+        /* شريط التنقل السفلي */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(15, 15, 25, 0.95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-around;
+            padding: 0.8rem 0;
+            z-index: 100;
+        }
+                .back-button {
+            direction: ltr;
+            color: var(--text);
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 20px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            text-decoration: none;
+            float: left;
+            margin-left: 15px;
+            margin-top: 10px;
+            margin-bottom: 25px;
+        }
+
+        .back-button:hover {
+            color: var(--primary);
+            transform: translateY(-3px);
+            background: rgba(0, 170, 255, 0.1);
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #aaa;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            padding: 5px 15px;
+            border-radius: 15px;
+        }
+        
+        .nav-item i {
+            font-size: 1.5rem;
+            margin-bottom: 0.3rem;
+        }
+        
+        .nav-item.active, .nav-item:hover {
+            color: var(--primary);
+            background: rgba(0, 170, 255, 0.1);
+            transform: translateY(-3px);
+        }
+        
+        .custom-icon1 {
+            filter: brightness(0) invert(1);
+        }
+        
+        /* ضبط التنسيق لجميع أحجام الشاشات */
+        @media (max-width: 400px) {
+            .member-card {
+                width: calc(33.333% - 8px);
+                padding: 8px;
+            }
+            
+            .member-avatar {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .member-name {
+                font-size: 0.75rem;
+            }
+            
+            .member-time {
+                font-size: 0.65rem;
+            }
+        }
+        
+        @media (max-width: 320px) {
+            .member-card {
+                width: calc(33.333% - 6px);
+                padding: 6px;
+            }
+            
+            .member-avatar {
+                width: 35px;
+                height: 35px;
+            }
+            
+            .member-name {
+                font-size: 0.7rem;
+            }
+            
+            .member-time {
+                font-size: 0.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- تأثيرات الخلفية -->
+    <div class="background-effects">
+        <div class="grid-overlay"></div>
+    </div>
+    
+    <!-- شريط التنقل العلوي -->
+    <nav class="navbar">
+        <div class="logo-container">
+            <img src="https://i.postimg.cc/0QwwyJj3/image.png" width="100" alt="شعار R.D.F" class="logo-img">
+        </div>
+        
+        <div class="nav-icons">
+            <a href="message.html" class="nav-icon">
+                <i class="fa-regular fa-bell"></i>
+            </a>
+            <a href="CUP.html" class="nav-icon">
+                <i class="fas fa-info" style="color: #DDDDDD; font-size: 19px;"></i>
+            </a>
+        </div>
+    </nav>
+        <a href="home.html" class="back-button">
+        <i class="fas fa-arrow-left"></i>
+    </a>
+    <!-- تصميم يشبه تطبيق الجوال -->
+    <div class="app-container">
+        <!-- قسم الأعضاء المتصلين -->
+        <div class="online-members-section">
+            <h2 class="section-title">الأعضاء المتصلين</h2>
+            <div class="online-count">عدد الأعضاء المتصلين: <span id="online-count">0</span></div>
+            
+            <div class="members-container" id="members-container">
+                <!-- سيتم إضافة الأعضاء هنا عبر JavaScript -->
+                <div class="offline-message">
+                    <i class="fas fa-users"></i>
+                    <p>لا يوجد أعضاء متصلين حالياً</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- شريط التنقل السفلي -->
+    <div class="bottom-nav">
+        <a href="HHX.home.html" class="nav-item">
+            <img src="https://i.postimg.cc/1RYdGs59/image.png" width="24" alt="الرئيسية" class="custom-icon">
+            <span>الرئيسية</span>
+        </a>
+        <a href="HHX.chat.html" class="nav-item active">
+            <img src="https://files.catbox.moe/az0p60.png" width="24" alt="الدردشة" class="custom-icon">
+            <span>الدردشة</span>
+        </a>
+        <a href="reports.html" class="nav-item">
+            <img src="https://img.icons8.com/?size=100&id=3cQj5bRpA3X8&format=png&color=000000" width="24" alt="المحتوى" class="custom-icon1">
+            <span>المحتوى</span>
+        </a>
+        <a href="HHX.me.html" class="nav-item">
+            <img src="https://i.postimg.cc/ZKSjYVVC/image.png" width="24" alt="صفحتي" class="custom-icon">
+            <span>صفحتي</span>
+        </a>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+        import { getDatabase, ref, onValue, update } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBkdgdvqCMDazd_lVDjk3AxBQv_NuoT2CY",
+            authDomain: "activeusersproject.firebaseapp.com",
+            databaseURL: "https://activeusersproject-default-rtdb.firebaseio.com",
+            projectId: "activeusersproject",
+            storageBucket: "activeusersproject.firebasestorage.app",
+            messagingSenderId: "578197913531",
+            appId: "1:578197913531:web:74f4b5c2b7d0f429424e9e",
+            measurementId: "G-TSP2J3ERRZ"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        // اسم العضو الحالي
+        const username = "Abdulrahman";
+
+        // تحديث lastActive بدون حذف البيانات الأخرى
+        function updateActivity() {
+            update(ref(database, 'activeUsersTest/' + username), {
+                lastActive: Date.now()
+            });
+        }
+        updateActivity();
+        setInterval(updateActivity, 10000); // كل 10 ثواني
+
+        // عرض الأعضاء النشطين
+        const container = document.getElementById('members-container');
+        const onlineCountElement = document.getElementById('online-count');
+        const dbRef = ref(database, 'activeUsersTest');
+
+        onValue(dbRef, (snapshot) => {
+            const now = Date.now();
+            let count = 0;
+            let membersHTML = '';
+
+            snapshot.forEach(userSnap => {
+                const userObj = userSnap.val();
+                if(userObj.lastActive && now - userObj.lastActive < 300000){ // آخر 5 دقائق
+                    count++;
+                    const name = userObj.name || userSnap.key;
+                    const avatar = userObj.avatar || "";
+
+                    // حساب الوقت منذ آخر نشاط
+                    const diffMs = now - userObj.lastActive;
+                    let diffText = "";
+                    if(diffMs < 60000){ 
+                        diffText = "الآن";
+                    } else if(diffMs < 3600000){ 
+                        const minutes = Math.floor(diffMs / 60000);
+                        diffText = `${minutes} د`;
+                    } else {
+                        const hours = Math.floor(diffMs / 3600000);
+                        diffText = `${hours} س`;
+                    }
+
+                    membersHTML += `
+                        <div class="member-card">
+                            ${avatar ? `<img src="${avatar}" alt="${name}" class="member-avatar">` : '<div class="member-avatar"><i class="fas fa-user" style="font-size: 25px; line-height: 50px;"></i></div>'}
+                            <h3 class="member-name">${name}</h3>
+                            <div class="member-time">${diffText}</div>
+                        </div>
+                    `;
+                }
+            });
+
+            onlineCountElement.textContent = count;
+            
+            if(count > 0){
+                container.innerHTML = membersHTML;
+            } else {
+                container.innerHTML = `
+                    <div class="offline-message">
+                        <i class="fas fa-users"></i>
+                        <p>لا يوجد أعضاء متصلين حالياً</p>
+                    </div>
+                `;
+            }
+        });
+    </script>
+</body>
+</html>
