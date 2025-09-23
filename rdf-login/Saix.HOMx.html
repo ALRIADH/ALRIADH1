@@ -1,36 +1,44 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>R.D.F - الصفحة الرئيسية</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Cairo', sans-serif;
-        }
-        
-        :root {
-            --dark-bg: #0a0a12;
-            --primary: #00aaff;
-            --accent: #ff003c;
-            --text: #e0e0e0;
-            --light-gray: #1e1e2a;
-            --card-bg: rgba(20, 20, 30, 0.7);
-            --glow: 0 0 15px rgba(0, 170, 255, 0.3);
-        }
-        
-        body {
-            background: linear-gradient(135deg, #080817, #0d0d1a);
-            color: var(--text);
-            min-height: 100vh;
-            overflow-x: hidden;
-            position: relative;
-        }
+       <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>R.D.F - الصفحة الرئيسية</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+    /* هنا نعرّف الخط من ملفك على GitHub */
+    @font-face {
+        font-family: 'Cairo';
+        src: url('fonts/Cairo[slnt,wght].ttf') format('truetype');
+        font-weight: 100 900; /* لأن الخط متغير */
+        font-style: normal;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Cairo', sans-serif;
+    }
+
+    :root {
+        --dark-bg: #0a0a12;
+        --primary: #00aaff;
+        --accent: #ff003c;
+        --text: #e0e0e0;
+        --light-gray: #1e1e2a;
+        --card-bg: rgba(20, 20, 30, 0.7);
+        --glow: 0 0 15px rgba(0, 170, 255, 0.3);
+    }
+
+    body {
+        background: linear-gradient(135deg, #080817, #0d0d1a);
+        color: var(--text);
+        min-height: 100vh;
+        overflow-x: hidden;
+        position: relative;
+    }
         
         /* تأثيرات الخلفية */
         .background-effects {
