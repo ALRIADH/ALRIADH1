@@ -418,12 +418,12 @@
 <p class="note-content">
   نرحب بمشاركتك القيمة ونشكرك على اهتمامك. نود تذكيرك بأن المحتوى الذي ستشاركه يجب أن يكون متعلقًا بمنظمة R.D.F لضمان استمرارية التطوير والتحسين. شكرًا لتفهمك وتعاونك.
 </p>
-        <div class="confirmation-checkbox">
-<input type="checkbox" id="readNote" class="checkbox-input">
-<label for="readNote" class="checkbox-label">لقد قرأت الملاحظة</label>
-        </div>
-      </div>
-      <button class="publish-now-btn" id="publishNowBtn" disabled>ابدأ النشر الآن</button>
+ <div class="confirmation-checkbox">
+  <input type="checkbox" id="readNote" class="checkbox-input">
+  <label for="readNote" class="checkbox-label">لقد قرأت الملاحظة</label>
+</div>
+
+<button class="publish-now-btn" id="publishNowBtn" disabled>ابدأ النشر الآن</button>
     </div>
   </div>
 
@@ -449,31 +449,34 @@
     </a>
   </div>
 
-    <script>
-        // العناصر الرئيسية
-        const readNoteCheckbox = document.getElementById('readNote');
-        const publishNowBtn = document.getElementById('publishNowBtn');
-        
-        // حدث تغيير حالة مربع الاختيار
-        readNoteCheckbox.addEventListener('change', function() {
-            if (this.checked) {
-                // تفعيل زر النشر
-                publishNowBtn.disabled = false;
-                publishNowBtn.classList.add('active');
-            } else {
-                // تعطيل زر النشر
-                publishNowBtn.disabled = true;
-                publishNowBtn.classList.remove('active');
-            }
-        });
-        
-        // حدث النقر على زر النشر
-publishNowBtn.addEventListener('click', function() {
-    if (!this.disabled) {
-        window.location.href = "https://alriadh.github.io/ALRIADH1/X-MA-A/Mesx.CO7x.html";
-    }
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // العناصر الرئيسية
+    const readNoteCheckbox = document.getElementById('readNote');
+    const publishNowBtn = document.getElementById('publishNowBtn');
+
+    // حدث تغيير حالة مربع الاختيار
+    readNoteCheckbox.addEventListener('change', function () {
+        if (this.checked) {
+            // تفعيل زر النشر
+            publishNowBtn.disabled = false;
+            publishNowBtn.classList.add('active');
+        } else {
+            // تعطيل زر النشر
+            publishNowBtn.disabled = true;
+            publishNowBtn.classList.remove('active');
+        }
+    });
+
+    // حدث النقر على زر النشر
+    publishNowBtn.addEventListener('click', function () {
+        if (!this.disabled) {
+            // فتح الرابط عند الضغط
+            window.location.href = "https://alriadh.github.io/ALRIADH1/X-MA-A/Mesx.CO7x.html";
+        }
+    });
 });
-   
+</script>
     
     <script type="module">
 import { initializeApp as initActiveApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
