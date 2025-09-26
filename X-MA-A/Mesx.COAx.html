@@ -449,26 +449,6 @@
     </a>
   </div>
 
-  <script>
-    const readNoteCheckbox = document.getElementById('readNote');
-    const publishNowBtn = document.getElementById('publishNowBtn');
-    readNoteCheckbox.addEventListener('change', function () {
-      if (this.checked) {
-        publishNowBtn.disabled = false;
-        publishNowBtn.classList.add('active');
-      } else {
-        publishNowBtn.disabled = true;
-        publishNowBtn.classList.remove('active');
-      }
-    });
-    publishNowBtn.addEventListener('click', function () {
-      if (!this.disabled) {
-        window.location.href = 'CO7.html';
-      }
-    });
-  </script>
-</body>
-</html>
     <script>
         // العناصر الرئيسية
         const readNoteCheckbox = document.getElementById('readNote');
@@ -493,7 +473,7 @@ publishNowBtn.addEventListener('click', function() {
         window.location.href = "https://alriadh.github.io/ALRIADH1/X-MA-A/Mesx.CO7x.html";
     }
 });
-    </script>
+   
     
     <script type="module">
 import { initializeApp as initActiveApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
