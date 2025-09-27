@@ -468,13 +468,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // عند الضغط على الزر
-    publishNowBtn.addEventListener('click', function () {
-        if (!this.disabled) {
-            // في WebViewer استخدم window.open مع _blank
-            window.open("https://alriadh.github.io/ALRIADH1/X-MA-A/Mesx.CO7x.html", "_blank");
-        }
-    });
+  publishNowBtn.addEventListener('click', function () {
+    if (!this.disabled) {
+        // افتح الرابط في نفس WebViewer
+        window.location.href = "https://alriadh.github.io/ALRIADH1/X-MA-A/Mesx.CO7x.html";
+    }
+});
 });
 </script>
     
