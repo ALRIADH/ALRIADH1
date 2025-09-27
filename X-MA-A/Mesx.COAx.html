@@ -1,44 +1,37 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-   <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>R.D.F - الصفحة الرئيسية</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-<style>
-    /* هنا نعرّف الخط من ملفك على GitHub */
-    @font-face {
-        font-family: 'Cairo';
-        src: url('fonts/Cairo[slnt,wght].ttf') format('truetype');
-        font-weight: 100 900; /* لأن الخط متغير */
-        font-style: normal;
-    }
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>R.D.F - شارك بمحتوى جديد</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
     * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: 'Cairo', sans-serif;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Cairo', sans-serif;
     }
 
     :root {
-        --dark-bg: #0a0a12;
-        --primary: #00aaff;
-        --accent: #ff003c;
-        --text: #e0e0e0;
-        --light-gray: #1e1e2a;
-        --card-bg: rgba(20, 20, 30, 0.7);
-        --glow: 0 0 15px rgba(0, 170, 255, 0.3);
+      --dark-bg: #0a0a12;
+      --primary: #00aaff;
+      --accent: #ff003c;
+      --text: #e0e0e0;
+      --light-gray: #1e1e2a;
+      --card-bg: rgba(20, 20, 30, 0.7);
+      --glow: 0 0 15px rgba(0, 170, 255, 0.3);
     }
 
     body {
-        background: linear-gradient(135deg, #080817, #0d0d1a);
-        color: var(--text);
-        min-height: 100vh;
-        overflow-x: hidden;
-        position: relative;
+      background: linear-gradient(135deg, #080817, #0d0d1a);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
     }
+
     /* تأثيرات الخلفية */
     .background-effects {
       position: fixed;
@@ -400,8 +393,7 @@
     </div>
   </nav>
     <!-- زر الرجوع -->
-   <a href="https://alriadh.github.io/ALRIADH1/X-MA-A/Mesx.CONx.html" target="_blank"
- class="back-button">
+    <a href="home.html" class="back-button">
         <i class="fas fa-arrow-left"></i>
     </a>
   <div class="app-container">
@@ -418,12 +410,12 @@
 <p class="note-content">
   نرحب بمشاركتك القيمة ونشكرك على اهتمامك. نود تذكيرك بأن المحتوى الذي ستشاركه يجب أن يكون متعلقًا بمنظمة R.D.F لضمان استمرارية التطوير والتحسين. شكرًا لتفهمك وتعاونك.
 </p>
- <div class="confirmation-checkbox">
-  <input type="checkbox" id="readNote" class="checkbox-input">
-  <label for="readNote" class="checkbox-label">لقد قرأت الملاحظة</label>
-</div>
-
-<button class="publish-now-btn" id="publishNowBtn" disabled>ابدأ النشر الآن</button>
+        <div class="confirmation-checkbox">
+          <input type="checkbox" id="readNote" class="checkbox-input">
+          <label for="readNote" class="checkbox-label">لقد قرأت الملاحظة</label>
+        </div>
+      </div>
+      <button class="publish-now-btn" id="publishNowBtn" disabled>ابدأ النشر الآن</button>
     </div>
   </div>
 
@@ -433,50 +425,50 @@
       <img src="https://i.postimg.cc/1RYdGs59/image.png" width="24" alt="الرئيسية" class="custom-icon">
       <span>الرئيسية</span>
     </a>
-<a href="https://alriadh.github.io/ALRIADH1/X-MA-A/Mesx.CHAx.html" target="_blank"
- class="nav-item">
+    <a href="chat.html" class="nav-item">
       <img src="https://i.postimg.cc/jdWKK6dw/image.png" width="24" alt="الدردشة" class="custom-icon">
       <span>الدردشة</span>
     </a>
-        <a href="#" class="nav-item active">
+        <a href="reports.html" class="nav-item active">
             <img src="https://img.icons8.com/?size=100&id=3cQj5bRpA3X8&format=png&color=00aaff" width="24" alt="المحتوى" class="custom-icon1">
             <span>المحتوى</span>
         </a>
-   <a href="https://alriadh.github.io/ALRIADH1/X-MA-A/Mesx.PROx.html" target="_blank"
- class="nav-item">
-      <img src="https://i.postimg.cc/ZKSjYVVC/image.png" width="24" alt="صفحتي" class="custom-icon">
-      <span>صفحتي</span>
+    <a href="version.html" class="nav-item">
+      <img src="https://i.postimg.cc/ZKSjYVVC/image.png" width="24" alt="الإصدار" class="custom-icon">
+      <span>الإصدار</span>
     </a>
   </div>
 
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-    // العناصر الرئيسية
-    const readNoteCheckbox = document.getElementById('readNote');
-    const publishNowBtn = document.getElementById('publishNowBtn');
+<!-- زر النشر -->
+<button class="publish-now-btn" id="publishNowBtn" disabled style="display:none;">ابدأ النشر الآن</button>
 
-    // عند تغيير حالة مربع الاختيار
-    readNoteCheckbox.addEventListener('change', function () {
-        if (this.checked) {
-            // تفعيل زر النشر
-            publishNowBtn.disabled = false;
-            publishNowBtn.classList.add('active');
-        } else {
-            // تعطيل زر النشر
-            publishNowBtn.disabled = true;
-            publishNowBtn.classList.remove('active');
-        }
-    });
+<script>
+  const readNoteCheckbox = document.getElementById('readNote');
+  const publishNowBtn = document.getElementById('publishNowBtn');
+
+  readNoteCheckbox.addEventListener('change', function () {
+    if (this.checked) {
+      // تفعيل وإظهار زر النشر
+      publishNowBtn.disabled = false;
+      publishNowBtn.classList.add('active');
+      publishNowBtn.style.display = 'inline-block';
+    } else {
+      // تعطيل وإخفاء زر النشر
+      publishNowBtn.disabled = true;
+      publishNowBtn.classList.remove('active');
+      publishNowBtn.style.display = 'none';
+    }
+  });
 
   publishNowBtn.addEventListener('click', function () {
     if (!this.disabled) {
-        // افتح الرابط في نفس WebViewer
-        window.location.href = "https://alriadh.github.io/ALRIADH1/X-MA-A/Mesx.CO7x.html";
+      // هنا ما نفتح نافذة جديدة
+      // فقط نبعث رسالة للكودولار أن يفتح الرابط في WebViewer
+      window.location.href = "https://alriadh.github.io/ALRIADH1/X-MA-A/Alix.CO7x.html";
     }
-});
-});
-</script>
+  });
     
+</script>
     <script type="module">
 import { initializeApp as initActiveApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
 import { getDatabase as getActiveDB, ref as activeRef, update as activeUpdate } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js";
@@ -496,9 +488,9 @@ const activeApp = initActiveApp(activeConfig);
 const activeDB = getActiveDB(activeApp);
 
 // بيانات العضو
-const activeUsername = "Ali";
-const activeName = "مشعل الشوكي";
-const activeAvatar = "https://files.catbox.moe/4je8hs.jpg";
+const activeUsername = "عبدالرحمن الشوكي";
+const activeName = "عبدالرحمن الشوكي";
+const activeAvatar = "https://files.catbox.moe/ne3tq8.jpg";
 
 function updateActivity() {
   activeUpdate(activeRef(activeDB, 'activeUsersTest/' + activeUsername), {
