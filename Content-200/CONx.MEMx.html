@@ -13,7 +13,7 @@
             box-sizing: border-box;
             font-family: 'Cairo', sans-serif;
         }
-        
+
         :root {
             --dark-bg: #0a0a12;
             --primary: #00aaff;
@@ -24,7 +24,7 @@
             --glow: 0 0 15px rgba(0, 170, 255, 0.3);
             --verified-badge: #0099ff;
         }
-        
+
         body {
             background: linear-gradient(135deg, #080817, #0d0d1a);
             color: var(--text);
@@ -33,7 +33,7 @@
             position: relative;
             padding-top: 10px;
         }
-        
+
         /* تأثيرات الخلفية */
         .background-effects {
             position: fixed;
@@ -45,7 +45,7 @@
             z-index: -1;
             opacity: 0.1;
         }
-        
+
         .grid-overlay {
             position: absolute;
             top: 0;
@@ -57,19 +57,19 @@
                 linear-gradient(90deg, rgba(0, 170, 255, 0.05) 1px, transparent 1px);
             background-size: 40px 40px;
         }
-        
+
         /* تصميم يشبه تطبيق الجوال */
         .app-container {
             max-width: 500px;
             margin: 0 auto;
             padding: 0.5rem;
         }
-        
+
         /* قسم المنشورات */
         .posts-container {
             margin-top: 10px;
         }
-        
+
         .post {
             background: var(--card-bg);
             border-radius: 16px;
@@ -78,7 +78,7 @@
             border: 1px solid rgba(255, 255, 255, 0.08);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
-        
+
         .post-header {
             padding: 12px 16px;
             display: flex;
@@ -86,7 +86,7 @@
             gap: 10px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         }
-        
+
         .post-avatar {
             width: 40px;
             height: 40px;
@@ -94,11 +94,11 @@
             object-fit: cover;
             border: 2px solid var(--primary);
         }
-        
+
         .post-user-info {
             flex: 1;
         }
-        
+
         .post-username {
             font-weight: 600;
             font-size: 1rem;
@@ -106,7 +106,7 @@
             align-items: center;
             gap: 5px;
         }
-        
+
         .verified-badge {
             color: var(--verified-badge);
             font-size: 0.9rem;
@@ -114,49 +114,49 @@
             align-items: center;
             justify-content: center;
         }
-        
+
         .post-time {
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             color: #aaa;
         }
-        
+
         .post-content {
             padding: 0;
             position: relative;
         }
-        
+
         .post-media {
             width: 100%;
             display: block;
             max-height: 500px;
             object-fit: cover;
         }
-        
+
         .post-video {
             width: 100%;
             display: block;
             max-height: 500px;
             background: #000;
         }
-        
+
         .post-text {
             padding: 13px;
             font-size: 0.95rem;
             line-height: 1.5;
         }
-        
+
         /* تصميم متجاوب */
         @media (max-width: 600px) {
             .app-container {
                 padding: 0.5rem;
             }
         }
-        
+
         /* تأثيرات للفيديو عند التشغيل */
         .playing {
             box-shadow: 0 0 15px rgba(0, 170, 255, 0.5);
         }
-        
+
         .scroll-top-btn {
             position: fixed;
             bottom: 70px;
@@ -176,7 +176,7 @@
             z-index: 99;
             box-shadow: 0 0 15px rgba(0, 170, 255, 0.0);
         }
-        
+
         .scroll-top-btn:hover {
             background: rgba(0, 170, 255, 0.3);
             transform: translateY(-5px);
@@ -188,16 +188,16 @@
     <div class="background-effects">
         <div class="grid-overlay"></div>
     </div>
-    
+
     <div class="app-container">
         <div class="posts-container">
             <!-- منشور صورة 1 -->
             <div class="post">
                 <div class="post-header">
-                    <img src="https://files.catbox.moe/upcmrv.jpg" class="post-avatar" alt="صورة المستخدم">
+                    <img src="https://files.catbox.moe/4je8hs.jpg" class="post-avatar" alt="صورة العضو">
                     <div class="post-user-info">
                         <div class="post-username">مشعل الشوكي</div>
-                        <div class="post-time">2025/9/13</div>
+                        <div class="post-time">M001 - 2025/10/02</div>
                     </div>
                 </div>
                 <div class="post-content">
@@ -207,11 +207,11 @@
          صورة تجمعني مع احدى اعضاء منظمة R.D.F
                 </div>
             </div>
-            
+
             <!-- منشور فيديو 1 --
             <div class="post">
                 <div class="post-header">
-                    <img src="https://i.postimg.cc/MZ9VWCP2/image.jpg" class="post-avatar" alt="صورة المستخدم">
+                    <img src="https://i.postimg.cc/MZ9VWCP2/image.jpg" class="post-avatar" alt="صورة العضو">
                     <div class="post-user-info">
                         <div class="post-username">سعيد</div>
                         <div class="post-time">منذ 9 ساعات</div>
@@ -224,7 +224,7 @@
                     </video>
                 </div>
                 <div class="post-text">
-                    الفيديو الثالث يوضح كيفية تفاعل المستخدم مع المحتوى وكيفية إدارة التشغيل.
+                    الفيديو الثالث يوضح كيفية تفاعل العضو مع المحتوى وكيفية إدارة التشغيل.
                 </div>
             </div-->
         </div>
@@ -239,7 +239,7 @@
         // كود لإيقاف الفيديو عند التمرير بعيداً عنه
         document.addEventListener('DOMContentLoaded', function() {
             const videos = document.querySelectorAll('video');
-            
+
             // إنشاء مراقب للعناصر
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
@@ -251,16 +251,16 @@
                     }
                 });
             }, { threshold: 0.5 }); // عندما يكون 50% من الفيديو مرئياً
-            
+
             // مراقبة كل فيديو
             videos.forEach(video => {
                 observer.observe(video);
-                
+
                 // إضافة تأثير عند التشغيل والإيقاف
                 video.addEventListener('play', function() {
                     this.parentElement.classList.add('playing');
                 });
-                
+
                 video.addEventListener('pause', function() {
                     this.parentElement.classList.remove('playing');
                 });
@@ -268,7 +268,7 @@
 
             // زر العودة للأعلى
             const scrollTopBtn = document.getElementById('scrollTopBtn');
-            
+
             window.addEventListener('scroll', () => {
                 if (window.pageYOffset > 300) {
                     scrollTopBtn.style.display = 'flex';
@@ -276,7 +276,7 @@
                     scrollTopBtn.style.display = 'none';
                 }
             });
-            
+
             scrollTopBtn.addEventListener('click', () => {
                 window.scrollTo({
                     top: 0,
