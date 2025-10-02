@@ -9,24 +9,12 @@
     :root{
       --primary-color:#00AAFF; --secondary-color:#1e40af; --dark-bg:#0A0A12;
       --card-bg:#0A0A12; --border-color:#334155; --text-color:#e2e8f0;
-      --my-msg-bg:#006DA5; --other-msg-bg:#1E1E2A; --primary:#00aaff; --text:#e0e0e0;
+      --my-msg-bg:#163E65; --other-msg-bg:#1E1E2A; --primary:#00aaff; --text:#e0e0e0;
       --glow:0 0 15px rgba(0,170,255,0.3);
+      --reply-bg: rgba(255,255,255,0.1);
+      --reply-border: #00aaff;
     }
-    /* هذا يتحكم في عرض كل مساحة الرسائل */
-#messages li {
-  max-width: 90%;      /* عرض الرسالة */
-  margin: 5px 0;       /* مسافة فوق وتحت بس */
-  margin-right: auto;  /* يخليها تلصق يمين */
-  margin-left: 0;      /* يلغى الوسط */
-  text-align: right;   /* محتوى الرسالة على اليمين */
-}
-#messages li {
-  max-width: 90%;      /* عرض الرسالة */
-  float: left;         /* يخلي الرسالة نفسها في اليسار */
-  clear: both;         /* يمنع التداخل بين الرسائل */
-  text-align: left;    /* يخلي نص الرسالة لليسار */
-  margin: 5px 0;       /* مسافة فوق وتحت */
-}
+    
     *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Tahoma, Geneva, Verdana, sans-serif;}
     body{background:var(--dark-bg);color:var(--text-color);padding-top:80px;}
     .navbar{background:rgba(15,15,25,0.95);border-bottom:1px solid rgba(255,255,255,0.1);padding:1rem 1.5rem;display:flex;justify-content:space-between;align-items:center;position:fixed;top:0;left:0;right:0;z-index:1000;backdrop-filter:blur(10px);box-shadow:0 5px 20px rgba(0,0,0,0.3);}
@@ -52,144 +40,353 @@
     .messages-container{flex:1;overflow-y:auto;padding:20px 16px;scroll-behavior:smooth;}
     .messages-container::-webkit-scrollbar{width:8px;}
     .messages-container::-webkit-scrollbar-thumb{background:var(--border-color);border-radius:4px;}
-    #messages{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:15px;}
-    .message{display:flex;gap:10px;max-width:80%;animation:fadeIn .3s;transition:transform .3s;}
-    @keyframes fadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
-    .my-message{align-self:flex-end;flex-direction:row-reverse;}
-    .other-message{align-self:flex-start;}
-    .avatar{width:40px;height:40px;border-radius:50%;object-fit:cover;align-self:flex-end;flex-shrink:0;border:1px solid var(--border-color);}
-    .message-content{display:flex;flex-direction:column;gap:5px;}
-    .bubble{padding:12px 16px;border-radius:18px;max-width:100%;word-break:break-word;cursor:pointer;transition:transform .2s,box-shadow .2s;position:relative;}
-    .my-message .bubble{background:var(--my-msg-bg);color:white;border-bottom-right-radius:5px;}
-    .other-message .bubble{background:var(--other-msg-bg);color:var(--text-color);border-bottom-left-radius:5px;}
-    .bubble:hover{transform:translateY(-2px);box-shadow:0 4px 8px rgba(0,0,0,0.2);}
-    .message-info{font-size:12px;opacity:.8;display:flex;gap:8px;padding:0 5px;}
+    #messages{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px;}
+    
+    /* تعديلات الرسائل - محاذاة بجانب الصورة */
+    .message{
+      display:flex;
+      gap: 8px;
+      max-width: 85%;
+      animation:fadeIn .3s;
+      align-items: flex-start;
+    }
+    
+    @keyframes fadeIn{
+      from{opacity:0;transform:translateY(10px);}
+      to{opacity:1;transform:translateY(0);}
+    }
+    
+    .my-message{
+      align-self:flex-end;
+      flex-direction: row-reverse;
+    }
+    
+    .other-message{
+      align-self:flex-start;
+    }
+    
+    .avatar{
+      width:36px;
+      height:36px;
+      border-radius:50%;
+      object-fit:cover;
+      flex-shrink:0;
+      border:1px solid var(--border-color);
+      margin-top: 0; /* إزالة الهامش العلوي */
+    }
 
-    .reply-preview{background: #0F0F39FF ;border-right:4px solid var(--primary-color);padding:4px 15px;margin-bottom:10px;border-radius:8px;display:flex;justify-content:space-between;align-items:center;animation:slideDown .3s;}
-    .reply-preview-content{flex:1;display:flex;flex-direction:column;gap:5px;}
-    .reply-preview-sender{font-weight:bold;color:var(--primary-color);font-size:14px;}
-    .reply-preview-text{font-size:14px;color:var(--text-color);opacity:.9;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:300px;}
-    .reply-preview-cancel{background:none;border:none;color:var(--text-color);font-size:18px;cursor:pointer;padding:5px;margin-right:10px;}
-    @keyframes slideDown{from{opacity:0;transform:translateY(-10px);}to{opacity:1;transform:translateY(0);}}
+    /* تعديل فقاعات الرسائل لتكون مستطيلة أكثر */
+    .bubble {
+      position: relative;
+      padding: 8px 12px;
+      border-radius: 8px; /* زوايا أقل استدارة */
+      font-size: 14px;
+      max-width: 100%;
+      word-break: break-word;
+      line-height: 1.4;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+      min-width: 60px; /* عرض أدنى للفقاعة */
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
 
-    .message-form{display:flex;gap:12px;padding:20px 16px;background:var(--dark-bg);position:relative;z-index:10;flex-shrink:0;flex-direction:column;}
-    .message-input{flex:1;padding:14px 18px;border-radius:4px;border:1px solid var(--border-color);background:var(--card-bg);color:var(--text-color);font-size:16px;outline:none;}
-    .send-button{padding:14px 20px;border-radius:4px;border:none;background:var(--primary-color);color:white;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;}
-    .send-button:hover{background:var(--secondary-color);}
+    .my-message .bubble {
+      background: var(--my-msg-bg);
+      color: white;
+      border-top-left-radius: 8px;
+      border-top-right-radius: 2px;
+      border-bottom-left-radius: 8px;
+      border-bottom-right-radius: 8px;
+    }
 
-/* خلفية تغطي الصفحة عند ظهور المودال */
-.overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0,0,0,0.5); /* خلفية شفافة */
-  display: none; /* مخفية بشكل افتراضي */
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-}
+    .other-message .bubble {
+      background: var(--other-msg-bg);
+      color: var(--text-color);
+      border-top-left-radius: 2px;
+      border-top-right-radius: 8px;
+      border-bottom-left-radius: 8px;
+      border-bottom-right-radius: 8px;
+    }
 
-/* المودال نفسه */
-.modal {
-  background: #0F0919FF;
-  padding: 20px;
-  border-radius: 10px;
-  width: 300px;
-  max-width: 90%;
-  text-align: center;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-  animation: fadeIn 0.3s ease;
-  border: 0.4px solid #888; /* هذا الإطار الرمادي 1px */
-}
-.modal h2 {
-  margin-bottom: 10px;
-  font-size: 18px;
-}
+    /* تأثير للضغط المزدوج */
+    .bubble.double-tap-effect {
+      animation: doubleTap 0.5s ease;
+    }
 
-.modal p {
-  font-size: 14px;
-  margin-bottom: 15px;
-}
+    @keyframes doubleTap {
+      0% { transform: scale(1); }
+      50% { transform: scale(0.95); background-color: rgba(255, 0, 0, 0.2); }
+      100% { transform: scale(1); }
+    }
 
-.confirm-buttons {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-}
+    /* تصغير وتعديل شكل الردود */
+    .reply-container {
+      background: rgba(255, 255, 255, 0.08);
+      border-right: 3px solid var(--reply-border);
+      border-radius: 4px; /* زوايا أقل استدارة */
+      padding: 4px 8px; /* تصغير المسافات الداخلية */
+      margin-bottom: 4px;
+      max-width: 100%; /* استخدام العرض الكامل */
+      cursor: pointer;
+      font-size: 11px; /* تصغير الخط */
+      transition: all 0.2s ease;
+    }
 
-.modal-button {
-  flex: 1;
-  padding: 8px 10px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 14px;
-}
+    .reply-container:hover {
+      background: rgba(255, 255, 255, 0.12);
+    }
 
-/* زر الحذف */
-.delete-button {
-  background-color: #f44336;
-  color: #fff;
-}
+    .reply-sender {
+      color: var(--primary-color);
+      font-weight: 600;
+      margin-bottom: 1px;
+      font-size: 10px;
+    }
 
-.delete-button:hover {
-  background-color: #d32f2f;
-}
+    .reply-text {
+      color: var(--text-color);
+      opacity: 0.9;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 10px;
+    }
 
-/* زر الإلغاء */
-.cancel-button {
-  background-color: #ccc;
-  color: #000;
-}
+    /* معاينة الرد */
+    .reply-preview {
+      background: var(--reply-bg);
+      border-right: 3px solid var(--reply-border);
+      padding: 6px 10px;
+      margin-bottom: 8px;
+      border-radius: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
-.cancel-button:hover {
-  background-color: #bbb;
-}
+    .reply-preview-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
 
-/* تنبيه بعد الحذف */
-.alert {
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: #4caf50;
-  color: #fff;
-  padding: 10px 15px;
-  border-radius: 5px;
-  font-size: 14px;
-  display: none; /* مخفي افتراضياً */
-  z-index: 10000;
-  animation: fadeIn 0.3s ease;
-}
-/* الرسالة المقتبس منها الرد داخل الرسالة */
-.reply-message {
-  background-color: #f0; /* لون خفيف عن خلفية الرسالة */
-  border-left: 3px solid #00aaff; /* خط على اليسار يوضح الرد */
-  padding: 4px 8px;
-  margin-bottom: 4px;
-  border-radius: 5px;
-  font-size: 13px;
-  word-wrap: break-word;
-}
-/* حركة بسيطة عند الظهور */
-@keyframes fadeIn {
-  from {opacity: 0; transform: scale(0.9);}
-  to {opacity: 1; transform: scale(1);}
-}
+    .reply-preview-sender {
+      color: var(--primary-color);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .reply-preview-text {
+      color: var(--text-color);
+      opacity: 0.85;
+      font-size: 12px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      max-width: 250px;
+    }
+
+    .reply-preview-cancel {
+      background: none;
+      border: none;
+      color: var(--text-color);
+      font-size: 16px;
+      cursor: pointer;
+      padding: 5px;
+      margin-right: 10px;
+    }
+
+    /* تحسين المسافات */
+    .message-content {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      flex: 1;
+    }
+
+    .message-info {
+      font-size: 11px;
+      opacity: 0.7;
+      display: flex;
+      gap: 8px;
+      padding: 0 2px;
+      margin-top: 1px;
+    }
+
+    .message-form {
+      display: flex;
+      gap: 12px;
+      padding: 15px 16px;
+      background: var(--dark-bg);
+      position: relative;
+      z-index: 10;
+      flex-shrink: 0;
+      flex-direction: column;
+    }
+
+    .message-input {
+      flex: 1;
+      padding: 12px 16px;
+      border-radius: 5px;
+      border: 1px solid var(--border-color);
+      background: var(--card-bg);
+      color: var(--text-color);
+      font-size: 15px;
+      outline: none;
+    }
+
+    .send-button {
+      padding: 12px 20px;
+      border-radius: 10%;
+      border: none;
+      background: var(--primary-color);
+      color: white;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+    }
+
+    .send-button:hover {
+      background: var(--secondary-color);
+    }
+
+    /* المودال والتنبيهات */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    .modal {
+      background: #0F0919FF;
+      padding: 20px;
+      border-radius: 10px;
+      width: 300px;
+      max-width: 90%;
+      text-align: center;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      animation: fadeIn 0.3s ease;
+      border: 0.4px solid #888;
+    }
+
+    .modal h2 {
+      margin-bottom: 10px;
+      font-size: 18px;
+    }
+
+    .modal p {
+      font-size: 14px;
+      margin-bottom: 15px;
+    }
+
+    .confirm-buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .modal-button {
+      flex: 1;
+      padding: 8px 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .delete-button {
+      background-color: #f44336;
+      color: #fff;
+    }
+
+    .delete-button:hover {
+      background-color: #d32f2f;
+    }
+
+    .cancel-button {
+      background-color: #ccc;
+      color: #000;
+    }
+
+    .cancel-button:hover {
+      background-color: #bbb;
+    }
+
+    .alert {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #4caf50;
+      color: #fff;
+      padding: 10px 15px;
+      border-radius: 5px;
+      font-size: 14px;
+      display: none;
+      z-index: 10000;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: scale(0.9);}
+      to {opacity: 1; transform: scale(1);}
+    }
+
     @media (max-width:768px){
       .logo-text{font-size:1rem;}
-      .group-name{font-size:16px;}
+      .group-name{font-size:14px;}
       .active-members-btn span{display:none;}
       .message{max-width:90%;}
-      .message-form{padding:15px;}
+      .message-form{padding:12px;}
+      .bubble {
+        max-width: 100%;
+        padding: 8px 12px;
+        font-size: 14px;
+      }
+      .message {
+        gap: 6px;
+      }
+      .avatar {
+        width: 32px;
+        height: 32px;
+      }
+      .reply-text, .reply-preview-text {
+        max-width: 200px;
+      }
     }
+
     @media (max-width:480px){
       .message{max-width:95%;}
-      .message-form{padding:12px;gap:8px;}
-      .message-input{padding:12px 14px;}
-      .send-button{padding:12px 16px;}
+      .message-form{padding:10px;gap:8px;}
+      .message-input{padding:10px 14px;font-size:14px;}
+      .send-button{padding:10px;width:55px;height:38px;}
+      .bubble {
+        max-width: 100%;
+        padding: 6px 10px;
+        font-size: 13px;
+      }
+      .message {
+        gap: 4px;
+      }
+      .avatar {
+        width: 30px;
+        height: 30px;
+      }
+      .reply-text, .reply-preview-text {
+        max-width: 150px;
+      }
     }
   </style>
 </head>
@@ -199,20 +396,20 @@
       <img src="https://i.postimg.cc/0QwwyJj3/image.png" width="100" alt="شعار R.D.F" class="lgo-img">
     </div>
     <div class="nav-icons">
-      <a href="message.html" class="nav-icon"><i class="fa-regular fa-bell"></i></a>
-      <a href="CUP.html" class="nav-icon"><i class="fas fa-info" style="color:#DDDDDD;font-size:19px;"></i></a>
+     <a href="https://alriadh.github.io/ALRIADH1/Notificationsx/Alix.NOTx.html" target="_blank" class="nav-icon"><i class="fa-regular fa-bell"></i></a>
+      <a href="https://alriadh.github.io/ALRIADH1/X-AM-A/Alix.ABOx.html" target="_blank" class="nav-icon"><i class="fas fa-info" style="color:#DDDDDD;font-size:19px;"></i></a>
     </div>
   </nav>
 
   <div class="app-container">
     <div class="topbar">
       <div class="topbar-left">
-<a href="https://alriadh.github.io/ALRIADH1/rdf-login/Alix.HOMx.html" target="_blank" class="back-button"><img src="https://i.postimg.cc/ZRPL2rZg/image.png" width="24"></a>
+        <a href="https://alriadh.github.io/ALRIADH1/rdf-login/Alix.HOMx.html" target="_blank" class="back-button"><img src="https://i.postimg.cc/ZRPL2rZg/image.png" width="24"></a>
         <div class="group-info">
           <img src="https://i.postimg.cc/Y0mv4vwt/propack-new.png" class="group-avatar">
           <div class="group-name">أخوة تحت عرش الرحمن</div>
         </div>
- <a href="https://alriadh.github.io/ALRIADH1/X-MA-A/Alix.ACTx.html" target="_blank" class="active-members-btn"><i class="fas fa-users"> المتصلين</i><span>الأعضاء النشطين</span></a>
+        <a href="https://alriadh.github.io/ALRIADH1/X-AM-A/Alix.ACTx.html" target="_blank" class="active-members-btn"><i class="fas fa-users"> المتصلين</i><span></span></a>
       </div>
     </div>
 
@@ -230,7 +427,7 @@
           <button type="button" class="reply-preview-cancel" id="cancelReply">✕</button>
         </div>
 
-        <div style="display:flex;gap:12px;">
+        <div style="display:flex;gap:10px;align-items:flex-end;">
           <input type="text" class="message-input" id="messageInput" placeholder="اكتب رسالتك هنا..." maxlength="1000" autocomplete="off">
           <button type="submit" class="send-button"><i class="fas fa-paper-plane"></i></button>
         </div>
@@ -318,6 +515,10 @@
     const replyText = document.getElementById('replyText');
     const cancelReplyBtn = document.getElementById('cancelReply');
 
+    // متغيرات للضغط المزدوج
+    let lastTap = 0;
+    let currentMessageKey = null;
+
     if(!localStorage.getItem('chatClientId')) {
       localStorage.setItem('chatClientId', Math.random().toString(36).slice(2,12));
     }
@@ -374,6 +575,45 @@
       return s;
     }
 
+    // دالة للقفز إلى الرسالة الأصل عند الضغط على الرد
+    function scrollToMessage(messageKey) {
+      const targetBubble = document.querySelector(`.bubble[data-key="${messageKey}"]`);
+      if (targetBubble) {
+        targetBubble.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        
+        // إضافة تأثير تمييز للرسالة
+        targetBubble.style.backgroundColor = 'rgba(0, 170, 255, 0.3)';
+        setTimeout(() => {
+          targetBubble.style.backgroundColor = '';
+        }, 1500);
+      }
+    }
+
+    // دالة للتعامل مع الضغط المزدوج
+    function handleDoubleTap(messageKey, bubble) {
+      const currentTime = new Date().getTime();
+      const tapLength = currentTime - lastTap;
+      
+      if (lastTap && currentMessageKey === messageKey && tapLength < 500) {
+        // الضغط المزدوج تم
+        bubble.classList.add('double-tap-effect');
+        currentMessageToDelete = messageKey;
+        deleteConfirmModal.style.display = 'flex';
+        lastTap = 0;
+        currentMessageKey = null;
+      } else {
+        // الضغط الأول
+        lastTap = currentTime;
+        currentMessageKey = messageKey;
+        
+        // إعادة تعيين المؤقت بعد 500 مللي ثانية
+        setTimeout(() => {
+          lastTap = 0;
+          currentMessageKey = null;
+        }, 500);
+      }
+    }
+
     function setupSwipeToReply(){
       let startX=0, startY=0, currentBubble=null, isSwiping=false;
       document.addEventListener('touchstart', e=>{
@@ -388,7 +628,7 @@
         if(diffX < -50){
           e.preventDefault();
           const messageKey = currentBubble.dataset.key;
-          const messageText = currentBubble.querySelector('div')?.textContent || '';
+          const messageText = currentBubble.querySelector('.message-text')?.textContent || '';
           const messageSender = currentBubble.closest('.message')?.querySelector('.message-info')?.textContent?.split('•')[0]?.trim() || '';
           showReplyPreview(messageSender, messageText, messageKey);
           isSwiping=false; currentBubble=null;
@@ -408,7 +648,7 @@
         if(Math.abs(diffY) > Math.abs(diffX)) return;
         if(diffX < -100){
           const messageKey = currentBubble.dataset.key;
-          const messageText = currentBubble.querySelector('div')?.textContent || '';
+          const messageText = currentBubble.querySelector('.message-text')?.textContent || '';
           const messageSender = currentBubble.closest('.message')?.querySelector('.message-info')?.textContent?.split('•')[0]?.trim() || '';
           showReplyPreview(messageSender, messageText, messageKey);
           isSwiping=false; currentBubble=null;
@@ -419,15 +659,25 @@
 
     function showReplyPreview(sender, text, messageKey){
       replySender.textContent = sender || 'رد';
-      replyText.textContent = (text || '').slice(0,200);
+      
+      // اقتصاص النص الطويل
+      const maxLength = 50;
+      let displayText = text || '';
+      if(displayText.length > maxLength) {
+        displayText = displayText.substring(0, maxLength) + '...';
+      }
+      
+      replyText.textContent = displayText;
       replyPreview.style.display = 'flex';
       replyingToMessage = messageKey;
       input.focus();
     }
+    
     function cancelReply(){
       replyPreview.style.display = 'none';
       replyingToMessage = null;
     }
+    
     cancelReplyBtn.addEventListener('click', cancelReply);
 
     function renderMessage(m, key){
@@ -450,9 +700,52 @@
       const bubble = document.createElement('div');
       bubble.className = 'bubble';
       bubble.dataset.key = key;
-      bubble.dataset.clientId = m.clientId || ''; // مهم للتحديث لاحقاً
+      bubble.dataset.clientId = m.clientId || '';
+
+      // إضافة الرد إذا موجود
+      if(m.replyTo && m.replyText){
+        const replyContainer = document.createElement('div');
+        replyContainer.className = 'reply-container';
+        replyContainer.dataset.replyTo = m.replyTo; // حفظ مفتاح الرسالة الأصل
+        
+        // إضافة حدث النقر للرد
+        replyContainer.addEventListener('click', () => {
+          scrollToMessage(m.replyTo);
+        });
+        
+        // جلب اسم المرسل الأصلي
+        let originalSenderName = 'مجهول';
+        if(m.replyTo){
+          const replyMsgEl = document.querySelector(`.bubble[data-key="${m.replyTo}"]`);
+          if(replyMsgEl){
+            const msgElement = replyMsgEl.closest('.message');
+            const infoText = msgElement.querySelector('.message-info')?.textContent?.split('•')[0]?.trim() || '';
+            originalSenderName = infoText || 'مستخدم';
+          }
+        }
+
+        const replySenderEl = document.createElement('div');
+        replySenderEl.className = 'reply-sender';
+        replySenderEl.textContent = originalSenderName;
+
+        const replyTextEl = document.createElement('div');
+        replyTextEl.className = 'reply-text';
+        
+        // اقتصاص نص الرد
+        let replyDisplayText = m.replyText || '';
+        const replyMaxLength = 60;
+        if(replyDisplayText.length > replyMaxLength) {
+          replyDisplayText = replyDisplayText.substring(0, replyMaxLength) + '...';
+        }
+        replyTextEl.textContent = replyDisplayText;
+
+        replyContainer.appendChild(replySenderEl);
+        replyContainer.appendChild(replyTextEl);
+        bubble.appendChild(replyContainer);
+      }
 
       const text = document.createElement('div');
+      text.className = 'message-text';
       text.textContent = convertToEnglishNumbers(m.text || '');
       bubble.appendChild(text);
 
@@ -462,21 +755,14 @@
       li.appendChild(img);
       li.appendChild(messageContent);
 
-// إضافة الرد إذا موجود
-if(m.replyTo && m.replyText){
-  const rp = document.createElement('div');
-  rp.className = 'reply-message'; // نستخدم class جديد
-  rp.innerHTML = `<strong style="font-size:12px;opacity:.8;">رد على:</strong> <span style="font-size:13px;">${m.replyText}</span>`;
-  messageContent.insertBefore(rp, meta);
-}
-
       messagesEl.appendChild(li);
       messagesContainer.scrollTo({ top: messagesContainer.scrollHeight, behavior: 'smooth' });
 
+      // إضافة حدث الضغط المزدوج للرسائل الخاصة بالمستخدم
       if(isMy){
-        bubble.addEventListener('click', ()=>{
-          currentMessageToDelete = key;
-          deleteConfirmModal.style.display = 'flex';
+        bubble.addEventListener('click', (e)=>{
+          e.stopPropagation();
+          handleDoubleTap(key, bubble);
         });
       }
     }
@@ -528,8 +814,11 @@ if(m.replyTo && m.replyText){
         messageData.replyTo = replyingToMessage;
         const replyMsg = document.querySelector(`.bubble[data-key="${replyingToMessage}"]`);
         if(replyMsg){
-          const rt = replyMsg.querySelector('div')?.textContent || '';
-          messageData.replyText = rt.substring(0, 200) + (rt.length > 200 ? '...' : '');
+          const rt = replyMsg.querySelector('.message-text')?.textContent || '';
+          // اقتصاص نص الرد قبل حفظه
+          const replyMaxLength = 100;
+          messageData.replyText = rt.length > replyMaxLength ? 
+            rt.substring(0, replyMaxLength) + '...' : rt;
         }
       }
       push(messagesRef, messageData).catch(err => console.error('push err', err));
