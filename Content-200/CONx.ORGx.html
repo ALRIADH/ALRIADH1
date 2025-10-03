@@ -22,7 +22,6 @@
             --light-gray: #1e1e2a;
             --card-bg: rgba(20, 20, 30, 0.7);
             --glow: 0 0 15px rgba(0, 170, 255, 0.3);
-            --verified-badge: #0099ff;
         }
         
         body {
@@ -87,12 +86,24 @@
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         }
         
-        .post-avatar {
+        .avatar-container {
+            position: relative;
             width: 40px;
             height: 40px;
+        }
+        
+        .post-avatar {
+            width: 100%;
+            height: 100%;
             border-radius: 50%;
             object-fit: cover;
             border: 2px solid var(--primary);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .post-avatar.loaded {
+            opacity: 1;
         }
         
         .post-user-info {
@@ -107,12 +118,24 @@
             gap: 5px;
         }
         
+        /* أيقونة التوثيق كصورة */
         .verified-badge {
-            color: var(--verified-badge);
-            font-size: 0.9rem;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
+            position: relative;
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+        }
+        
+        .verified-badge img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .verified-badge img.loaded {
+            opacity: 1;
         }
         
         .post-time {
@@ -130,6 +153,12 @@
             display: block;
             max-height: 500px;
             object-fit: cover;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .post-media.loaded {
+            opacity: 1;
         }
         
         .post-video {
@@ -181,6 +210,181 @@
             background: rgba(0, 170, 255, 0.3);
             transform: translateY(-5px);
         }
+        
+        /* تأثيرات التحميل العامة */
+        .loading-spinner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 30px;
+            height: 30px;
+            border: 3px solid rgba(0, 170, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s linear infinite;
+            z-index: 10;
+        }
+        
+        .media-loading {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(30, 30, 40, 0.7);
+        }
+        
+        .video-thumbnail-loading {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(30, 30, 40, 0.7);
+        }
+        
+        /* تأثيرات التحميل المخصصة للصور الصغيرة */
+        .avatar-loading {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(30, 30, 40, 0.7);
+        }
+        
+        .avatar-spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(0, 170, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s linear infinite;
+        }
+        
+        .badge-loading {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(30, 30, 40, 0.7);
+        }
+        
+        .badge-spinner {
+            width: 12px;
+            height: 12px;
+            border: 1.5px solid rgba(0, 170, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s linear infinite;
+        }
+        
+        /* تأثير تحميل بديل للصور الصغيرة - تأثير النبض */
+        .pulse-loader {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .pulse-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            animation: pulse 1.5s infinite ease-in-out;
+        }
+        
+        .avatar-pulse .pulse-dot {
+            width: 8px;
+            height: 8px;
+        }
+        
+        .pulse-dot:nth-child(1) {
+            animation-delay: 0s;
+        }
+        
+        .pulse-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .pulse-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        
+        @keyframes spin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { 
+                transform: scale(1); 
+                opacity: 1; 
+            }
+            50% { 
+                transform: scale(0.7); 
+                opacity: 0.5; 
+            }
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        /* تنسيق خاص للفيديو */
+        .video-container {
+            position: relative;
+        }
+        
+        .video-thumbnail {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .video-thumbnail.loaded {
+            opacity: 1;
+        }
+        
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 5;
+        }
+        
+        .play-button i {
+            color: white;
+            font-size: 24px;
+            margin-left: 3px;
+        }
     </style>
 </head>
 <body>
@@ -192,35 +396,85 @@
     <div class="app-container">
         <div class="posts-container">
 
-            
             <!-- منشور صورة 1 -->
             <div class="post">
                 <div class="post-header">
-                    <img src="https://i.postimg.cc/Y0mv4vwt/propack-new.png" class="post-avatar" alt="صورة المستخدم">
+                    <div class="avatar-container">
+                        <div class="avatar-loading">
+                            <!-- تأثير النبض لصورة المستخدم -->
+                            <div class="pulse-loader avatar-pulse">
+                                <div class="pulse-dot"></div>
+                                <div class="pulse-dot"></div>
+                                <div class="pulse-dot"></div>
+                            </div>
+                        </div>
+                        <img src="https://i.postimg.cc/Y0mv4vwt/propack-new.png" class="post-avatar" alt="صورة المستخدم">
+                    </div>
                     <div class="post-user-info">
-                        <div class="post-username">منظمة R.D.F <span class="verified-badge"><i class="fas fa-check-circle"></i></span></div>
+                        <div class="post-username">
+                            منظمة R.D.F 
+                            <span class="verified-badge">
+                                <div class="badge-loading">
+                                    <!-- تأثير دوار صغير لشارة التوثيق -->
+                                    <div class="badge-spinner"></div>
+                                </div>
+                                <img src="https://files.catbox.moe/nk02wx.png" alt="توثيق">
+                            </span>
+                        </div>
                         <div class="post-time">منذ 17 ساعة</div>
                     </div>
                 </div>
-                <div class="post-content">
+                <div class="post-content" style="position: relative;">
+                    <div class="media-loading">
+                        <div class="loading-spinner"></div>
+                    </div>
                     <img src="https://i.postimg.cc/MZ9VWCP2/image.jpg" class="post-media" alt="صورة المنشور">
                 </div>
                 <div class="post-text">
                     الصورة الرابعة تظهر دقة الألوان وجودة العرض في التصميم الحديث.
                 </div>
             </div>
-            
+
             <!-- منشور فيديو 1 -->
             <div class="post">
                 <div class="post-header">
-                    <img src="https://i.postimg.cc/Y0mv4vwt/propack-new.png" class="post-avatar" alt="صورة المستخدم">
+                    <div class="avatar-container">
+                        <div class="avatar-loading">
+                            <!-- تأثير النبض لصورة المستخدم -->
+                            <div class="pulse-loader avatar-pulse">
+                                <div class="pulse-dot"></div>
+                                <div class="pulse-dot"></div>
+                                <div class="pulse-dot"></div>
+                            </div>
+                        </div>
+                        <img src="https://i.postimg.cc/Y0mv4vwt/propack-new.png" class="post-avatar" alt="صورة المستخدم">
+                    </div>
                     <div class="post-user-info">
-                        <div class="post-username">منظمة R.D.F <span class="verified-badge"><i class="fas fa-check-circle"></i></span></div>
+                        <div class="post-username">
+                            منظمة R.D.F 
+                            <span class="verified-badge">
+                                <div class="badge-loading">
+                                    <!-- تأثير دوار صغير لشارة التوثيق -->
+                                    <div class="badge-spinner"></div>
+                                </div>
+                                <img src="https://files.catbox.moe/nk02wx.png" alt="توثيق">
+                            </span>
+                        </div>
                         <div class="post-time">منذ 17 ساعة</div>
                     </div>
                 </div>
-                <div class="post-content">
-                    <video class="post-video" controls loop poster="https://i.postimg.cc/MZ9VWCP2/image.jpg">
+                <div class="post-content video-container" style="position: relative;">
+                    <!-- الصورة المصغرة للفيديو -->
+                    <div class="video-thumbnail-loading">
+                        <div class="loading-spinner"></div>
+                    </div>
+                    <img src="https://i.postimg.cc/MZ9VWCP2/image.jpg" class="video-thumbnail" alt="صورة مصغرة للفيديو">
+                    <div class="play-button">
+                        <i class="fas fa-play"></i>
+                    </div>
+                    
+                    <!-- الفيديو (مخفي في البداية) -->
+                    <video class="post-video" controls loop style="display: none;">
                         <source src="https://raw.githubusercontent.com/ALRIADH/ALRIADH1/main/rdf-login/111111.mp4" type="video/mp4">
                         متصفحك لا يدعم تشغيل الفيديو
                     </video>
@@ -245,10 +499,7 @@
             // إنشاء مراقب للعناصر
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        // إذا كان الفيديو مرئياً، يمكن تشغيله
-                    } else {
-                        // إذا كان الفيديو غير مرئي، إيقافه
+                    if (!entry.isIntersecting) {
                         entry.target.pause();
                     }
                 });
@@ -283,6 +534,62 @@
                 window.scrollTo({
                     top: 0,
                     behavior: 'smooth'
+                });
+            });
+            
+            // إدارة تأثيرات التحميل للصور
+            const images = document.querySelectorAll('img');
+            
+            images.forEach(img => {
+                // إضافة حدث عند تحميل الصورة
+                img.addEventListener('load', function() {
+                    this.classList.add('loaded');
+                    
+                    // إخفاء تأثير التحميل المناسب
+                    if (this.classList.contains('post-avatar')) {
+                        this.parentElement.querySelector('.avatar-loading').classList.add('hidden');
+                    } else if (this.parentElement.classList.contains('verified-badge')) {
+                        this.parentElement.querySelector('.badge-loading').classList.add('hidden');
+                    } else if (this.classList.contains('post-media')) {
+                        this.parentElement.querySelector('.media-loading').classList.add('hidden');
+                    } else if (this.classList.contains('video-thumbnail')) {
+                        this.parentElement.querySelector('.video-thumbnail-loading').classList.add('hidden');
+                    }
+                });
+                
+                // إذا فشل تحميل الصورة
+                img.addEventListener('error', function() {
+                    if (this.classList.contains('post-avatar')) {
+                        this.parentElement.querySelector('.avatar-loading').classList.add('hidden');
+                    } else if (this.parentElement.classList.contains('verified-badge')) {
+                        this.parentElement.querySelector('.badge-loading').classList.add('hidden');
+                    } else if (this.classList.contains('post-media')) {
+                        this.parentElement.querySelector('.media-loading').classList.add('hidden');
+                    } else if (this.classList.contains('video-thumbnail')) {
+                        this.parentElement.querySelector('.video-thumbnail-loading').classList.add('hidden');
+                    }
+                });
+                
+                // التحقق مما إذا كانت الصورة محملة مسبقاً
+                if (img.complete) {
+                    img.dispatchEvent(new Event('load'));
+                }
+            });
+            
+            // تشغيل الفيديو عند النقر على الصورة المصغرة
+            document.querySelectorAll('.play-button').forEach(button => {
+                button.addEventListener('click', function() {
+                    const container = this.parentElement;
+                    const thumbnail = container.querySelector('.video-thumbnail');
+                    const video = container.querySelector('.post-video');
+                    
+                    // إخفاء الصورة المصغرة وزر التشغيل
+                    thumbnail.style.display = 'none';
+                    this.style.display = 'none';
+                    
+                    // إظهار الفيديو وتشغيله
+                    video.style.display = 'block';
+                    video.play();
                 });
             });
         });
