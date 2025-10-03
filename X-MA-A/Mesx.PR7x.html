@@ -752,11 +752,8 @@
         });
 
         // إضافة معالج الأحداث لأزرار التنبيه
-successOk.addEventListener('click', function() {
-    successMessage.style.display = 'none';
-    overlay.style.display = 'none';
-    window.location.href = 'https://alriadh.github.io/ALRIADH1/rdf-login/Mesx.PROx.html';
-});
+ document.getElementById('successOk').addEventListener('click', () => { document.getElementById('successMessage').style.display = 'none'; document.getElementById('overlay').style.display = 'none'; window.location.href = 'https://alriadh.github.io/ALRIADH1/X-MA-A/Mesx.PROx.html'; 
+ });
 
         // Firebase – تحديث النشاط
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
