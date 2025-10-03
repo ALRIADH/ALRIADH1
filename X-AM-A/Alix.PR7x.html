@@ -1,36 +1,44 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>R.D.F - تغيير الصورة الشخصية</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Cairo', sans-serif;
-        }
-        
-        :root {
-            --dark-bg: #0a0a12;
-            --primary: #00aaff;
-            --accent: #ff003c;
-            --text: #e0e0e0;
-            --light-gray: #1e1e2a;
-            --card-bg: rgba(20, 20, 30, 0.9);
-            --glow: 0 0 15px rgba(0, 170, 255, 0.3);
-        }
-        
-        body {
-            background: linear-gradient(135deg, #080817, #0d0d1a);
-            color: var(--text);
-            min-height: 100vh;
-            overflow-x: hidden;
-            position: relative;
-        }
+     <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>R.D.F - الصفحة الرئيسية</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+    /* هنا نعرّف الخط من ملفك على GitHub */
+    @font-face {
+        font-family: 'Cairo';
+        src: url('fonts/Cairo[slnt,wght].ttf') format('truetype');
+        font-weight: 100 900; /* لأن الخط متغير */
+        font-style: normal;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Cairo', sans-serif;
+    }
+
+    :root {
+        --dark-bg: #0a0a12;
+        --primary: #00aaff;
+        --accent: #ff003c;
+        --text: #e0e0e0;
+        --light-gray: #1e1e2a;
+        --card-bg: rgba(20, 20, 30, 0.7);
+        --glow: 0 0 15px rgba(0, 170, 255, 0.3);
+    }
+
+    body {
+        background: linear-gradient(135deg, #080817, #0d0d1a);
+        color: var(--text);
+        min-height: 100vh;
+        overflow-x: hidden;
+        position: relative;
+    }
         
         /* تأثيرات الخلفية */
         .background-effects {
@@ -522,22 +530,22 @@
     <!-- شريط التنقل العلوي -->
     <nav class="navbar">
         <div class="logo-container">
-            <img src="https://i.postimg.cc/0QwwyJj3/image.png" width="100" alt="شعار R.D.F" class="logo-mg">
+            <img src="https://i.postimg.cc/0QwwyJj3/image.png" width="100" alt="شعار R.D." class="lgo-img">
             <!--div class="logo-text">R.D.F</div-->
         </div>
         
         <div class="nav-icons">
-            <a href="message.html" class="nav-icon">
+<a href="https://alriadh.github.io/ALRIADH1/Notificationsx/Alix.NOTx.html" target="_blank" class="nav-icon">
                 <i class="fa-regular fa-bell"></i>
             </a>
-            <a href="CUP.html" class="nav-icon">
+<a href="https://alriadh.github.io/ALRIADH1/X-AM-A/Alix.ABOx.html" target="_blank" class="nav-icon">
                 <i class="fas fa-info" style="color: #DDDDDD; font-size: 19px;"></i>
             </a>
         </div>
     </nav>
     
     <!-- زر الخروج -->
-    <a href="home.html" class="back-button">
+<a href="https://alriadh.github.io/ALRIADH1/X-AM-A/Alix.PROx.html" target="_blank" class="back-button">
         <i class="fas fa-arrow-left"></i>
     </a>
     
@@ -595,19 +603,22 @@
     
     <!-- شريط التنقل السفلي -->
     <div class="bottom-nav">
-        <a href="index.html" class="nav-item">
+     <a href="https://alriadh.github.io/ALRIADH1/rdf-login/Alix.HOMx.html" target="_blank"
+ class="nav-item">
             <img src="https://i.postimg.cc/1RYdGs59/image.png" width="24"  class="custom-icon">
             <span>الرئيسية</span>
         </a>
-        <a href="chat.html" class="nav-item">
+        <a href="https://alriadh.github.io/ALRIADH1/X-AM-A/Alix.CHAx.html" target="_blank"
+ class="nav-item">
             <img src="https://i.postimg.cc/jdWKK6dw/image.png" width="24"  class="custom-icon">
             <span>الدردشة</span>
         </a>
-        <a href="reports.html" class="nav-item">
+        <a href="https://alriadh.github.io/ALRIADH1/X-AM-A/Alix.CONx.html" target="_blank"
+ class="nav-item">
             <img src="https://img.icons8.com/?size=100&id=3cQj5bRpA3X8&format=png&color=000000" width="24" class="custom-icon1">
             <span>المحتوى</span>
         </a>
-        <a href="profile.html" class="nav-item active">
+        <a href="#" class="nav-item active">
             <img src="https://i.postimg.cc/ZKSjYVVC/image.png" width="24" class="custom-icon">
             <span>صفحتي</span>
         </a>
@@ -615,7 +626,7 @@
 
     <script type="module">
         // رابط السكربت لمعالجة الرفع
-        const url = "https://script.google.com/macros/s/AKfycbx7qIrqklywU05edwS5h9cJnms3ZKpwMk80rTrgKNaC8EtSmYsQ5EnBgKoC6W3wsK0/exec";
+        const url = "https://script.google.com/macros/s/AKfycbz0R3C3y-pZWJtHYpRlSmB60rwrv0UD7VYKyD2th1_TamiXZLknRld6Mf1i7pJZOik/exec";
         
         // متغيرات DOM
         const fileInput = document.getElementById('avatar-upload');
@@ -749,12 +760,8 @@
         });
 
         // إضافة معالج الأحداث لأزرار التنبيه
-        alertOk.addEventListener('click', hideAlert);
-        successOk.addEventListener('click', function() {
-            successMessage.style.display = 'none';
-            overlay.style.display = 'none';
-            window.location.href = 'home.html';
-        });
+ document.getElementById('successOk').addEventListener('click', () => { document.getElementById('successMessage').style.display = 'none'; document.getElementById('overlay').style.display = 'none'; window.location.href = 'https://alriadh.github.io/ALRIADH1/X-AM-A/Alix.PROx.html'; 
+ });
 
         // Firebase – تحديث النشاط
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
