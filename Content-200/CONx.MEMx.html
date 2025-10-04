@@ -87,12 +87,24 @@
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         }
 
-        .post-avatar {
+        .avatar-container {
+            position: relative;
             width: 40px;
             height: 40px;
+        }
+
+        .post-avatar {
+            width: 100%;
+            height: 100%;
             border-radius: 50%;
             object-fit: cover;
             border: 2px solid var(--primary);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .post-avatar.loaded {
+            opacity: 1;
         }
 
         .post-user-info {
@@ -130,6 +142,12 @@
             display: block;
             max-height: 500px;
             object-fit: cover;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .post-media.loaded {
+            opacity: 1;
         }
 
         .post-video {
@@ -181,6 +199,108 @@
             background: rgba(0, 170, 255, 0.3);
             transform: translateY(-5px);
         }
+
+        /* تأثيرات التحميل */
+        .loading-spinner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 30px;
+            height: 30px;
+            border: 3px solid rgba(0, 170, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s linear infinite;
+            z-index: 10;
+        }
+
+        .media-loading {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(30, 30, 40, 0.7);
+        }
+
+        /* تأثيرات التحميل المخصصة للصور الصغيرة */
+        .avatar-loading {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(30, 30, 40, 0.7);
+        }
+
+        .avatar-spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(0, 170, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s linear infinite;
+        }
+
+        /* تأثير تحميل بديل للصور الصغيرة - تأثير النبض */
+        .pulse-loader {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .pulse-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            animation: pulse 1.5s infinite ease-in-out;
+        }
+
+        .avatar-pulse .pulse-dot {
+            width: 8px;
+            height: 8px;
+        }
+
+        .pulse-dot:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        .pulse-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .pulse-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes spin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { 
+                transform: scale(1); 
+                opacity: 1; 
+            }
+            50% { 
+                transform: scale(0.7); 
+                opacity: 0.5; 
+            }
+        }
+
+        .hidden {
+            display: none !important;
+        }
     </style>
 </head>
 <body>
@@ -194,17 +314,30 @@
             <!-- منشور صورة 1 -->
             <div class="post">
                 <div class="post-header">
-                    <img src="https://files.catbox.moe/4je8hs.jpg" class="post-avatar" alt="صورة العضو">
+                    <div class="avatar-container">
+                        <div class="avatar-loading">
+                            <!-- تأثير النبض لصورة المستخدم -->
+                            <div class="pulse-loader avatar-pulse">
+                                <div class="pulse-dot"></div>
+                                <div class="pulse-dot"></div>
+                                <div class="pulse-dot"></div>
+                            </div>
+                        </div>
+                        <img src="https://files.catbox.moe/4je8hs.jpg" class="post-avatar" alt="صورة العضو">
+                    </div>
                     <div class="post-user-info">
                         <div class="post-username">مشعل الشوكي</div>
                         <div class="post-time">M001 - 2025/10/02</div>
                     </div>
                 </div>
-                <div class="post-content">
+                <div class="post-content" style="position: relative;">
+                    <div class="media-loading">
+                        <div class="loading-spinner"></div>
+                    </div>
                     <img src="https://files.catbox.moe/upcmrv.jpg" class="post-media" alt="صورة المنشور">
                 </div>
                 <div class="post-text">
-         صورة تجمعني مع احدى اعضاء منظمة R.D.F
+                    صورة تجمعني مع احدى اعضاء منظمة R.D.F
                 </div>
             </div>
 
@@ -282,6 +415,37 @@
                     top: 0,
                     behavior: 'smooth'
                 });
+            });
+
+            // إدارة تأثيرات التحميل للصور
+            const images = document.querySelectorAll('img');
+            
+            images.forEach(img => {
+                // إضافة حدث عند تحميل الصورة
+                img.addEventListener('load', function() {
+                    this.classList.add('loaded');
+                    
+                    // إخفاء تأثير التحميل المناسب
+                    if (this.classList.contains('post-avatar')) {
+                        this.parentElement.querySelector('.avatar-loading').classList.add('hidden');
+                    } else if (this.classList.contains('post-media')) {
+                        this.parentElement.querySelector('.media-loading').classList.add('hidden');
+                    }
+                });
+                
+                // إذا فشل تحميل الصورة
+                img.addEventListener('error', function() {
+                    if (this.classList.contains('post-avatar')) {
+                        this.parentElement.querySelector('.avatar-loading').classList.add('hidden');
+                    } else if (this.classList.contains('post-media')) {
+                        this.parentElement.querySelector('.media-loading').classList.add('hidden');
+                    }
+                });
+                
+                // التحقق مما إذا كانت الصورة محملة مسبقاً
+                if (img.complete) {
+                    img.dispatchEvent(new Event('load'));
+                }
             });
         });
     </script>
