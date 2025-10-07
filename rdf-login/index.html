@@ -6,6 +6,7 @@
     <title>نظام الدخول المتقدم</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* نسختك القديمة مع كل CSS كما هو */
         * {
             margin: 0;
             padding: 0;
@@ -35,36 +36,10 @@
             padding: 20px;
         }
 
-        /* تأثيرات الخلفية */
-      /* تأثير خلفية AI - نقاط متحركة */
-.floating-shapes {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: -71;
-}
+        .floating-shapes { position: fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:-71; }
+        .particle { position:absolute; border-radius:50%; background: rgba(26,115,232,0.7); filter: blur(6px); opacity:0.6; animation: floatParticle infinite alternate ease-in-out; }
+        @keyframes floatParticle { 0% { transform: translate(0,0); } 100% { transform: translate(var(--x), var(--y)); } }
 
-.particle {
-  position: absolute;
-  border-radius: 50%;
-  background: rgba(26, 115, 232, 0.7); /* لون أزرق غامق */
-  filter: blur(6px);
-  opacity: 0.6;
-  animation: floatParticle infinite alternate ease-in-out;
-}
-
-@keyframes floatParticle {
-  0% {
-    transform: translate(0, 0);
-  }
-  100% {
-    transform: translate(var(--x), var(--y));
-  }
-}
-        /* تصميم لوحة الدخول */
         .login-container {
             background: rgba(15, 15, 25, 0.85);
             border: 2px solid rgba(255, 255, 255, 0.2);
@@ -88,25 +63,9 @@
             background: linear-gradient(to right, var(--primary), var(--secondary));
         }
 
-        .login-header {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .logo-container {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 1.5rem;
-        }
-
-        .nexus-logo {
-            width: 180px;
-            height: 180px;
-            /*object-fit: contain;
-            filter: drop-shadow(0 0 15px rgba(0, 170, 255, 0.7));
-            animation: pulseLogo 3s infinite alternate;*/
-        }
-
+        .login-header { text-align: center; margin-bottom: 2rem; }
+        .logo-container { display: flex; justify-content: center; margin-bottom: 1.5rem; }
+        .nexus-logo { width: 180px; height: 180px; }
         .login-title {
             font-size: 2.2rem;
             background: linear-gradient(to right, var(--primary), var(--secondary));
@@ -117,26 +76,9 @@
             font-weight: 700;
             text-shadow: var(--glow);
         }
-
-        .login-subtitle {
-            color: #aaa;
-            font-size: 1rem;
-            margin-bottom: 2rem;
-        }
-
-        /* حقول الإدخال */
-        .input-group {
-            margin-bottom: 1.5rem;
-            position: relative;
-        }
-
-        .input-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: var(--primary);
-            font-weight: 500;
-        }
-
+        .login-subtitle { color: #aaa; font-size: 1rem; margin-bottom: 2rem; }
+        .input-group { margin-bottom: 1.5rem; position: relative; }
+        .input-group label { display: block; margin-bottom: 0.5rem; color: var(--primary); font-weight: 500; }
         .input-group input {
             width: 100%;
             padding: 0.9rem 1.2rem;
@@ -147,13 +89,8 @@
             font-size: 1.1rem;
             transition: all 0.3s ease;
         }
+        .input-group input:focus { outline: none; border-color: var(--primary); }
 
-        .input-group input:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
-
-        /* زر الدخول */
         .login-btn {
             width: 100%;
             padding: 0.9rem;
@@ -169,16 +106,8 @@
             overflow: hidden;
             margin-top: 1rem;
         }
-
-        .login-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-        }
-
-        .login-btn:active {
-            transform: translateY(1px);
-        }
-
+        .login-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); }
+        .login-btn:active { transform: translateY(1px); }
         .login-btn::after {
             content: "";
             position: absolute;
@@ -186,208 +115,37 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
             transition: 0.5s;
         }
+        .login-btn:hover::after { left: 100%; }
 
-        .login-btn:hover::after {
-            left: 100%;
-        }
+        .modal-overlay { position: fixed; top: 0; left: 0; width:100%; height:100%; background: rgba(0,0,0,0.8); display:flex; justify-content:center; align-items:center; z-index:1000; opacity:0; visibility:hidden; transition: all 0.3s ease; }
+        .modal-overlay.active { opacity:1; visibility:visible; }
+        .modal { background: rgba(15,15,25,0.95); border: 2px solid rgba(255,255,255,0.2); border-radius:15px; padding:2rem; width:90%; max-width:400px; box-shadow:0 0 40px rgba(0,0,0,0.7), var(--glow); position: relative; text-align:center; transform: translateY(-50px); transition: transform 0.3s ease; }
+        .modal-overlay.active .modal { transform: translateY(0); }
+        .modal-icon { font-size:3rem; margin-bottom:1rem; }
+        .modal-success .modal-icon { color:#4CAF50; }
+        .modal-error .modal-icon { color: var(--accent); }
+        .modal-loading .modal-icon { color: var(--primary); animation: spin 1.5s linear infinite; }
+        .modal-title { font-size:1.5rem; margin-bottom:1rem; color: var(--text); }
+        .modal-message { margin-bottom:1.5rem; color:#aaa; }
+        .modal-btn { padding:0.7rem 2rem; background: linear-gradient(45deg, var(--primary), var(--secondary)); border:none; border-radius:5px; color:white; font-size:1rem; font-weight:600; cursor:pointer; transition: all 0.3s ease; }
+        .modal-btn:hover { transform: translateY(-2px); box-shadow:0 5px 15px rgba(0,0,0,0.3); }
 
-        /* نوافذ منبثقة */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-        }
+        .loading-container { width:100%; max-width:500px; margin:0.5rem auto; background: rgba(10,15,30,0.7); border-radius:10px; padding:1.5rem; border:1px solid rgba(0,170,255,0.3); display:none; }
+        .loading-text { text-align:center; font-size:1.4rem; color:#00aaff; margin-bottom:1.5rem; text-shadow:0 0 10px rgba(0,55,170,0.5); }
+        .loading-bar { height:20px; background: rgba(0,20,40,0.8); border-radius:10px; overflow:hidden; position:relative; margin-bottom:1rem; border:1px solid rgba(0,170,255,0.3); }
+        .loading-progress { height:100%; width:0%; background: linear-gradient(90deg,#00aaff,#0011ff); border-radius:10px; transition: width 0.5s ease; position:relative; overflow:hidden; }
+        .loading-progress::after { content:""; position:absolute; top:0; left:-100%; width:100%; height:100%; background: linear-gradient(90deg,transparent, rgba(255,255,255,0.3), transparent); animation: loadingShine 1.5s infinite; }
+        .loading-percentage { text-align:center; font-size:1.3rem; color:#00aaff; font-weight:700; }
 
-        .modal-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
+        @keyframes loadingShine { 0% {transform:translateX(-100%);} 100% {transform:translateX(200%);} }
+        @keyframes pulseLogo { 0% { transform:scale(1); filter:drop-shadow(0 0 15px rgba(0,170,255,0.7));} 100% { transform:scale(1.05); filter:drop-shadow(0 0 25px rgba(0,170,255,0.9));} }
+        @keyframes spin { 0% {transform:rotate(0deg);} 100% {transform:rotate(360deg);} }
 
-        .modal {
-            background: rgba(15, 15, 25, 0.95);
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            border-radius: 15px;
-            padding: 2rem;
-            width: 90%;
-            max-width: 400px;
-            box-shadow: 0 0 40px rgba(0, 0, 0, 0.7), var(--glow);
-            position: relative;
-            text-align: center;
-            transform: translateY(-50px);
-            transition: transform 0.3s ease;
-        }
-
-        .modal-overlay.active .modal {
-            transform: translateY(0);
-        }
-
-        .modal-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-
-        .modal-success .modal-icon {
-            color: #4CAF50;
-        }
-
-        .modal-error .modal-icon {
-            color: var(--accent);
-        }
-
-        .modal-loading .modal-icon {
-            color: var(--primary);
-            animation: spin 1.5s linear infinite;
-        }
-
-        .modal-title {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: var(--text);
-        }
-
-        .modal-message {
-            margin-bottom: 1.5rem;
-            color: #aaa;
-        }
-
-        .modal-btn {
-            padding: 0.7rem 2rem;
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
-            border: none;
-            border-radius: 5px;
-            color: white;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .modal-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
-
-        /* تأثيرات التحميل */
-        .loading-container {
-            width: 100%;
-            max-width: 500px;
-            margin: 0.5rem auto;
-            background: rgba(10, 15, 30, 0.7);
-            border-radius: 10px;
-            padding: 1.5rem;
-            border: 1px solid rgba(0, 170, 255, 0.3);
-            display: none;
-        }
-
-        .loading-text {
-            text-align: center;
-            font-size: 1.4rem;
-            color: #00aaff;
-            margin-bottom: 1.5rem;
-            text-shadow: 0 0 10px rgba(0, 55, 170, 0.5);
-        }
-
-        .loading-bar {
-            height: 20px;
-            background: rgba(0, 20, 40, 0.8);
-            border-radius: 10px;
-            overflow: hidden;
-            position: relative;
-            margin-bottom: 1rem;
-            border: 1px solid rgba(0, 170, 255, 0.3);
-        }
-
-        .loading-progress {
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, #00aaff, #0011ff);
-            border-radius: 10px;
-            transition: width 0.5s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .loading-progress::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            animation: loadingShine 1.5s infinite;
-        }
-
-        .loading-percentage {
-            text-align: center;
-            font-size: 1.3rem;
-            color: #00aaff;
-            font-weight: 700;
-        }
-
-        /* الرسوم المتحركة */
-        @keyframes loadingShine {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(200%); }
-        }
-
-        @keyframes pulseLogo {
-            0% { transform: scale(1); filter: drop-shadow(0 0 15px rgba(0, 170, 255, 0.7)); }
-            100% { transform: scale(1.05); filter: drop-shadow(0 0 25px rgba(0, 170, 255, 0.9)); }
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* تصميم متجاوب */
-        @media (max-width: 768px) {
-            .login-container {
-                padding: 1.5rem;
-            }
-
-            .nexus-logo {
-                width: 140px;
-                height: 140px;
-            }
-
-            .login-title {
-                font-size: 1.8rem;
-            }
-
-            .modal {
-                padding: 1.5rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .nexus-logo {
-                width: 70px;
-                height: 70px;
-            }
-
-            .login-title {
-                font-size: 1.6rem;
-            }
-
-            .modal-title {
-                font-size: 1.3rem;
-            }
-        }
+        @media (max-width:768px) { .login-container { padding:1.5rem; } .nexus-logo { width:140px; height:140px; } .login-title { font-size:1.8rem; } .modal { padding:1.5rem; } }
+        @media (max-width:480px) { .nexus-logo { width:70px; height:70px; } .login-title { font-size:1.6rem; } .modal-title { font-size:1.3rem; } }
     </style>
 </head>
 <body>
@@ -395,7 +153,12 @@
     <div class="floating-shapes" id="particleContainer"></div>
 
     <!-- لوحة تسجيل الدخول -->
-    <div class="ogin-container">
+    <div class="login-container">
+
+        <!-- الحقول الوهمية لمنع الحفظ -->
+        <input type="text" name="fakeusernameremembered" style="display:none">
+        <input type="password" name="fakepasswordremembered" style="display:none">
+
         <div class="login-header">
             <div class="logo-container">
                 <img src="https://i.postimg.cc/Gpv0XjqD/image.png" alt="NEXUS Logo" class="nexus-logo">
@@ -425,7 +188,7 @@
         </div>
     </div>
 
-    <!-- نوافذ منبثقة -->
+    <!-- النوافذ المنبثقة -->
     <div class="modal-overlay" id="loadingModal">
         <div class="modal modal-loading">
             <i class="fas fa-spinner modal-icon"></i>
@@ -452,43 +215,31 @@
     </div>
 
     <script type="module">
-      //تأثير النقاط المتحركة في الخلفية
-  const container = document.getElementById("particleContainer");
-  const numberOfParticles = 60;
+        // كود النقاط المتحركة كما هو
+        const container = document.getElementById("particleContainer");
+        const numberOfParticles = 60;
+        for (let i=0;i<numberOfParticles;i++){
+            const particle=document.createElement("div");
+            particle.classList.add("particle");
+            const size=Math.random()*6+4;
+            particle.style.width=`${size}px`;
+            particle.style.height=`${size}px`;
+            const posX=Math.random()*window.innerWidth;
+            const posY=Math.random()*window.innerHeight;
+            particle.style.left=`${posX}px`;
+            particle.style.top=`${posY}px`;
+            const moveX=Math.random()*200-100;
+            const moveY=Math.random()*200-100;
+            particle.style.setProperty("--x",`${moveX}px`);
+            particle.style.setProperty("--y",`${moveY}px`);
+            const duration=Math.random()*6+4;
+            particle.style.animationDuration=`${duration}s`;
+            container.appendChild(particle);
+        }
 
-  for (let i = 0; i < numberOfParticles; i++) {
-    const particle = document.createElement("div");
-    particle.classList.add("particle");
-
-    // حجم عشوائي بين 4 و 10 بكسل
-    const size = Math.random() * 6 + 4;
-    particle.style.width = `${size}px`;
-    particle.style.height = `${size}px`;
-
-    // موقع ابتدائي عشوائي
-    const posX = Math.random() * window.innerWidth;
-    const posY = Math.random() * window.innerHeight;
-    particle.style.left = `${posX}px`;
-    particle.style.top = `${posY}px`;
-
-    // حركة عشوائية في الاتجاه
-    const moveX = Math.random() * 200 - 100; // من -100 إلى +100
-    const moveY = Math.random() * 200 - 100;
-    particle.style.setProperty("--x", `${moveX}px`);
-    particle.style.setProperty("--y", `${moveY}px`);
-
-    // مدة حركة عشوائية
-    const duration = Math.random() * 6 + 4; // بين 4 إلى 10 ثواني
-    particle.style.animationDuration = `${duration}s`;
-
-    container.appendChild(particle);
-  }
-
-        // استدعاء مكتبات فايربيس
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
-        // إعدادات Firebase
         const firebaseConfig = {
             apiKey: "AIzaSyCXeOtXWIc1qyDIxh4EPu1nxmGswrNiqLo",
             authDomain: "password-a409.firebaseapp.com",
@@ -500,119 +251,47 @@
             measurementId: "G-B3DBSGVC7T"
         };
 
-        // تهيئة Firebase
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        // عناصر DOM
-        const loginBtn = document.getElementById('loginBtn');
-        const usernameInput = document.getElementById('username');
-        const passwordInput = document.getElementById('password');
-        const loadingContainer = document.getElementById('loadingContainer');
-        const loadingProgress = document.getElementById('loadingProgress');
-        const loadingPercentage = document.getElementById('loadingPercentage');
+        const loginBtn=document.getElementById('loginBtn');
+        const usernameInput=document.getElementById('username');
+        const passwordInput=document.getElementById('password');
+        const loadingContainer=document.getElementById('loadingContainer');
+        const loadingProgress=document.getElementById('loadingProgress');
+        const loadingPercentage=document.getElementById('loadingPercentage');
+        const loadingModal=document.getElementById('loadingModal');
+        const errorModal=document.getElementById('errorModal');
+        const successModal=document.getElementById('successModal');
+        const errorMessage=document.getElementById('errorMessage');
+        const errorBtn=document.getElementById('errorBtn');
 
-        // النوافذ المنبثقة
-        const loadingModal = document.getElementById('loadingModal');
-        const errorModal = document.getElementById('errorModal');
-        const successModal = document.getElementById('successModal');
-        const errorMessage = document.getElementById('errorMessage');
-        const errorBtn = document.getElementById('errorBtn');
+        function showModal(modal){ modal.classList.add('active'); }
+        function hideModal(modal){ modal.classList.remove('active'); }
 
-        // وظائف إظهار وإخفاء النوافذ
-        function showModal(modal) {
-            modal.classList.add('active');
-        }
-
-        function hideModal(modal) {
-            modal.classList.remove('active');
-        }
-
-        // تأثيرات بصرية أثناء التحميل
-        function simulateProgress() {
-            let progress = 0;
-            const interval = setInterval(() => {
-                progress += Math.random() * 5;
-                if (progress >= 100) {
-                    progress = 100;
-                    clearInterval(interval);
-                }
-                loadingProgress.style.width = `${progress}%`;
-                loadingPercentage.textContent = `${Math.round(progress)}%`;
-            }, 200);
-        }
-
-        // دالة تسجيل الدخول
-        async function login() {
-            const username = usernameInput.value.trim();
-            const password = passwordInput.value.trim();
-
-            // التحقق من إدخال البيانات
-            if (!username || !password) {
-                errorMessage.textContent = "❌ يرجى إدخال اسم المستخدم وكلمة المرور";
-                showModal(errorModal);
-                return;
-            }
-
-            // إظهار نافذة التحميل
+        async function login(){
+            const username=usernameInput.value.trim();
+            const password=passwordInput.value.trim();
+            if(!username||!password){ errorMessage.textContent="❌ يرجى إدخال اسم المستخدم وكلمة المرور"; showModal(errorModal); return; }
             showModal(loadingModal);
-
-            try {
-                const snapshot = await get(ref(db, "users"));
-
-                if (snapshot.exists()) {
-                    const users = snapshot.val();
-                    let found = false;
-
-                    for (const key in users) {
-                        if (users[key].username === username && users[key].password === password) {
-                            found = true;
-
-                            // إخفاء نافذة التحميل وإظهار نافذة النجاح
-                            hideModal(loadingModal);
-                            showModal(successModal);
-
-                            // الانتقال إلى الصفحة بعد تأخير بسيط
-                            setTimeout(() => {
-                                window.location.href = users[key].page;
-                            }, 2000);
-
-                            break;
+            try{
+                const snapshot=await get(ref(db,"users"));
+                if(snapshot.exists()){
+                    const users=snapshot.val(); let found=false;
+                    for(const key in users){
+                        if(users[key].username===username && users[key].password===password){
+                            found=true; hideModal(loadingModal); showModal(successModal);
+                            setTimeout(()=>{ window.location.href=users[key].page; },2000); break;
                         }
                     }
-
-                    if (!found) {
-                        hideModal(loadingModal);
-                        errorMessage.textContent = "❌ اسم المستخدم أو كلمة المرور خطأ";
-                        showModal(errorModal);
-                    }
-                } else {
-                    hideModal(loadingModal);
-                    errorMessage.textContent = "🚨 لا توجد بيانات مستخدمين في قاعدة البيانات";
-                    showModal(errorModal);
-                }
-            } catch (error) {
-                console.error("خطأ بالاتصال:", error);
-                hideModal(loadingModal);
-                errorMessage.textContent = "⚠️ مشكلة بالاتصال بقاعدة البيانات";
-                showModal(errorModal);
-            }
+                    if(!found){ hideModal(loadingModal); errorMessage.textContent="❌ اسم المستخدم أو كلمة المرور خطأ"; showModal(errorModal); }
+                }else{ hideModal(loadingModal); errorMessage.textContent="🚨 لا توجد بيانات مستخدمين في قاعدة البيانات"; showModal(errorModal); }
+            }catch(error){ console.error("خطأ بالاتصال:",error); hideModal(loadingModal); errorMessage.textContent="⚠️ مشكلة بالاتصال بقاعدة البيانات"; showModal(errorModal); }
         }
 
-        // إضافة مستمع الأحداث لزر الدخول
-        loginBtn.addEventListener('click', login);
-
-        // إضافة مستمع الأحداث لزر الخطأ
-        errorBtn.addEventListener('click', function() {
-            hideModal(errorModal);
-        });
-
-        // السماح بالدخول باستخدام زر Enter
-        document.addEventListener('keypress', function(event) {
-            if (event.key === 'Enter') {
-                login();
-            }
-        });
+        loginBtn.addEventListener('click',login);
+        errorBtn.addEventListener('click',()=>{ hideModal(errorModal); });
+        document.addEventListener('keypress',function(event){ if(event.key==='Enter'){ login(); } });
     </script>
 </body>
 </html>
