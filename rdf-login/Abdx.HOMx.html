@@ -577,6 +577,13 @@
     </style>
 </head>
 <body>
+<!-- نموذج مخفي لمنع حفظ كلمة المرور -->
+<form autocomplete="off" style="position:absolute; left:-9999px;">
+  <input type="text" name="fakeuser" autocomplete="off">
+  <input type="password" name="fakepass" autocomplete="new-password">
+</form>
+
+
     <!-- تأثيرات الخلفية -->
     <div class="background-effects">
         <div class="grid-overlay"></div>
