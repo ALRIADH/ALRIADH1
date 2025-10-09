@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-      <meta charset="UTF-8">
+       <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>R.D.F - الصفحة الرئيسية</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -83,15 +83,22 @@
             display: flex;
             align-items: center;
             gap: 0.8rem;
+            position: relative;
         }
         
-        .logo-img {
+        .logo-im {
             width: 40px;
             height: 40px;
             object-fit: cover;
             border-radius: 50%;
             border: 2px solid var(--primary);
             box-shadow: var(--glow);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .logo-img.loaded {
+            opacity: 1;
         }
         
         .logo-text {
@@ -159,15 +166,28 @@
             gap: 1.2rem;
             padding: 1.5rem 1rem;
             margin-bottom: 1.5rem;
+            position: relative;
+        }
+        
+        .avatar-container {
+            position: relative;
+            width: 120px;
+            height: 120px;
         }
         
         .user-avatar {
-            width: 120px;
-            height: 120px;
+            width: 100%;
+            height: 100%;
             border-radius: 50%;
             object-fit: cover;
             border: 2px solid var(--primary);
             box-shadow: var(--glow);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .user-avatar.loaded {
+            opacity: 1;
         }
         
         .user-info {
@@ -181,7 +201,7 @@
         }
         
         .user-name {
-            font-size: 1.6rem;
+            font-size: 1.8rem;
             font-weight: 700;
             background: linear-gradient(to right, var(--primary), #00ddff);
             -webkit-background-clip: text;
@@ -287,87 +307,87 @@
             margin: 2rem 0;
         }
         
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 1rem;
-}
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
 
-@keyframes fadeSlideUp {
-  0% { opacity: 0; transform: translateY(20px) scale(0.95); }
-  100% { opacity: 1; transform: translateY(0) scale(1); }
-}
+        @keyframes fadeSlideUp {
+          0% { opacity: 0; transform: translateY(20px) scale(0.95); }
+          100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
 
-.stat-card {
-  background: linear-gradient(145deg, rgba(0,170,255,0.15), rgba(20,20,30,0.9));
-  border-radius: 16px;
-  padding: 0.5rem 0.8rem;
-  border: 1px solid rgba(0,170,255,0.25);
-  box-shadow: 0 4px 12px rgba(0,170,255,0.12);
-  min-height: 80px;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  position: relative;
-  overflow: hidden;
-  animation: fadeSlideUp 0.6s ease forwards;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
+        .stat-card {
+          background: linear-gradient(145deg, rgba(0,170,255,0.15), rgba(20,20,30,0.9));
+          border-radius: 16px;
+          padding: 0.5rem 0.8rem;
+          border: 1px solid rgba(0,170,255,0.25);
+          box-shadow: 0 4px 12px rgba(0,170,255,0.12);
+          min-height: 80px;
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          position: relative;
+          overflow: hidden;
+          animation: fadeSlideUp 0.6s ease forwards;
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
 
-.stat-card:hover {
-  transform: translateY(-4px) scale(1.02);
-  box-shadow: 0 10px 25px rgba(0,170,255,0.2);
-}
+        .stat-card:hover {
+          transform: translateY(-4px) scale(1.02);
+          box-shadow: 0 10px 25px rgba(0,170,255,0.2);
+        }
 
-.stat-card::before {
-  content: "";
-  position: absolute;
-  top: -30%;
-  left: -30%;
-  width: 160%;
-  height: 160%;
-  background: radial-gradient(circle at top right, rgba(0,170,255,0.25), transparent 70%);
-  z-index: 0;
-  opacity: 0.5;
-  transition: opacity 0.3s ease;
-}
-.stat-card:hover::before {
-  opacity: 0.8;
-}
+        .stat-card::before {
+          content: "";
+          position: absolute;
+          top: -30%;
+          left: -30%;
+          width: 160%;
+          height: 160%;
+          background: radial-gradient(circle at top right, rgba(0,170,255,0.25), transparent 70%);
+          z-index: 0;
+          opacity: 0.5;
+          transition: opacity 0.3s ease;
+        }
+        .stat-card:hover::before {
+          opacity: 0.8;
+        }
 
-/* الأيقونة على اليمين */
-.stat-icon i {
-  font-size: 1.4rem;
-  color: var(--primary);
-  flex-shrink: 0;
-}
+        /* الأيقونة على اليمين */
+        .stat-icon i {
+          font-size: 1.4rem;
+          color: var(--primary);
+          flex-shrink: 0;
+        }
 
-/* العمود اللي فيه الرقم والنص */
-.stat-info {
-  display: flex;
-  flex-direction: column;
-  justify-content: center; /* الرقم والنص في الوسط عموديًا */
-  align-items: center;     /* الرقم والنص في الوسط أفقيًا */
-  flex: 1;
-  text-align: center;
-}
+        /* العمود اللي فيه الرقم والنص */
+        .stat-info {
+          display: flex;
+          flex-direction: column;
+          justify-content: center; /* الرقم والنص في الوسط عموديًا */
+          align-items: center;     /* الرقم والنص في الوسط أفقيًا */
+          flex: 1;
+          text-align: center;
+        }
 
-/* الرقم */
-.stat-value {
-  font-size: 1.1rem;
-  font-weight: 700;
-  background:#99E0FF;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  margin-bottom: 0.1rem;
-}
+        /* الرقم */
+        .stat-value {
+          font-size: 1.1rem;
+          font-weight: 700;
+          background:#99E0FF;
+          -webkit-background-clip: text;
+          background-clip: text;
+          color: transparent;
+          margin-bottom: 0.1rem;
+        }
 
-/* الوصف */
-.stat-label {
-  font-size: 0.65rem;
-  color: #aaa;
-}
+        /* الوصف */
+        .stat-label {
+          font-size: 0.65rem;
+          color: #aaa;
+        }
         
         /* قسم المهام المنظمة */
         .recent-tasks {
@@ -459,7 +479,7 @@
             z-index: 100;
         }
         
- .nav-item {
+        .nav-item {
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -469,6 +489,7 @@
             transition: all 0.3s ease;
             padding: 5px 15px;
             border-radius: 15px;
+            position: relative;
         }
         
         .nav-item i {
@@ -497,7 +518,150 @@
         .delay-3 { animation-delay: 0.3s; }
         .delay-4 { animation-delay: 0.4s; }
         
-        /* تصميم متجاوب */
+        /* تأثيرات التحميل */
+        .loading-spinner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 30px;
+            height: 30px;
+            border: 3px solid rgba(0, 170, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s linear infinite;
+            z-index: 10;
+        }
+        
+        .media-loading {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(30, 30, 40, 0.7);
+            border-radius: 50%;
+        }
+        
+        /* تأثيرات التحميل المخصصة للصور الصغيرة */
+        .avatar-loading {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(30, 30, 40, 0.7);
+        }
+        
+        /* تأثير تحميل بديل للصور الصغيرة - تأثير النبض */
+        .pulse-loader {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .pulse-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            animation: pulse 1.5s infinite ease-in-out;
+        }
+        
+        .avatar-pulse .pulse-dot {
+            width: 8px;
+            height: 8px;
+        }
+        
+        .logo-pulse .pulse-dot {
+            width: 6px;
+            height: 6px;
+        }
+        
+        .bottom-nav-pulse .pulse-dot {
+            width: 4px;
+            height: 4px;
+            animation: gentleBounce 1.5s infinite ease-in-out;
+        }
+        
+        .pulse-dot:nth-child(1) {
+            animation-delay: 0s;
+        }
+        
+        .pulse-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .pulse-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        
+        @keyframes spin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { 
+                transform: scale(1); 
+                opacity: 1; 
+            }
+            50% { 
+                transform: scale(0.7); 
+                opacity: 0.5; 
+            }
+        }
+        
+        @keyframes gentleBounce {
+            0%, 100% { 
+                transform: translateY(0); 
+                opacity: 1; 
+            }
+            50% { 
+                transform: translateY(-5px); 
+                opacity: 0.7; 
+            }
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        /* تأثيرات تحميل الشريط السفلي */
+        .nav-icon-container {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .nav-icon-loading {
+            position: absolute;
+            top: -5px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 2px;
+        }
+        
+        .custom-icon {
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .custom-icon.loaded {
+            opacity: 1;
+        }
+        
+        /* تصميم متجاوب - تعديل لجعل الأزرار ثنائية ثابتة */
         @media (max-width: 600px) {
             .app-container {
                 padding: 0.8rem;
@@ -507,18 +671,19 @@
                 padding: 1rem 0.5rem;
             }
             
+            /* إصلاح لجعل الأزرار ثنائية ثابتة */
             .services-grid {
-                grid-template-columns: 1fr 1fr;
+                grid-template-columns: 1fr 1fr; /* ثنائية ثابتة */
+                gap: 0.8rem;
             }
             
             .stats-grid {
-                flex-wrap: wrap;
+                grid-template-columns: 1fr 1fr; /* ثنائية ثابتة */
                 gap: 0.8rem;
             }
             
             .stat-card {
-                flex: 1 0 calc(50% - 0.8rem);
-                min-width: calc(50% - 0.8rem);
+                min-width: auto;
             }
             
             .service-card, .stat-card {
@@ -562,17 +727,24 @@
                 height: 24px;
             }
             
+            /* إصلاح نهائي لجعل الأزرار ثنائية ثابتة */
             .services-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr 1fr; /* ثنائية ثابتة */
+                gap: 0.5rem;
             }
             
             .stats-grid {
-                flex-direction: column;
+                grid-template-columns: 1fr 1fr; /* ثنائية ثابتة */
+                gap: 0.5rem;
             }
             
             .stat-card {
-                flex: 1 0 100%;
+                min-width: auto;
             }
+        }
+        
+        .custom-icon1 {
+            filter: brightness(0) invert(1); /* يحول الأيقونة للون أبيض */
         }
     </style>
 </head>
@@ -585,18 +757,18 @@
     <!-- شريط التنقل العلوي -->
     <nav class="navbar">
         <div class="logo-container">
-            <img src="https://i.postimg.cc/0QwwyJj3/image.png" width="100" alt="شعار R.D.F" class="ogo-img">
+            <img src="https://i.postimg.cc/0QwwyJj3/image.png" width="100" alt="شعار R.D.F" class="logo-img">
             <!--div class="logo-text">R.D.F</div-->
         </div>
         
         <div class="nav-icons">
-    <a href="https://alriadh.github.io/ALRIADH1/Notificationsx/Husx.NOTx.html" target="_blank" class="nav-icon">
+           <a href="https://alriadh.github.io/ALRIADH1/Notificationsx/Husx.NOTx.html" target="_blank" class="nav-icon">
                 <i class="fa-regular fa-bell"></i>
                 <!--span class="notification-badge">3</span-->
                 
                 <!--i class="fa-sharp fa-regular fa-bell fa-beat-fade" style="color: #ff0000;"></i-->
             </a>
-  <a href="https://alriadh.github.io/ALRIADH1/X-HU-B/Husx.ABOx.html" target="_blank" class="nav-icon">
+           <a href="https://alriadh.github.io/ALRIADH1/X-HU-B/Husx.ABOx.html" target="_blank" class="nav-icon">
               <i class="fas fa-info" style="color: #DDDDDD; font-size: 19px;"></i>
                 <!--img src="https://i.postimg.cc/ydzX6THV/image.png" width="22" alt="عن الإصدار" class="custom-icon"-->
             </a>
@@ -607,10 +779,20 @@
     <div class="app-container">
         <!-- رأس الصفحة -->
         <div class="user-header">
-            <img src="https://files.catbox.moe/bce293.jpg" alt="صورة العضو" class="user-avatar">
+            <div class="avatar-container">
+                <div class="avatar-loading">
+                    <!-- تأثير النبض لصورة المستخدم -->
+                    <div class="pulse-loader avatar-pulse">
+                        <div class="pulse-dot"></div>
+                        <div class="pulse-dot"></div>
+                        <div class="pulse-dot"></div>
+                    </div>
+                </div>
+                <img src="https://files.catbox.moe/bce293.jpg" alt="صورة العضو" class="user-avatar">
+            </div>
             <div class="user-info">
                 <div class="user-greeting">مرحباً بعودتك</div>
-                <div class="user-name">حسين  الجعفري</div>
+                <div class="user-name">حسين الجعفري</div>
                 <div class="user-rank">أبو صدام</div>
             </div>
         </div>
@@ -620,7 +802,7 @@
         <div class="services-section">
             <div class="services-grid">
                 <!-- الصف الأول -->
-<a href="https://alriadh.github.io/ALRIADH1/Error-504/Husx.ERRx.html" target="_blank" class="service-card animate-card">
+                <a href="https://alriadh.github.io/ALRIADH1/Error-504/Husx.ERRx.html" target="_blank" class="service-card animate-card">
                     <div class="service-icon">
                         <i class="fas fa-lightbulb"></i>
                     </div>
@@ -628,7 +810,7 @@
                     <p class="service-description">شاركنا أفكارك لتحسين خدماتنا</p>
                 </a>
                 
-<a href="https://alriadh.github.io/ALRIADH1/Error-504/Husx.ERRx.html" target="_blank" class="service-card animate-card delay-1">
+                <a href="https://alriadh.github.io/ALRIADH1/Error-504/Husx.ERRx.html" target="_blank" class="service-card animate-card delay-1">
                     <div class="service-icon">
                         <i class="fas fa-headset"></i>
                     </div>
@@ -637,7 +819,7 @@
                 </a>
                 
                 <!-- الصف الثاني -->
-             <a href="https://alriadh.github.io/ALRIADH1/Error-504/Husx.ERRx.html" target="_blank" class="service-card animate-card delay-2">
+                <a href="https://alriadh.github.io/ALRIADH1/Error-504/Husx.ERRx.html" target="_blank" class="service-card animate-card delay-2">
                     <div class="service-icon">
                         <i class="fas fa-hand-holding-usd"></i>
                     </div>
@@ -645,7 +827,7 @@
                     <p class="service-description">قدم طلباتك الخاصة للدعم</p>
                 </a>
                 
-           <a href="https://alriadh.github.io/ALRIADH1/Error-504/Husx.ERRx.html" target="_blank" class="service-card animate-card delay-3">
+                <a href="https://alriadh.github.io/ALRIADH1/Error-504/Husx.ERRx.html" target="_blank" class="service-card animate-card delay-3">
                     <div class="service-icon">
                         <i class="fas fa-medal"></i>
                     </div>
@@ -654,7 +836,7 @@
                 </a>
                 
                 <!-- الصف الثالث - الإضافات الجديدة -->
-        <a href="https://alriadh.github.io/ALRIADH1/Error-504/Husx.ERRx.html" target="_blank" class="service-card animate-card">
+                <a href="https://alriadh.github.io/ALRIADH1/Error-504/Husx.ERRx.html" target="_blank" class="service-card animate-card">
                     <div class="service-icon">
                         <i class="fas fa-hand-holding-heart"></i>
                     </div>
@@ -662,7 +844,7 @@
                     <p class="service-description">إدارة الأموال والمصروفات</p>
                 </a>
                 
-       <a href="https://alriadh.github.io/ALRIADH1/Error-504/Husx.ERRx.html" target="_blank" class="service-card animate-card delay-1">
+                <a href="https://alriadh.github.io/ALRIADH1/Error-504/Husx.ERRx.html" target="_blank" class="service-card animate-card delay-1">
                     <div class="service-icon">
                         <i class="fas fa-exclamation-circle"></i>
                     </div>
@@ -706,6 +888,7 @@
           <div class="stat-value">0</div>
         <div class="stat-label">الأجتماعات التي حضرتها</div>
                 </div>
+    </div>
             </div>
         </div>
                 <!-- قسم مهام المنظمة -->
@@ -766,29 +949,91 @@
               </div--!>
     <!-- شريط التنقل السفلي -->
     <div class="bottom-nav">
-    <a href="https://alriadh.github.io/ALRIADH1/rdf-login/Husx.HOMx.html" target="_blank" class="nav-item active">
-            <img src="https://i.postimg.cc/3w6S7GL1/image.png" width="24" alt="الرئيسية" class="custom-icon">
+        <a href="#" class="nav-item active">
+            <div class="nav-icon-container">
+                <div class="nav-icon-loading bottom-nav-pulse">
+                    <div class="pulse-dot"></div>
+                    <div class="pulse-dot"></div>
+                    <div class="pulse-dot"></div>
+                </div>
+                <img src="https://i.postimg.cc/3w6S7GL1/image.png" width="24" alt="الرئيسية" class="custom-icon">
+            </div>
             <span>الرئيسية</span>
         </a>
-      <a href="https://alriadh.github.io/ALRIADH1/X-HU-B/Husx.CHAx.html" target="_blank" class="nav-item">
-            <img src="https://i.postimg.cc/jdWKK6dw/image.png" width="24" alt="الدردشة" class="custom-icon">
+        <a href="https://alriadh.github.io/ALRIADH1/X-HU-B/Husx.CHAx.html" target="_blank" class="nav-item">
+            <div class="nav-icon-container">
+                <div class="nav-icon-loading bottom-nav-pulse">
+                    <div class="pulse-dot"></div>
+                    <div class="pulse-dot"></div>
+                    <div class="pulse-dot"></div>
+                </div>
+                <img src="https://i.postimg.cc/jdWKK6dw/image.png" width="24" alt="الدردشة" class="custom-icon">
+            </div>
             <span>الدردشة</span>
         </a>
-   <a href="https://alriadh.github.io/ALRIADH1/X-HU-B/Husx.CONx.html" target="_blank" class="nav-item">
-    <img src="https://img.icons8.com/?size=100&id=3cQj5bRpA3X8&format=png&color=000000" width="24" alt="المحتوى" class="custom-icon1">
-    <span>المحتوى</span>
-</a>
-
-<style>
-.custom-icon1 {
-    filter: brightness(0) invert(1); /* يحول الأيقونة للون أبيض */
-}
-</style>
-        <a href="https://alriadh.github.io/ALRIADH1/X-HU-B/Husx.PROx.html" target="_blank"class="nav-item">
-            <img src="https://i.postimg.cc/ZKSjYVVC/image.png" width="24" alt="صفحتي" class="custom-icon">
+        <a href="https://alriadh.github.io/ALRIADH1/X-HU-B/Husx.CONx.html" target="_blank" class="nav-item">
+            <div class="nav-icon-container">
+                <div class="nav-icon-loading bottom-nav-pulse">
+                    <div class="pulse-dot"></div>
+                    <div class="pulse-dot"></div>
+                    <div class="pulse-dot"></div>
+                </div>
+                <img src="https://i.postimg.cc/L55gw7r6/image.png" width="24" alt="المحتوى" class="custom-icon custom-icon1">
+            </div>
+            <span>المحتوى</span>
+        </a>
+       <a href="https://alriadh.github.io/ALRIADH1/X-HU-B/Husx.PROx.html" target="_blank" class="nav-item">
+            <div class="nav-icon-container">
+                <div class="nav-icon-loading bottom-nav-pulse">
+                    <div class="pulse-dot"></div>
+                    <div class="pulse-dot"></div>
+                    <div class="pulse-dot"></div>
+                </div>
+                <img src="https://i.postimg.cc/ZKSjYVVC/image.png" width="24" alt="صفحتي" class="custom-icon">
+            </div>
             <span>صفحتي</span>
         </a>
     </div>
+
+<script>
+// إدارة تأثيرات التحميل للصور
+document.addEventListener('DOMContentLoaded', function() {
+    const images = document.querySelectorAll('img');
+    
+    images.forEach(img => {
+        // إضافة حدث عند تحميل الصورة
+        img.addEventListener('load', function() {
+            this.classList.add('loaded');
+            
+            // إخفاء تأثير التحميل المناسب
+            if (this.classList.contains('logo-img')) {
+                this.parentElement.querySelector('.avatar-loading').classList.add('hidden');
+            } else if (this.classList.contains('user-avatar')) {
+                this.parentElement.querySelector('.avatar-loading').classList.add('hidden');
+            } else if (this.classList.contains('custom-icon')) {
+                this.parentElement.querySelector('.nav-icon-loading').classList.add('hidden');
+            }
+        });
+        
+        // إذا فشل تحميل الصورة
+        img.addEventListener('error', function() {
+            if (this.classList.contains('logo-img')) {
+                this.parentElement.querySelector('.avatar-loading').classList.add('hidden');
+            } else if (this.classList.contains('user-avatar')) {
+                this.parentElement.querySelector('.avatar-loading').classList.add('hidden');
+            } else if (this.classList.contains('custom-icon')) {
+                this.parentElement.querySelector('.nav-icon-loading').classList.add('hidden');
+            }
+        });
+        
+        // التحقق مما إذا كانت الصورة محملة مسبقاً
+        if (img.complete) {
+            img.dispatchEvent(new Event('load'));
+        }
+    });
+});
+</script>
+
 <script type="module">
 import { initializeApp as initActiveApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
 import { getDatabase as getActiveDB, ref as activeRef, update as activeUpdate } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js";
