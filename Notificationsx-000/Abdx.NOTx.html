@@ -1,720 +1,646 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>R.D.F - الإشعارات</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Cairo', sans-serif;
-        }
-        
-        :root {
-            --dark-bg: #0a0a12;
-            --primary: #00aaff;
-            --accent: #ff003c;
-            --text: #e0e0e0;
-            --light-gray: #1e1e2a;
-            --card-bg: rgba(20, 20, 30, 0.7);
-            --glow: 0 0 15px rgba(0, 170, 255, 0.3);
-        }
-        
-        body {
-            background: linear-gradient(135deg, #080817, #0d0d1a);
-            color: var(--text);
-            min-height: 100vh;
-            overflow-x: hidden;
-            position: relative;
-        }
-        
-        /* تأثيرات الخلفية */
-        .background-effects {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -1;
-            opacity: 0.1;
-        }
-        
-        .grid-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                linear-gradient(rgba(0, 170, 255, 0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 170, 255, 0.05) 1px, transparent 1px);
-            background-size: 40px 40px;
-        }
-        
-        /* شريط التنقل العلوي */
-        .navbar {
-            background: rgba(15, 15, 25, 0.95);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 1rem 1.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
-        }
-        
-        .logo-container {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-        }
-        
-        .logo-img {
-            width: 40px;
-            height: 40px;
-            object-fit: cover;
-            border-radius: 50%;
-            border: 2px solid var(--primary);
-            box-shadow: var(--glow);
-        }
-        
-        .logo-text {
-            font-size: 0.7rem;
-            font-weight: 700;
-            background: linear-gradient(to right, var(--primary), #00ddff);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-        
-        .nav-icons {
-            display: flex;
-            gap: 1.2rem;
-        }
-        
-        .nav-icon {
-            color: var(--text);
-            font-size: 1.4rem;
-            position: relative;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            border-radius: 5%;
-            background: rgba(255, 255, 255, 0.05);
-            text-decoration: none;
-        }
-        
-        .nav-icon:hover {
-            color: var(--primary);
-            transform: translateY(-3px);
-            background: rgba(0, 170, 255, 0.1);
-        }
-        
-        .notification-badge {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background: #ff003c;
-            color: white;
-            font-size: 0.7rem;
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        /* تصميم يشبه تطبيق الجوال */
-        .app-container {
-            max-width: 500px;
-            margin: 0 auto;
-            padding: 1rem;
-            padding-bottom: 80px;
-        }
-        
-        /* رأس الصفحة */
-        .page-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 1.5rem 1rem;
-            margin-bottom: 1.5rem;
-        }
-        
-        .page-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            background: linear-gradient(to right, var(--primary), #00ddff);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-        
-        .actions {
-            display: flex;
-            gap: 0.8rem;
-        }
-        
-        .action-btn {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: rgba(0, 170, 255, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--primary);
-            border: 1px solid rgba(0, 170, 255, 0.2);
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-        
-        .action-btn:hover {
-            background: rgba(0, 170, 255, 0.2);
-            transform: translateY(-3px);
-        }
-        
-        /* قسم الإشعارات */
-        .notifications-section {
-            margin: 1rem 0;
-        }
-        
-       .section-title {
-    font-size: 1.5rem;
-    margin: 1.5rem 0 1.2rem;
-    padding-left: 0.5rem;
-    position: relative;
-    font-weight: 700;
-    background-image: linear-gradient(to right, var(--primary), #00ddff);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-}
-        .section-title::before {
-            content: "";
-            position: absolute;
-            top: 50%;
-            right: -0.5rem;
-            transform: translateY(-50%);
-            width: 5px;
-            height: 70%;
-            background-image: linear-gradient(to right, var(--primary), #00ddff);
-            border-radius: 5px;
-        }
-        /*الاشعارات القديمة 1*/
-       .section-title1 {
-    font-size: 1.5rem;
-    margin: 1.5rem 0 0rem;
-    padding-left: 0.5rem;
-    position: relative;
-    font-weight: 700;
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: #0092DA;
-}
-        .section-title1::before {
-            content: "";
-            position: absolute;
-            top: 50%;
-            right: -0.5rem;
-            transform: translateY(-50%);
-            width: 5px;
-            height: 70%;
-            background:#0092DA;
-            border-radius: 5px;
-        }
-        /*سيتم حذف خلال ١٠ ايام*/
-.section-title2 {
-    font-size: 0.9rem;
-    margin: 0.3rem 0 1.2rem; /* قلل الهامش العلوي من 1.5rem إلى 0.3rem */
-    padding-left: 0.5rem;
-    position: relative;
-    color: #FF4848;
-    font-weight: 500;
-} 
+       <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>R.D.F - الصفحة الرئيسية</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-.section-title2::before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    right: -0.5rem;
-    transform: translateY(-50%);
-    width: 4px;
-    height: 70%;
-    background: #FF4848;
-    border-radius: 10px;
-}
-        
-        .notification-list {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-        
-        .notification-item {
-            background: var(--card-bg);
-            border-radius: 16px;
-            padding: 1.2rem;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            display: flex;
-            align-items: flex-start;
-            gap: 1rem;
-            position: relative;
-        }
-        
-        .notification-item:hover {
-            transform: translateY(-3px);
-            border-color: var(--primary);
-            box-shadow: 0 6px 18px rgba(0, 170, 255, 0.2);
-        }
-        
-        .notification-item.important {
-            border: 1px solid rgba(255, 0, 60, 0.3);
-            background: linear-gradient(135deg, rgba(255, 0, 60, 0.1), rgba(20, 20, 30, 0.7));
-        }
-        
-        .notification-item.important::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at top right, rgba(255, 0, 60, 0.2), transparent 70%);
-            z-index: -1;
-            border-radius: 16px;
-        }
-        
-        .notification-icon {
-            width: 45px;
-            height: 45px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(0, 170, 255, 0.1);
-            border-radius: 50%;
-            flex-shrink: 0;
-            font-size: 1.2rem;
-            color: var(--primary);
-        }
-        
-        .notification-item.important .notification-icon {
-            background: rgba(255, 0, 60, 0.1);
-            color: var(--accent);
-        }
-        
-        .notification-content {
-            flex: 1;
-        }
-        
-        .notification-title {
-            font-weight: 600;
-            margin-bottom: 0.4rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        
-        .notification-badge-important {
-            background: var(--accent);
-            color: white;
-            font-size: 0.7rem;
-            padding: 0.2rem 0.6rem;
-            border-radius: 12px;
-            margin-right: 0.5rem;
-        }
-        
-        .notification-time {
-            font-size: 0.75rem;
-            color: #aaa;
-        }
-        
-        .notification-desc {
-            font-size: 0.9rem;
-            color: #aaa;
-            line-height: 1.5;
-            margin-bottom: 0.5rem;
-        }
-        
-        .notification-actions {
-            display: flex;
-            gap: 0.8rem;
-            margin-top: 0.8rem;
-        }
-        
-        .notification-btn {
-            padding: 0.4rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .btn-primary {
-            background: rgba(0, 170, 255, 0.2);
-            color: var(--primary);
-            border: 1px solid rgba(0, 170, 255, 0.3);
-        }
-        
-        .btn-primary:hover {
-            background: rgba(0, 170, 255, 0.3);
-        }
-        
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.05);
-            color: #aaa;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-        
-        /* حالة عدم وجود إشعارات */
-        .empty-state {
-            text-align: center;
-            padding: 3rem 1rem;
-            color: #aaa;
-        }
-        
-        .empty-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            color: var(--primary);
-            opacity: 0.5;
-        }
-        
-        .empty-text {
-            font-size: 1.1rem;
-            margin-bottom: 1.5rem;
-        }
-        
-        /* شريط التنقل السفلي */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: rgba(15, 15, 25, 0.95);
-            backdrop-filter: blur(10px);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            justify-content: space-around;
-            padding: 0.8rem 0;
-            z-index: 100;
-        }
-        
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-decoration: none;
-            color: #aaa;
-            font-size: 0.8rem;
-            transition: all 0.3s ease;
-        }
-        
-        .nav-item i {
-            font-size: 1.4rem;
-            margin-bottom: 0.3rem;
-        }
-        
-        .nav-item.active, .nav-item:hover {
-            color: var(--primary);
-        }
-        
-        /* التأثيرات والرسوم المتحركة */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .animate-card {
-            animation: fadeIn 0.6s ease forwards;
-        }
-        
-        .delay-1 { animation-delay: 0.1s; }
-        .delay-2 { animation-delay: 0.2s; }
-        .delay-3 { animation-delay: 0.3s; }
-        .delay-4 { animation-delay: 0.4s; }
-        .delay-5 { animation-delay: 0.5s; }
-        
-        /* تصميم متجاوب */
-        @media (max-width: 600px) {
-            .app-container {
-                padding: 0.8rem;
-            }
-            
-            .page-header {
-                padding: 1rem 0.5rem;
-            }
-            
-            .page-title {
-                font-size: 1.5rem;
-            }
-            
-            .notification-item {
-                padding: 1rem;
-            }
-            
-            .notification-icon {
-                width: 40px;
-                height: 40px;
-                font-size: 1.1rem;
-            }
-            
-            .notification-actions {
-                flex-direction: column;
-                gap: 0.5rem;
-            }
-            
-            .notification-btn {
-                width: 100%;
-                text-align: center;
-            }
-        }
-        
-        @media (max-width: 400px) {
-            .page-title {
-                font-size: 1.3rem;
-            }
-            
-            .custom-icon {
-                width: 24px;
-                height: 24px;
-            }
-            
-            .notification-item {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            .notification-title {
-                flex-direction: column;
-                gap: 0.5rem;
-            }
-            
-            .notification-time {
-                margin-top: 0.3rem;
-            }
-            h5{
-            color: red;
-            }
-        }
-    </style>
+<style>
+    /* هنا نعرّف الخط من ملفك على GitHub */
+    @font-face {
+        font-family: 'Cairo';
+        src: url('fonts/Cairo[slnt,wght].ttf') format('truetype');
+        font-weight: 100 900; /* لأن الخط متغير */
+        font-style: normal;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Cairo', sans-serif;
+    }
+
+    :root {
+        --dark-bg: #0a0a12;
+        --primary: #00aaff;
+        --accent: #ff003c;
+        --text: #e0e0e0;
+        --light-gray: #1e1e2a;
+        --card-bg: rgba(20, 20, 30, 0.7);
+        --glow: 0 0 15px rgba(0, 170, 255, 0.3);
+    }
+
+    body {
+        background: linear-gradient(135deg, #080817, #0d0d1a);
+        color: var(--text);
+        min-height: 100vh;
+        overflow-x: hidden;
+        position: relative;
+    }
+        
+        /* تأثيرات الخلفية */
+        .background-effects {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.1;
+        }
+        
+        .grid-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(rgba(0, 170, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 170, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        
+        /* شريط التنقل العلوي */
+        .navbar {
+            background: rgba(15, 15, 25, 0.95);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        
+        .logo-img {
+            width: 40px;
+            height: 40px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 2px solid var(--primary);
+            box-shadow: var(--glow);
+        }
+        
+        .logo-text {
+            font-size: 1.2rem;
+            font-weight: 700;
+            background: linear-gradient(to right, var(--primary), #00ddff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .nav-icons {
+            display: flex;
+            gap: 1.2rem;
+        }
+        
+        .nav-icon {
+            color: var(--text);
+            font-size: 1.4rem;
+            position: relative;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 5%;
+            background: rgba(255, 255, 255, 0.05);
+            text-decoration: none;
+        }
+        
+        .nav-icon:hover {
+            color: var(--primary);
+            transform: translateY(-3px);
+            background: rgba(0, 170, 255, 0.1);
+        }
+        
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ff003c;
+            color: white;
+            font-size: 0.7rem;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* تصميم يشبه تطبيق الجوال */
+        .app-container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 1rem;
+            padding-bottom: 80px;
+        }
+        
+        /* رأس الصفحة */
+        .page-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.5rem 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .page-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(to right, var(--primary), #00ddff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .actions {
+            display: flex;
+            gap: 0.8rem;
+        }
+        
+        .action-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(0, 170, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            border: 1px solid rgba(0, 170, 255, 0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .action-btn:hover {
+            background: rgba(0, 170, 255, 0.2);
+            transform: translateY(-3px);
+        }
+        
+        /* قسم الإشعارات */
+        .notifications-section {
+            margin: 1rem 0;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            margin: 1.5rem 0 1.2rem;
+            padding-left: 0.5rem;
+            position: relative;
+            color: var(--text);
+            font-weight: 700;
+        }
+        
+        .section-title::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            right: -0.5rem;
+            transform: translateY(-50%);
+            width: 5px;
+            height: 70%;
+            background: var(--primary);
+            border-radius: 5px;
+        }
+        
+        .notification-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .notification-item {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 1.2rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            position: relative;
+        }
+        
+        .notification-item:hover {
+            transform: translateY(-3px);
+            border-color: var(--primary);
+            box-shadow: 0 6px 18px rgba(0, 170, 255, 0.2);
+        }
+        
+        .notification-item.important {
+            border: 1px solid rgba(255, 0, 60, 0.3);
+            background: linear-gradient(135deg, rgba(255, 0, 60, 0.1), rgba(20, 20, 30, 0.7));
+        }
+        
+        .notification-item.important::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at top right, rgba(255, 0, 60, 0.2), transparent 70%);
+            z-index: -1;
+            border-radius: 16px;
+        }
+        
+        .notification-icon {
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 170, 255, 0.1);
+            border-radius: 50%;
+            flex-shrink: 0;
+            font-size: 1.2rem;
+            color: var(--primary);
+        }
+        
+        .notification-item.important .notification-icon {
+            background: rgba(255, 0, 60, 0.1);
+            color: var(--accent);
+        }
+        
+        .notification-content {
+            flex: 1;
+        }
+        
+        .notification-title {
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .notification-badge-important {
+            background: var(--accent);
+            color: white;
+            font-size: 0.7rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            margin-right: 0.5rem;
+        }
+        
+        .notification-time {
+            font-size: 0.75rem;
+            color: #aaa;
+        }
+        
+        .notification-desc {
+            font-size: 0.9rem;
+            color: #aaa;
+            line-height: 1.5;
+            margin-bottom: 0.5rem;
+        }
+        
+        .notification-actions {
+            display: flex;
+            gap: 0.8rem;
+            margin-top: 0.8rem;
+        }
+        
+        .notification-btn {
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background: rgba(0, 170, 255, 0.2);
+            color: var(--primary);
+            border: 1px solid rgba(0, 170, 255, 0.3);
+        }
+        
+        .btn-primary:hover {
+            background: rgba(0, 170, 255, 0.3);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: #aaa;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        /* حالة عدم وجود إشعارات */
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: #aaa;
+        }
+        
+        .empty-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+            opacity: 0.5;
+        }
+        
+        .empty-text {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        /* شريط التنقل السفلي */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(15, 15, 25, 0.95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-around;
+            padding: 0.8rem 0;
+            z-index: 100;
+        }
+                .custom-icon1 {
+            filter: brightness(0) saturate(100%) invert(61%) sepia(63%) saturate(5904%) hue-rotate(172deg) brightness(95%) contrast(97%);
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #aaa;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-item i {
+            font-size: 1.4rem;
+            margin-bottom: 0.3rem;
+        }
+        
+        .nav-item.active, .nav-item:hover {
+            color: var(--primary);
+        }
+        
+        /* التأثيرات والرسوم المتحركة */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animate-card {
+            animation: fadeIn 0.6s ease forwards;
+        }
+        
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+        .delay-5 { animation-delay: 0.5s; }
+        
+        /* تصميم متجاوب */
+        @media (max-width: 600px) {
+            .app-container {
+                padding: 0.8rem;
+            }
+            
+            .page-header {
+                padding: 1rem 0.5rem;
+            }
+            
+            .page-title {
+                font-size: 1.5rem;
+            }
+            
+            .notification-item {
+                padding: 1rem;
+            }
+            
+            .notification-icon {
+                width: 40px;
+                height: 40px;
+                font-size: 1.1rem;
+            }
+            
+            .notification-actions {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .notification-btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+        
+        @media (max-width: 400px) {
+            .page-title {
+                font-size: 1.3rem;
+            }
+            
+            .custom-icon {
+                width: 24px;
+                height: 24px;
+            }
+            
+            .notification-item {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .notification-title {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .notification-time {
+                margin-top: 0.3rem;
+            }
+            
+        }
+    </style>
 </head>
 <body>
-    <!-- تأثيرات الخلفية -->
-    <div class="background-effects">
-        <div class="grid-overlay"></div>
-    </div>
-    
-    <!-- شريط التنقل العلوي -->
-    <nav class="navbar">
-        <div class="logo-container">
-            <img src="https://i.postimg.cc/0QwwyJj3/image.png" width="100" alt="شعار R.D.F" class="ogo-img">
-            <!--div class="logo-text">2020/4/15 أحتفال</div-->
-        </div>
-                <div class="nav-icons">
-            <a href="message.html" class="nav-icon">
-<i class="fa-regular fa-bell" style="color: #00aaff;"></i>
-<!--i class="fa-regular fa-bell" style="color: #ff0000;"></i-->
-                <!--span class="notification-badge">3</span-->
-            </a>
-        <div class="nav-icons">
-            <a href="CUP.html" class="nav-icon">
-<i class="fas fa-info" style="color: #DDDDDD; font-size: 19px;"></i>
-            </a>
-        </div>
-    </nav>
-    
-    <!-- تصميم يشبه تطبيق الجوال -->
-    <div class="app-container">
-        <!-- قسم الإشعارات -->
-        <div class="notifications-section">
-            <h2 class="section-title">الإشعارات الحديثة</h2>
-            <div class="notification-list">
-                       <!------------ إشعار مهم ------------->
-                       <!------------ إشعار مهم ------------->
-                       <!------------ إشعار مهم ------------->
-                       <!------------ إشعار مهم -------------
-                <div class="notification-item important animate-card">
-                    <div class="notification-icon">
-<i class="fa-regular fa-bell fa-fade" style="color: #ff0000;"></i>
-                    </div>
-                    <div class="notification-content">
-                        <div class="notification-title">
-                            <div>
-                                <span class="notification-badge-important">مهم</span>
-                                <span>تنبيه أمني عاجل</span>
-                            </div>
-                            <div class="notification-time">منذ 10 دقائق</div>
-                        </div>
-                        <p class="notification-desc">
-            تم اكتشاف محاولة اختراق غير معتادة على الخادم الرئيسي. يرجى اتخاذ الإجراءات اللازمة على الفور.
-                        </p>
+    <!-- تأثيرات الخلفية -->
+    <div class="background-effects">
+        <div class="grid-overlay"></div>
+    </div>
+    <!-- شريط التنقل العلوي -->
+    <nav class="navbar">
+        <div class="logo-container">
+            <img src="https://i.postimg.cc/0QwwyJj3/image.png" width="100" alt="شعار R.D.F" class="logimg">
+        </div>
+        
+    <div class="nav-icons">
+     <a href="#" class="nav-icon"><i class="fa-regular fa-bell" style="color:#00aaff;font-size:22px;"></i></a>
+     
+      <a href="https://alriadh.github.io/ALRIADH1/X-MA-A/Mesx.ABOx.html" target="_blank" class="nav-icon"><i class="fas fa-info" style="color:#DDDDDD;font-size:19px;"></i></a>
+    </div>
+        </div>
+    </nav>
+  
+  
+  
+  
+ 
+    <!-- تصميم يشبه تطبيق الجوال -->
+    <div class="app-container">
+        <!-- قسم الإشعارات -->
+        <div class="notifications-section">
+            <h2 class="section-title">الإشعارات الحالية</h2>
+            <div class="notification-list">
+                <!------- إشعار مهم ----البداية------->
+                <!------- إشعار مهم ----البداية------->
+                <!------- إشعار مهم ----البداية-------
+                <div class="notification-item important animate-card">
+                    <div class="notification-icon">
+                <i class="fa-sharp fa-regular fa-bell fa-beat-fade" style="color: #ff0000;"></i>
+                    </div>
+                    <div class="notification-content">
+                        <div class="notification-title">
+                            <div>
+                                <span class="notification-badge-important">مهم</span>
+                                <span>تنبيه أمني عاجل</span>
+                            </div>
+                            <div class="notification-time">منذ 10 دقائق</div>
+                        </div>
+                        <p class="notification-desc">
+            تم اكتشاف محاولة اختراق غير معتادة على الخادم الرئيسي. يرجى اتخاذ الإجراءات اللازمة على الفور.
+                        <!-----أزرار-----
 <div class="notification-actions">
-    <a href="x1.html">
-        <button class="notification-btn btn-primary">عرض</button>
-    </a>
-</div>
-                    </div>
-                </div-->
-                      <!------------ إشعار مهم ------------->
-                      <!------------ إشعار مهم ------------->
-                      <!------------ إشعار مهم ------------->
-                      <!------------ إشعار مهم -------------> 
+    <a href="https://alriadh.github.io/ALRIADH1/X-MA-A/Mesx.ABOx.html" target="_blank">
+        <button class="notification-btn btn-primary">ترحيب</button>
+    </a>
+    </div>
+                    </div>
+                </div>
+ 
 
-     <!------- 1 إشعار عادي -->
-     <!------- 1 إشعار عادي -->
-                <div class="notification-item animate-card delay-3">
-                    <div class="notification-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <div class="notification-content">
-                        <div class="notification-title">
-                            <span>تحديث النظام</span>
-                            <div class="notification-time">منذ 5 ساعات</div>
-                        </div>
-                        <p class="notification-desc">
-                            تم إصدار تحديث جديد لنظام الأمن. يرجى تحديث النظام عند توفر الوقت.
-                        </p>
+
+<!--★☆★☆★☆★☆★☆★☆★☆★☆★☆★★☆★☆★☆★☆★☆★☆★☆★☆★☆-->
+                <!-- إشعار رقم 1 -->
+                <div class="notification-item animate-card delay-4">
+                    <div class="notification-icon">
+
+                        <i class="fa-solid fa-hand"></i>
+                    </div>
+                    <div class="notification-content">
+                        <div class="notification-title">
+                            <span>مرحباً، عبدالرحمن</span>
+                            <div class="notification-time">2025/10/12</div>
+                        </div>
+                        <p class="notification-desc">
+                        من هنا ستتلقى جميع الأشعارات.
+                        </p>
+                        <!-----أزرار-----
 <div class="notification-actions">
-    <a href="x1.html">
-        <button class="notification-btn btn-primary">تحديث الآن</button>
-    </a>
+    <a href="https://alriadh.github.io/ALRIADH1/X-MA-A/Mesx.ABOx.html" target="_blank">
+        <button class="notification-btn btn-primary">ترحيب</button>
+    </a>
+                        <!-----أزرار-----
+    <a href="https://alriadh.github.io/ALRIADH1/X-MA-A/Mesx.PROx.html" target="_blank">
+        <button class="notification-btn btn-secondary">إخفاء</button>
+    </a>
 </div>
-                    </div>
-                </div>
-                
-    <!------- 2 إشعار عادي -->
-    <!------- 2 إشعار عادي -->
-                <div class="notification-item animate-card delay-4">
-                    <div class="notification-icon">
-                        <i class="fas fa-user-plus"></i>
-                    </div>
-                    <div class="notification-content">
-                        <div class="notification-title">
-                            <span>عضو جديد</span>
-                            <div class="notification-time">منذ يوم</div>
-                        </div>
-                        <p class="notification-desc">
-                            انضم عضو جديد إلى الفريق: أحمد محمد. رحب به في فريق الأمن السيبراني.
-                        </p>
-<!--div class="notification-actions">
-    <a href="x1.html">
-        <button class="notification-btn btn-primary">تحديث الآن</button>
-    </a>
-</div-->
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- قسم الإشعارات القديمة -->
-        <!-- قسم الإشعارات القديمة -->
-        <!-- قسم الإشعارات القديمة -->
-        <!-- قسم الإشعارات القديمة -->
-        <!-- قسم الإشعارات القديمة -->
-        <!-- قسم الإشعارات القديمة -->
-        <!-- قسم الإشعارات القديمة -->
-  <!--div class="notifications-section">
-  <h2 class="section-title1">
-    الإشعارات القديمة أسفل
-    <span class="big-symbol">⟲</span>
-  </h2>
-  <h2 class="section-title2">ملاحظة: الإشعارات القديمة تُحذف كل 30 أيام</h2>
-</div> 
-
-<style>
-  .section-title {
-    font-size: 24px; /* حجم نص العنوان */
-    display: flex;
-    align-items: center; /* محاذاة عمودية للنص والرمز */
-    gap: 8px; /* مسافة بين النص والرمز */
-  } 
-
-  .big-symbol {
-    font-size: 30px; /* حجم الرمز */
-    line-height: 1; /* يخفف الفجوات الرأسية */
-  }
-</style>
-                            <!-- أشعار سابق 1 -->
-                <!--div class="notification-item animate-card delay-1">
-                    <div class="notification-icon">
-                        <i class="fas fa-calendar-check"></i>
-                    </div>
-                    <div class="notification-content">
-                        <div class="notification-title">
-                            <span>اجتماع فريق الأمن</span>
-                            <div class="notification-time">منذ ساعة</div>
-                        </div>
-                        <p class="notification-desc">
-                            اجتماع فريق الأمن السيبراني غداً الساعة 10:00 صباحاً في القاعة الرئيسية.
-                        </p>
-                    </div>
-                </div>
-                <br>
-                <!--آخر رسالة فارغة ##### #-->
-                                      <!--آخر رسالة فارغة ##### #-->
-                <!--آخر رسالة فارغة ##### #-->
-            <!--div class="notification-list">
-                <div class="notification-item animate-card delay-5">
-                    <div class="notifcation-icon">
-                        <i class="fas fa-ceck-circle"></i>
-                    </div>
-                    <div class="notification-content">
-                        <div class="notification-title">
-                            <span></span>
-                            <div class="notification-time"></div>
-                        </div>
-                        <p class="notification-desc">
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- شريط التنقل السفلي -->
-    <div class="bottom-nav">
-        <a href="HHX.home.html" class="nav-item">
-            <img src="https://i.postimg.cc/1RYdGs59/image.png" width="24" alt="الرئيسية" class="custom-icon">
-            <span>الرئيسية</span>
-        </a>
-        <a href="HHX.chat.html" class="nav-item">
-            <img src="https://i.postimg.cc/jdWKK6dw/image.png" width="24" alt="الدردشة" class="custom-icon">
-            <span>الدردشة</span>
-        </a>
-<a href="reports.html" class="nav-item">
-    <img src="https://img.icons8.com/?size=100&id=3cQj5bRpA3X8&format=png&color=000000" width="24" alt="المحتوى" class="custom-icon1">
-    <span>المحتوى</span>
-</a> 
-
-<style>
-.custom-icon1 {
-    filter: brightness(0) invert(1); /* يحول الأيقونة للون أبيض */
-}
-</style>
-        <a href="HHX.me.html" class="nav-item">
-            <img src="https://i.postimg.cc/ZKSjYVVC/image.png" width="24" alt="صفحتي" class="custom-icon">
-            <span>صفحتي</span>
-        </a>
-    </div>
+                        <!-----أزرار----->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+  <!--★☆★☆★☆★☆★☆★☆★☆★☆★☆★★☆★☆★☆★☆★☆★☆★☆★☆★☆-->  
+        
+        
+        
+        
+        
+        <!-- قسم الإشعارات السابقة --
+        <div class="notifications-section">
+            <h2 class="section-title">الإشعارات السابقة</h2>
+                        <!-- هذة لحالها قطعة --
+            <div class="notification-list">
+                <div class="notification-item animate-card delay-5">
+                    <div class="notification-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="notification-content">
+                        <div class="notification-title">
+                            <span>اكتمال المهمة</span>
+                            <div class="notification-time">منذ 3 أيام</div>
+                        </div>
+                        <p class="notification-desc">
+                            تم إكمال مهمة "فحص الثغرات الأمنية" بنجاح. جميع الثغرات已被 إصلاح.
+                        </p>
+                    </div>
+                </div>
+                <!-- هذة لحالها قطعة --
+            <div class="notification-list">
+                <div class="notification-item animate-card delay-5">
+                    <div class="notification-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="notification-content">
+                        <div class="notification-title">
+                            <span>اكتمال المهمة</span>
+                            <div class="notification-time">منذ 3 أيام</div>
+                        </div>
+                        <p class="notification-desc">
+                            تم إكمال مهمة "فحص الثغرات الأمنية" بنجاح. جميع الثغرات已被 إصلاح.
+                        </p>
+                    </div>
+                </div>
+                <!-- هذة لحالها قطعة -->
+            <h2 class="section-title"></h2>
+            </div>
+        </div>
+    </div>
+    
+    
+    
+    <!-- شريط التنقل السفلي -->
+    <!-- شريط التنقل السفلي -->
+    <div class="bottom-nav">
+     <a href="https://alriadh.github.io/ALRIADH1/rdf-login/Mesx.HOMx.html" target="_blank"
+ class="nav-item">
+            <img src="https://i.postimg.cc/1RYdGs59/image.png" width="24"  class="custom-icon">
+            <span>الرئيسية</span>
+        </a>
+        <a href="https://alriadh.github.io/ALRIADH1/X-MA-A/Mesx.CHAx.html" target="_blank"
+ class="nav-item">
+            <img src="https://i.postimg.cc/jdWKK6dw/image.png" width="24"  class="custom-icon">
+            <span>الدردشة</span>
+        </a>
+        <a href="https://alriadh.github.io/ALRIADH1/X-MA-A/Mesx.CONx.html" target="_blank"
+ class="nav-item">
+                <img src="https://i.postimg.cc/L55gw7r6/image.png" width="24" alt="المحتوى" class="custom-icon">
+            <span>المحتوى</span>
+        </a>
+        <a href="#" class="nav-item">
+            <img src="https://i.postimg.cc/ZKSjYVVC/image.png" width="24" class="custom-icon">
+            <span>صفحتي</span>
+        </a>
+    </div>
 </body>
 </html>
