@@ -1,0 +1,1571 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>R.D.F - تحدي المتصدرين</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+        }
+        
+        :root {
+            --dark-bg: #0a0a12;
+            --primary: #00aaff;
+            --accent: #205D96;
+            --gold: #ffd700;
+            --silver: #c0c0c0;
+            --bronze: #cd7f32;
+            --text: #e0e0e0;
+            --light-gray: #1e1e2a;
+            --card-bg: rgba(20, 20, 30, 0.7);
+            --glow: 0 0 15px rgba(0, 170, 255, 0.3);
+        }
+        
+        body {
+            background: linear-gradient(135deg, #080817, #0d0d1a);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            padding-top: 10px;
+        }
+        
+        /* تأثيرات الخلفية */
+        .background-effects {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.1;
+        }
+        
+        .grid-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(rgba(0, 170, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 170, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        
+        .floating-shapes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .floating-shape {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--primary), transparent);
+            opacity: 0.1;
+            animation: float 15s infinite ease-in-out;
+        }
+        
+        .shape-1 {
+            width: 150px;
+            height: 150px;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+        
+        .shape-2 {
+            width: 100px;
+            height: 100px;
+            top: 60%;
+            left: 80%;
+            animation-delay: 3s;
+        }
+        
+        .shape-3 {
+            width: 200px;
+            height: 200px;
+            top: 30%;
+            left: 70%;
+            animation-delay: 6s;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); }
+            25% { transform: translateY(-20px) translateX(10px); }
+            50% { transform: translateY(10px) translateX(-15px); }
+            75% { transform: translateY(-15px) translateX(-10px); }
+        }
+        
+        /* تصميم للهواتف فقط */
+        .app-container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 0.5rem;
+        }
+        
+        /* قسم المتصدرين - التعديلات المطلوبة */
+        .leaders-section {
+            margin-bottom: 20px;
+            position: relative;
+            padding-top: 10px;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 15px;
+            position: relative;
+        }
+        
+        .section-title h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title h1::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            animation: titleUnderline 3s infinite;
+        }
+        
+        @keyframes titleUnderline {
+            0%, 100% { transform: scaleX(0.8); opacity: 0.7; }
+            50% { transform: scaleX(1); opacity: 1; }
+        }
+        
+        .leaders-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .leader-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 10px;
+            text-align: center;
+            position: relative;
+            transition: all 0.4s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            flex: 1;
+            z-index: 1;
+        }
+        
+        /* تأثيرات خاصة للمركز الأول */
+        .leader-1 {
+            background: linear-gradient(145deg, rgba(255,215,0,0.1), rgba(20,20,30,0.8));
+            border: 1px solid rgba(255,215,0,0.3);
+            animation: glowGold 3s infinite alternate;
+            position: relative;
+        }
+        
+        /* شرارات نارية للمركز الأول */
+        .leader-1::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 20%, rgba(255, 215, 0, 0.3) 0%, transparent 50%),
+                       radial-gradient(circle at 70% 30%, rgba(255, 100, 0, 0.2) 0%, transparent 50%),
+                       radial-gradient(circle at 50% 80%, rgba(255, 215, 0, 0.2) 0%, transparent 50%);
+            z-index: -1;
+            opacity: 0.7;
+            animation: fireGlow 4s infinite alternate;
+        }
+        
+        @keyframes fireGlow {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 0.8; }
+        }
+        
+        /* جزيئات متحركة للمركز الأول */
+        .fire-particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .fire-particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: radial-gradient(circle, #ffaa00, #ff5500);
+            border-radius: 50%;
+            opacity: 0;
+            animation: fireParticle 3s infinite;
+        }
+        
+        @keyframes fireParticle {
+            0% {
+                transform: translateY(100%) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-50%) translateX(var(--tx, 0));
+                opacity: 0;
+            }
+        }
+        
+        /* تأثيرات خاصة للمركز الثاني */
+        .leader-2 {
+            background: linear-gradient(145deg, rgba(192,192,192,0.1), rgba(20,20,30,0.8));
+            border: 1px solid rgba(192,192,192,0.3);
+            animation: glowSilver 3s infinite alternate;
+            animation-delay: 0.5s;
+            position: relative;
+        }
+        
+        /* تأثيرات خاصة للمركز الثالث */
+        .leader-3 {
+            background: linear-gradient(145deg, rgba(205,127,50,0.1), rgba(20,20,30,0.8));
+            border: 1px solid rgba(205,127,50,0.3);
+            animation: glowBronze 3s infinite alternate;
+            animation-delay: 1s;
+            position: relative;
+        }
+        
+        /* تأثيرات فقاعات مائية للمركزين الثاني والثالث */
+        .water-particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .water-particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: radial-gradient(circle, rgba(0, 170, 255, 0.6), rgba(32, 93, 150, 0.3));
+            border-radius: 50%;
+            opacity: 0;
+            animation: waterParticle 4s infinite;
+        }
+        
+        @keyframes waterParticle {
+            0% {
+                transform: translateY(100%) translateX(0);
+                opacity: 0;
+            }
+            20% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.4;
+            }
+            100% {
+                transform: translateY(-30%) translateX(var(--tx, 0));
+                opacity: 0;
+            }
+        }
+        
+        .leader-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+        
+        .leader-card:hover::after {
+            opacity: 1;
+        }
+        
+        .leader-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+        }
+        
+        @keyframes glowGold {
+            0% { box-shadow: 0 0 10px rgba(255,215,0,0.3); }
+            100% { box-shadow: 0 0 20px rgba(255,215,0,0.6), 0 0 30px rgba(255,215,0,0.4); }
+        }
+        
+        @keyframes glowSilver {
+            0% { box-shadow: 0 0 10px rgba(192,192,192,0.3); }
+            100% { box-shadow: 0 0 20px rgba(192,192,192,0.6); }
+        }
+        
+        @keyframes glowBronze {
+            0% { box-shadow: 0 0 10px rgba(205,127,50,0.3); }
+            100% { box-shadow: 0 0 20px rgba(205,127,50,0.6); }
+        }
+        
+        .leader-medal {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            font-weight: bold;
+            z-index: 2;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+            animation: medalFloat 3s infinite ease-in-out;
+        }
+        
+        @keyframes medalFloat {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-5px); }
+        }
+        
+        .leader-1 .leader-medal {
+            background: linear-gradient(135deg, var(--gold), #ffaa00);
+            color: #000;
+            box-shadow: 0 0 10px rgba(255,215,0,0.7);
+            animation: medalFloat 2s infinite ease-in-out, goldPulse 2s infinite alternate;
+        }
+        
+        @keyframes goldPulse {
+            0% { box-shadow: 0 0 10px rgba(255,215,0,0.7); }
+            100% { box-shadow: 0 0 20px rgba(255,215,0,0.9), 0 0 30px rgba(255,215,0,0.5); }
+        }
+        
+        .leader-2 .leader-medal {
+            background: linear-gradient(135deg, var(--silver), #a0a0a0);
+            color: #000;
+        }
+        
+        .leader-3 .leader-medal {
+            background: linear-gradient(135deg, var(--bronze), #8b4513);
+            color: #fff;
+        }
+        
+        .leader-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 15px auto 10px;
+            border: 2px solid;
+            position: relative;
+            z-index: 1;
+            transition: all 0.3s ease;
+        }
+        
+        .leader-1 .leader-avatar {
+            border-color: var(--gold);
+            box-shadow: 0 0 10px rgba(255,215,0,0.5);
+            animation: avatarGlow 3s infinite alternate;
+        }
+        
+        @keyframes avatarGlow {
+            0% { box-shadow: 0 0 10px rgba(255,215,0,0.5); }
+            100% { box-shadow: 0 0 15px rgba(255,215,0,0.8), 0 0 25px rgba(255,215,0,0.4); }
+        }
+        
+        .leader-2 .leader-avatar {
+            border-color: var(--silver);
+            box-shadow: 0 0 10px rgba(192,192,192,0.5);
+        }
+        
+        .leader-3 .leader-avatar {
+            border-color: var(--bronze);
+            box-shadow: 0 0 10px rgba(205,127,50,0.5);
+        }
+        
+        .leader-card:hover .leader-avatar {
+            transform: scale(1.05);
+        }
+        
+        .leader-name {
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .leader-1 .leader-name {
+            color: var(--gold);
+            text-shadow: 0 0 5px rgba(255,215,0,0.5);
+        }
+        
+        .leader-2 .leader-name {
+            color: var(--silver);
+        }
+        
+        .leader-3 .leader-name {
+            color: var(--bronze);
+        }
+        
+        .leader-score {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin: 5px 0;
+            text-shadow: 0 0 10px rgba(255,255,255,0.3);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .leader-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 15px;
+            font-size: 0.7rem;
+            margin-top: 5px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .leader-1 .leader-badge {
+            background: rgba(255,215,0,0.2);
+            color: var(--gold);
+            animation: badgePulse 3s infinite alternate;
+        }
+        
+        @keyframes badgePulse {
+            0% { background: rgba(255,215,0,0.2); }
+            100% { background: rgba(255,215,0,0.4); }
+        }
+        
+        .leader-2 .leader-badge {
+            background: rgba(192,192,192,0.2);
+            color: var(--silver);
+        }
+        
+        .leader-3 .leader-badge {
+            background: rgba(205,127,50,0.2);
+            color: var(--bronze);
+        }
+        
+        /* قسم التحديات - التعديلات المطلوبة */
+        .challenges-section {
+            margin: 25px 0;
+        }
+        
+        .challenges-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 15px;
+        }
+        
+        .challenge-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 12px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(20px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 160px; /* ارتفاع ثابت للبطاقات */
+        }
+        
+        .challenge-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .challenge-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            border-color: var(--primary);
+        }
+        
+        .challenge-icon {
+            font-size: 1.5rem; /* تصغير الأيقونات */
+            margin-bottom: 8px;
+            color: var(--primary);
+        }
+        
+        .challenge-title {
+            font-weight: 700;
+            font-size: 0.85rem; /* تصغير النص */
+            margin-bottom: 5px;
+        }
+        
+        .challenge-desc {
+            font-size: 0.7rem; /* تصغير النص */
+            color: #aaa;
+            margin-bottom: 10px;
+            min-height: 35px;
+            line-height: 1.2;
+        }
+        
+        .challenge-btn {
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            color: white;
+            border: none;
+            padding: 5px 10px; /* تصغير الأزرار */
+            border-radius: 15px;
+            font-size: 0.7rem; /* تصغير النص */
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 80px; /* عرض ثابت للأزرار */
+            margin: 0 auto;
+        }
+        
+        .challenge-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 10px rgba(0, 170, 255, 0.5);
+        }
+        
+        /* قسم الإحصائيات */
+        .stats-section {
+            margin: 25px 0;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 15px;
+        }
+        
+        .stat-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        .stat-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .stat-icon {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+            color: var(--primary);
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .stat-label {
+            font-size: 0.75rem;
+            color: #aaa;
+        }
+        
+        /* قسم الإنجازات - التعديلات المطلوبة */
+        .achievements-section {
+            margin: 25px 0;
+        }
+        
+        .achievements-list {
+            margin-top: 15px;
+        }
+        
+        .achievement-item {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        .achievement-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .achievement-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .achievement-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+        
+        .achievement-info {
+            flex: 1;
+        }
+        
+        .achievement-title {
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 3px;
+        }
+        
+        .achievement-desc {
+            font-size: 0.75rem;
+            color: #aaa;
+        }
+        
+        .achievement-progress {
+            height: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            margin-top: 5px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .achievement-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 5px;
+            transition: width 1s ease;
+        }
+        
+        /* أرقام شريط التقدم */
+        .progress-numbers {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 3px;
+            font-size: 0.6rem;
+            color: #888;
+        }
+        
+        .achievement-progress-container {
+            width: 100%;
+        }
+        
+        /* قسم الإجراءات - التعديلات المطلوبة */
+        .actions-section {
+            margin: 25px 0;
+        }
+        
+        .actions-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 15px;
+        }
+        
+        .action-btn {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 12px; /* تصغير الحشوة */
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 6px; /* تقليل المسافة بين العناصر */
+            opacity: 0;
+            transform: translateY(20px);
+            height: 90px; /* ارتفاع ثابت للأزرار */
+        }
+        
+        .action-btn.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            border-color: var(--primary);
+        }
+        
+        .action-icon {
+            font-size: 1.3rem; /* تصغير الأيقونات */
+            color: var(--primary);
+        }
+        
+        .action-text {
+            font-weight: 700;
+            font-size: 0.8rem; /* تصغير النص */
+        }
+        
+        /* زر تشغيل الموسيقى */
+        .music-play-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 10, 18, 0.95);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: all 0.5s ease;
+        }
+        
+        .music-play-overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        .music-play-btn {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 4px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(0, 170, 255, 0.5);
+            margin-bottom: 20px;
+        }
+        
+        .music-play-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(0, 170, 255, 0.7);
+        }
+        
+        .music-play-text {
+            text-align: center;
+            max-width: 80%;
+            font-size: 0.9rem;
+            color: #aaa;
+            line-height: 1.5;
+        }
+        
+        .scroll-top-btn {
+            position: fixed;
+            bottom: 60px;
+            left: 15px;
+            width: 35px;
+            height: 35px;
+            border-radius: 10%;
+            background: rgba(0, 170, 255, 0.1);
+            color: var(--text);
+            border: 0.3px solid var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 99;
+            box-shadow: 0 0 15px rgba(0, 170, 255, 0.0);
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        .scroll-top-btn.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .scroll-top-btn:hover {
+            background: rgba(0, 170, 255, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 3px 10px rgba(0, 170, 255, 0.3);
+        }
+        
+        /* مؤشر التقدم */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            z-index: 100;
+            transition: width 0.3s ease;
+        }
+        
+        /* موسيقى الخلفية */
+        .music-player {
+            position: fixed;
+            bottom: 15px;
+            right: 15px;
+            background: var(--card-bg);
+            border-radius: 50px;
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.1);
+            z-index: 99;
+            opacity: 0.7;
+            transition: all 0.3s ease;
+            max-width: 180px;
+        }
+        
+        .music-player:hover {
+            opacity: 1;
+            transform: scale(1.03);
+        }
+        
+        .music-info {
+            font-size: 0.7rem;
+            max-width: 100px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .music-controls {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .music-btn {
+            background: none;
+            border: none;
+            color: var(--text);
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        
+        .music-btn:hover {
+            color: var(--primary);
+            transform: scale(1.1);
+        }
+        
+        /* مؤشرات التمرير */
+        .scroll-indicator {
+            position: fixed;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            z-index: 99;
+        }
+        
+        .indicator-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .indicator-dot.active {
+            background: var(--primary);
+            transform: scale(1.2);
+        }
+        
+        /* تصميم متجاوب للهواتف فقط */
+        @media (max-width: 767px) {
+            .app-container {
+                padding: 0.5rem;
+            }
+            
+            .leaders-container {
+                flex-direction: row;
+                align-items: flex-end;
+            }
+            
+            .leader-card {
+                width: auto !important;
+                margin-bottom: 0;
+            }
+            
+            .leader-1 {
+                order: 2;
+            }
+            
+            .leader-2 {
+                order: 1;
+            }
+            
+            .leader-3 {
+                order: 3;
+            }
+            
+            .challenges-grid,
+            .stats-grid,
+            .actions-grid {
+                grid-template-columns: 1fr 1fr; /* الحفاظ على تخطيط الأعمدة الثنائية */
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .leader-avatar {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .leader-name {
+                font-size: 0.8rem;
+            }
+            
+            .leader-score {
+                font-size: 1.1rem;
+            }
+            
+            .leader-badge {
+                font-size: 0.65rem;
+            }
+            
+            .challenge-card {
+                padding: 10px;
+                height: 150px;
+            }
+            
+            .challenge-icon {
+                font-size: 1.3rem;
+            }
+            
+            .challenge-title {
+                font-size: 0.8rem;
+            }
+            
+            .challenge-desc {
+                font-size: 0.65rem;
+            }
+            
+            .challenge-btn {
+                padding: 4px 8px;
+                font-size: 0.65rem;
+                width: 75px;
+            }
+            
+            .action-btn {
+                padding: 10px;
+                height: 85px;
+            }
+            
+            .action-icon {
+                font-size: 1.2rem;
+            }
+            
+            .action-text {
+                font-size: 0.75rem;
+            }
+            
+            .progress-numbers {
+                font-size: 0.55rem;
+            }
+        }
+        
+        @media (max-width: 380px) {
+            .leaders-container {
+                gap: 5px;
+            }
+            
+            .leader-card {
+                padding: 8px 5px;
+            }
+            
+            .leader-avatar {
+                width: 45px;
+                height: 45px;
+                margin: 12px auto 8px;
+            }
+            
+            .leader-name {
+                font-size: 0.75rem;
+            }
+            
+            .leader-score {
+                font-size: 1rem;
+            }
+            
+            .challenge-card {
+                height: 140px;
+            }
+            
+            .challenge-btn {
+                width: 70px;
+            }
+            
+            .action-btn {
+                height: 80px;
+            }
+            
+            .progress-numbers {
+                font-size: 0.5rem;
+            }
+        }
+        
+        @media (max-width: 320px) {
+            .challenges-grid,
+            .stats-grid,
+            .actions-grid {
+                grid-template-columns: 1fr; /* في الشاشات الصغيرة جدًا، عرض عمود واحد */
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- زر تشغيل الموسيقى -->
+    <div class="music-play-overlay" id="musicPlayOverlay">
+        <button class="music-play-btn" id="musicPlayBtn">
+            <i class="fas fa-play"></i>
+            تشغيل الموسيقى
+        </button>
+        <div class="music-play-text">
+            لتجربة كاملة، ننصح بتشغيل الموسيقى التصويرية لتحدي R.D.F
+        </div>
+    </div>
+    
+    <!-- مؤشر التقدم -->
+    <div class="progress-bar" id="progressBar"></div>
+    
+    <!-- تأثيرات الخلفية -->
+    <div class="background-effects">
+        <div class="grid-overlay"></div>
+        <div class="floating-shapes">
+            <div class="floating-shape shape-1"></div>
+            <div class="floating-shape shape-2"></div>
+            <div class="floating-shape shape-3"></div>
+        </div>
+    </div>
+    
+    <!-- مشغل الموسيقى -->
+    <div class="music-player">
+        <div class="music-info" id="musicInfo">Music On - انقر للتشغيل</div>
+        <div class="music-controls">
+            <button class="music-btn" id="playBtn"><i class="fas fa-play"></i></button>
+        </div>
+    </div>
+    
+    <!-- مؤشرات التمرير -->
+    <div class="scroll-indicator" id="scrollIndicator">
+        <div class="indicator-dot active" data-section="leaders"></div>
+        <div class="indicator-dot" data-section="challenges"></div>
+        <div class="indicator-dot" data-section="stats"></div>
+        <div class="indicator-dot" data-section="achievements"></div>
+        <div class="indicator-dot" data-section="actions"></div>
+    </div>
+    
+    <div class="app-container">
+        <!-- قسم المتصدرين -->
+        <section class="leaders-section" id="leaders">
+            <div class="section-title">
+                <h1>تحدي المتصدرين</h1>
+            </div>
+            
+            <div class="leaders-container">
+                <!-- المتصدر الأول -->
+                <div class="leader-card leader-1" id="leader1">
+                    <div class="leader-medal">1</div>
+                    <div class="fire-particles" id="fireParticles1"></div>
+                    <img src="https://files.catbox.moe/4je8hs.jpg" class="leader-avatar" alt="المتصدر الأول">
+                    <div class="leader-name">علي الفهد</div>
+                    <div class="leader-score">9850</div>
+                    <div class="leader-badge">البطل الذهبي</div>
+                </div>
+                
+                <!-- المتصدر الثاني -->
+                <div class="leader-card leader-2">
+                    <div class="leader-medal">2</div>
+                    <div class="water-particles" id="waterParticles2"></div>
+                    <img src="https://files.catbox.moe/bce293.jpg" class="leader-avatar" alt="المتصدر الثاني">
+                    <div class="leader-name">منظمة R.D.F</div>
+                    <div class="leader-score">8740</div>
+                    <div class="leader-badge">البطل الفضي</div>
+                </div>
+                
+                <!-- المتصدر الثالث -->
+                <div class="leader-card leader-3">
+                    <div class="leader-medal">3</div>
+                    <div class="water-particles" id="waterParticles3"></div>
+                    <img src="https://files.catbox.moe/jp009r.jpg" class="leader-avatar" alt="المتصدر الثالث">
+                    <div class="leader-name">سارة أحمد</div>
+                    <div class="leader-score">7620</div>
+                    <div class="leader-badge">البطل البرونزي</div>
+                </div>
+            </div>
+        </section>
+        <!-- قسم الإنجازات -->
+        <section class="achievements-section" id="achievements">
+            <div class="section-title">
+                <h1>الإنجازات</h1>
+            </div>
+            
+            <div class="achievements-list">
+                <div class="achievement-item">
+                    <div class="achievement-icon">
+                        <i class="fas fa-medal"></i>
+                    </div>
+                    <div class="achievement-info">
+                        <div class="achievement-title">أول 100 نقطة</div>
+                        <div class="achievement-desc">احصل على 100 نقطة في التحديات</div>
+                        <div class="achievement-progress-container">
+                            <div class="achievement-progress">
+                                <div class="achievement-progress-bar" style="width: 100%"></div>
+                            </div>
+                            <div class="progress-numbers">
+                                <span>0</span>
+                                <span>25</span>
+                                <span>50</span>
+                                <span>75</span>
+                                <span>100</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="achievement-item">
+                    <div class="achievement-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="achievement-info">
+                        <div class="achievement-title">متسابق نشط</div>
+                        <div class="achievement-desc">شارك في 10 تحديات مختلفة</div>
+                        <div class="achievement-progress-container">
+                            <div class="achievement-progress">
+                                <div class="achievement-progress-bar" style="width: 70%"></div>
+                            </div>
+                            <div class="progress-numbers">
+                                <span>0</span>
+                                <span>25</span>
+                                <span>50</span>
+                                <span>75</span>
+                                <span>100</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="achievement-item">
+                    <div class="achievement-icon">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <div class="achievement-info">
+                        <div class="achievement-title">بطل التحديات</div>
+                        <div class="achievement-desc">فز بـ 5 تحديات على الأقل</div>
+                        <div class="achievement-progress-container">
+                            <div class="achievement-progress">
+                                <div class="achievement-progress-bar" style="width: 40%"></div>
+                            </div>
+                            <div class="progress-numbers">
+                                <span>0</span>
+                                <span>25</span>
+                                <span>50</span>
+                                <span>75</span>
+                                <span>100</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- قسم التحديات -->
+        <section class="challenges-section" id="challenges">
+            <div class="section-title">
+                <h1>التحديات الحالية</h1>
+            </div>
+            
+            <div class="challenges-grid">
+                <div class="challenge-card">
+                    <div class="challenge-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <div class="challenge-title">تحدي البرمجة</div>
+                    <div class="challenge-desc">أكمل 10 تحديات برمجية في أقل من 24 ساعة</div>
+                    <button class="challenge-btn" onclick="redirectToPage('screen1.html')">انضم الآن</button>
+                </div>
+                
+                <div class="challenge-card">
+                    <div class="challenge-icon">
+                        <i class="fas fa-paint-brush"></i>
+                    </div>
+                    <div class="challenge-title">تحدي التصميم</div>
+                    <div class="challenge-desc">صمم 5 واجهات مستخدم مبدعة خلال أسبوع</div>
+                    <button class="challenge-btn" onclick="redirectToPage('screen2.html')">انضم الآن</button>
+                </div>
+                
+                <div class="challenge-card">
+                    <div class="challenge-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <div class="challenge-title">تحدي الذكاء</div>
+                    <div class="challenge-desc">حل 20 لغزًا برمجيًا بمستويات مختلفة</div>
+                    <button class="challenge-btn" onclick="redirectToPage('screen3.html')">انضم الآن</button>
+                </div>
+                
+                <div class="challenge-card">
+                    <div class="challenge-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="challenge-title">تحدي الفريق</div>
+                    <div class="challenge-desc">أنشئ فريقًا وأنجز مشروعًا جماعيًا في 48 ساعة</div>
+                    <button class="challenge-btn" onclick="redirectToPage('screen4.html')">انضم الآن</button>
+                </div>
+            </div>
+        </section>
+        
+        <!-- قسم الإحصائيات -->
+        <section class="stats-section" id="stats">
+            <div class="section-title">
+                <h1>إحصائيات المنظمة</h1>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-value">1,245</div>
+                    <div class="stat-label">عدد الأعضاء</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <div class="stat-value">356</div>
+                    <div class="stat-label">تحدي مكتمل</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-code-branch"></i>
+                    </div>
+                    <div class="stat-value">892</div>
+                    <div class="stat-label">مشروع نشط</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-award"></i>
+                    </div>
+                    <div class="stat-value">78</div>
+                    <div class="stat-label">جائزة ممنوحة</div>
+                </div>
+            </div>
+        </section>
+        
+        
+        <!-- قسم الإجراءات -->
+        <section class="actions-section" id="actions">
+            <div class="section-title">
+                <h1>إجراءات سريعة</h1>
+            </div>
+            
+            <div class="actions-grid">
+                <div class="action-btn">
+                    <div class="action-icon">
+                        <i class="fas fa-plus"></i>
+                    </div>
+                    <div class="action-text">تحدي جديد</div>
+                </div>
+                
+                <div class="action-btn">
+                    <div class="action-icon">
+                        <i class="fas fa-user-friends"></i>
+                    </div>
+                    <div class="action-text">إنشاء فريق</div>
+                </div>
+                
+                <div class="action-btn">
+                    <div class="action-icon">
+                        <i class="fas fa-share-alt"></i>
+                    </div>
+                    <div class="action-text">مشاركة النتائج</div>
+                </div>
+                
+                <div class="action-btn">
+                    <div class="action-icon">
+                        <i class="fas fa-cog"></i>
+                    </div>
+                    <div class="action-text">الإعدادات</div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- زر العودة للأعلى -->
+    <button class="scroll-top-btn" id="scrollTopBtn">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- عنصر الصوت -->
+    <audio id="backgroundMusic" loop>
+        <source src="https://github.com/video11111/CONTENT/raw/refs/heads/main/edited-20250930-181514.mp3" type="audio/mpeg">
+        متصفحك لا يدعم تشغيل الصوت
+    </audio>
+
+    <script>
+        // دالة الانتقال إلى صفحة أخرى
+        function redirectToPage(url) {
+            window.location.href = url;
+        }
+
+        // دالة إنشاء الجزيئات المتحركة
+        function createParticles() {
+            // جزيئات النار للمركز الأول
+            const fireParticles1 = document.getElementById('fireParticles1');
+            for (let i = 0; i < 15; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('fire-particle');
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.animationDelay = `${Math.random() * 3}s`;
+                particle.style.setProperty('--tx', `${(Math.random() - 0.5) * 40}px`);
+                fireParticles1.appendChild(particle);
+            }
+            
+            // جزيئات الماء للمركز الثاني
+            const waterParticles2 = document.getElementById('waterParticles2');
+            for (let i = 0; i < 10; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('water-particle');
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.animationDelay = `${Math.random() * 4}s`;
+                particle.style.setProperty('--tx', `${(Math.random() - 0.5) * 30}px`);
+                waterParticles2.appendChild(particle);
+            }
+            
+            // جزيئات الماء للمركز الثالث
+            const waterParticles3 = document.getElementById('waterParticles3');
+            for (let i = 0; i < 10; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('water-particle');
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.animationDelay = `${Math.random() * 4}s`;
+                particle.style.setProperty('--tx', `${(Math.random() - 0.5) * 30}px`);
+                waterParticles3.appendChild(particle);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // إنشاء الجزيئات المتحركة
+            createParticles();
+            
+            // زر تشغيل الموسيقى الرئيسي
+            const musicPlayOverlay = document.getElementById('musicPlayOverlay');
+            const musicPlayBtn = document.getElementById('musicPlayBtn');
+            const backgroundMusic = document.getElementById('backgroundMusic');
+            
+            // إيقاف الموسيقى عند مغادرة الصفحة
+            window.addEventListener('beforeunload', function() {
+                backgroundMusic.pause();
+                backgroundMusic.currentTime = 0;
+            });
+            
+            // إيقاف الموسيقى عند فقدان تركيز الصفحة
+            window.addEventListener('blur', function() {
+                if (!document.hidden) {
+                    backgroundMusic.pause();
+                }
+            });
+            
+            // إيقاف الموسيقى عند إخفاء الصفحة (مثل التبديل إلى تبويب آخر)
+            document.addEventListener('visibilitychange', function() {
+                if (document.hidden) {
+                    backgroundMusic.pause();
+                }
+            });
+            
+            musicPlayBtn.addEventListener('click', function() {
+                backgroundMusic.play().then(() => {
+                    musicPlayOverlay.classList.add('hidden');
+                    // تحديث مشغل الموسيقى الصغير
+                    playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                    musicInfo.textContent = "Music On";
+                    isPlaying = true;
+                }).catch(e => {
+                    console.log("فشل تشغيل الموسيقى:", e);
+                    musicInfo.textContent = "فشل التشغيل - انقر للمحاولة";
+                });
+            });
+            
+            // زر العودة للأعلى
+            const scrollTopBtn = document.getElementById('scrollTopBtn');
+            
+            window.addEventListener('scroll', () => {
+                if (window.pageYOffset > 300) {
+                    scrollTopBtn.classList.add('visible');
+                } else {
+                    scrollTopBtn.classList.remove('visible');
+                }
+                
+                // تحديث شريط التقدم
+                const winHeight = window.innerHeight;
+                const docHeight = document.documentElement.scrollHeight;
+                const scrollTop = window.pageYOffset;
+                const scrollPercent = (scrollTop / (docHeight - winHeight)) * 100;
+                document.getElementById('progressBar').style.width = scrollPercent + '%';
+                
+                // تحديث مؤشرات التمرير
+                updateScrollIndicator();
+                
+                // إظهار العناصر عند التمرير
+                showElementsOnScroll();
+            });
+            
+            scrollTopBtn.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+            
+            // مشغل الموسيقى الصغير
+            const playBtn = document.getElementById('playBtn');
+            const musicInfo = document.getElementById('musicInfo');
+            let isPlaying = false;
+            
+            playBtn.addEventListener('click', () => {
+                if (!isPlaying) {
+                    backgroundMusic.play().then(() => {
+                        isPlaying = true;
+                        playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                        musicInfo.textContent = "Music On";
+                    }).catch(e => {
+                        console.log("فشل تشغيل الموسيقى:", e);
+                        musicInfo.textContent = "انقر للتشغيل";
+                    });
+                } else {
+                    backgroundMusic.pause();
+                    isPlaying = false;
+                    playBtn.innerHTML = '<i class="fas fa-play"></i>';
+                    musicInfo.textContent = "Music Off";
+                }
+            });
+            
+            // مؤشرات التمرير
+            const indicatorDots = document.querySelectorAll('.indicator-dot');
+            
+            indicatorDots.forEach(dot => {
+                dot.addEventListener('click', () => {
+                    const sectionId = dot.getAttribute('data-section');
+                    const section = document.getElementById(sectionId);
+                    
+                    window.scrollTo({
+                        top: section.offsetTop - 20,
+                        behavior: 'smooth'
+                    });
+                });
+            });
+            
+            function updateScrollIndicator() {
+                const sections = document.querySelectorAll('section');
+                const scrollPos = window.pageYOffset;
+                
+                sections.forEach((section, index) => {
+                    const sectionTop = section.offsetTop - 100;
+                    const sectionBottom = sectionTop + section.offsetHeight;
+                    
+                    if (scrollPos >= sectionTop && scrollPos < sectionBottom) {
+                        indicatorDots.forEach(dot => dot.classList.remove('active'));
+                        indicatorDots[index].classList.add('active');
+                    }
+                });
+            }
+            
+            // إظهار العناصر عند التمرير
+            function showElementsOnScroll() {
+                const elements = document.querySelectorAll('.challenge-card, .stat-card, .achievement-item, .action-btn');
+                
+                elements.forEach(element => {
+                    const elementTop = element.getBoundingClientRect().top;
+                    const windowHeight = window.innerHeight;
+                    
+                    if (elementTop < windowHeight * 0.9) {
+                        element.classList.add('visible');
+                    }
+                });
+            }
+            
+            // إضافة تفاعلية للأزرار
+            const challengeBtns = document.querySelectorAll('.challenge-btn');
+            challengeBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    this.textContent = "تم الانضمام!";
+                    this.style.background = "linear-gradient(90deg, #00cc00, #00aa00)";
+                    setTimeout(() => {
+                        this.textContent = "انضم الآن";
+                        this.style.background = "linear-gradient(90deg, var(--primary), var(--accent))";
+                    }, 2000);
+                });
+            });
+            
+            const actionBtns = document.querySelectorAll('.action-btn');
+            actionBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    this.style.borderColor = "var(--accent)";
+                    setTimeout(() => {
+                        this.style.borderColor = "rgba(255, 255, 255, 0.08)";
+                    }, 500);
+                });
+            });
+            
+            // تهيئة أولية
+            showElementsOnScroll();
+        });
+    </script>
+</body>
+</html>
