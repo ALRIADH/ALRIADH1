@@ -1114,7 +1114,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (newCount > 0) {
                     notificationBadge.textContent = newCount;
                     localStorage.setItem('notificationRead', 'false');
-                    showNotificationBadge();
+                    showNotificationBadge(2);
                 } else {
                     markNotificationsAsRead();
                 }
@@ -1124,7 +1124,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // إضافة إشعار جديد
         addNotification: function() {
             const currentCount = parseInt(notificationBadge.textContent) || 0;
-            this.updateCount(currentCount + 2);
+            this.updateCount(currentCount + 1);
         },
         
         // إعادة تعيين العداد
