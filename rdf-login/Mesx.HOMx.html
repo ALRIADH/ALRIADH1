@@ -1042,6 +1042,140 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+// ================================
+// نظام إدارة الإشعارات - START
+// ================================
+
+document.addEventListener('DOMContentLoaded', function() {
+    // عناصر DOM
+    const notificationBadge = document.querySelector('.notification-badge');
+    const notificationIcon = document.querySelector('.nav-icon[href*="Notificationsx-000"]');
+    
+    // تهيئة حالة الإشعارات
+    initializeNotifications();
+    
+    // حدث الضغط على زر الإشعارات
+    if (notificationIcon) {
+        notificationIcon.addEventListener('click', function(e) {
+            handleNotificationClick(e);
+        });
+    }
+    
+    // وظيفة تهيئة الإشعارات
+    function initializeNotifications() {
+        const notificationState = localStorage.getItem('notificationRead');
+        
+        if (notificationState === 'true') {
+            // إذا كانت الإشعارات مقروءة، نخفي العداد
+            hideNotificationBadge();
+        } else {
+            // إذا كانت غير مقروءة، نظهر العداد
+            showNotificationBadge();
+        }
+    }
+    
+    // وظيفة التعامل مع الضغط على الإشعارات
+    function handleNotificationClick(e) {
+        // وضع علامة أن الإشعارات قد تمت مشاهدتها
+        markNotificationsAsRead();
+        
+        // الانتقال إلى صفحة الإشعارات (يحدث تلقائياً عبر الرابط)
+        // لا حاجة لمنع السلوك الافتراضي إلا إذا أردت معالجة إضافية
+    }
+    
+    // وضع علامة أن الإشعارات مقروءة
+    function markNotificationsAsRead() {
+        localStorage.setItem('notificationRead', 'true');
+        hideNotificationBadge();
+    }
+    
+    // إخفاء عداد الإشعارات
+    function hideNotificationBadge() {
+        if (notificationBadge) {
+            notificationBadge.style.display = 'none';
+        }
+    }
+    
+    // إظهار عداد الإشعارات
+    function showNotificationBadge() {
+        if (notificationBadge) {
+            notificationBadge.style.display = 'flex';
+        }
+    }
+    
+    // وظائف يمكن استدعاؤها من الخارج لتحديث العداد
+    window.notificationSystem = {
+        // ======================================
+        // ✅ الطريقة الأساسية لتحديث رقم العداد
+        // ======================================
+        updateCount: function(newCount) {
+            if (notificationBadge) {
+                if (newCount > 0) {
+                    notificationBadge.textContent = newCount;
+                    localStorage.setItem('notificationRead', 'false');
+                    showNotificationBadge();
+                } else {
+                    markNotificationsAsRead();
+                }
+            }
+        },
+        
+        // إضافة إشعار جديد
+        addNotification: function() {
+            const currentCount = parseInt(notificationBadge.textContent) || 0;
+            this.updateCount(currentCount + 1);
+        },
+        
+        // إعادة تعيين العداد
+        resetCounter: function() {
+            this.updateCount(1); // أو أي رقم تريده
+        },
+        
+        // الحصول على الحالة الحالية
+        getStatus: function() {
+            return {
+                count: parseInt(notificationBadge.textContent) || 0,
+                isRead: localStorage.getItem('notificationRead') === 'true'
+            };
+        }
+    };
+    
+    // ======================================
+    // ✅ تعليمات الاستخدام - اقرأ هذه التعليمات
+    // ======================================
+    console.log(`
+    ========================================
+    🛎️  نظام إدارة الإشعارات - التعليمات
+    ========================================
+    
+    ✅ الطرق المتاحة لتحديث رقم العداد:
+    
+    1. تحديث الرقم يدوياً:
+       window.notificationSystem.updateCount(5)
+    
+    2. إضافة إشعار جديد (يزيد الرقم بمقدار 1):
+       window.notificationSystem.addNotification()
+    
+    3. إعادة تعيين العداد:
+       window.notificationSystem.resetCounter()
+    
+    4. معرفة الحالة الحالية:
+       window.notificationSystem.getStatus()
+    
+    ⚡ أمثلة عملية:
+    - window.notificationSystem.updateCount(3)   ← يعرض الرقم 3
+    - window.notificationSystem.updateCount(0)   ← يخفي العداد
+    - window.notificationSystem.addNotification() ← يزيد الرقم بمقدار 1
+    
+    💾 النظام يحتفظ بالحالة حتى بعد إعادة تحميل الصفحة
+    ========================================
+    `);
+});
+
+// ================================
+// نظام إدارة الإشعارات - END
+// ================================
 </script>
 
 <script type="module">
