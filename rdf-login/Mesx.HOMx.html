@@ -758,12 +758,10 @@
         </div>
         
         <div class="nav-icons">
-            <a href="https://alriadh.github.io/ALRIADH1/Notificationsx-000/Mesx.NOTx.html" target="_blank" class="nav-icon">
-                <i class="fa-regular fa-bell"></i>
-                <span class="notification-badge">1</span>
-                
-                <!--i class="fa-sharp fa-regular fa-bell fa-beat-fade" style="color: #ff0000;"></i-->
-            </a>
+            <a href="https://alriadh.github.io/ALRIADH1/Notificationsx-000/Mesx.NOTx.html" target="_blank" <a href="#" class="nav-icon" style="position: relative;">
+  <i class="fa-regular fa-bell"></i>
+  <span class="notification-badge" id="notifBadge">2</span>
+</a>
             <a href="https://alriadh.github.io/ALRIADH1/X-MA-A/Mesx.ABOx.html" target="_blank" class="nav-icon">
               <i class="fas fa-info" style="color: #DDDDDD; font-size: 19px;"></i>
                 <!--img src="https://i.postimg.cc/ydzX6THV/image.png" width="22" alt="عن الإصدار" class="custom-icon"-->
@@ -1114,7 +1112,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (newCount > 0) {
                     notificationBadge.textContent = newCount;
                     localStorage.setItem('notificationRead', 'false');
-                    showNotificationBadge(2);
+                    showNotificationBadge();
                 } else {
                     markNotificationsAsRead();
                 }
@@ -1144,6 +1142,36 @@ document.addEventListener('DOMContentLoaded', function() {
     // ======================================
     // ✅ تعليمات الاستخدام - اقرأ هذه التعليمات
     // ======================================
+    <script>
+  const badge = document.getElementById('notifBadge');
+
+  // لإخفاء العداد
+  function hideBadge() {
+    badge.style.display = 'none';
+  }
+
+  // لإظهار العداد في أي وقت
+  function showBadge(number = 2) {
+    badge.textContent = number; // رقم الإشعارات
+    badge.style.display = 'flex';
+  }
+
+  // شكل العدّاد
+  badge.style.cssText = `
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #ff003c;
+    color: white;
+    font-size: 0.7rem;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  `;
+</script>
     console.log(`
     ========================================
     🛎️  نظام إدارة الإشعارات - التعليمات
