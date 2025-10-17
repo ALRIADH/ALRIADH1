@@ -14,8 +14,9 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Cairo', sans-serif;
+            -webkit-tap-highlight-color: transparent; /* إخفاء لون الضغط */
         }
-        
+
         :root {
             --dark-bg: #0a0a12;
             --primary: #00aaff;
@@ -25,7 +26,7 @@
             --card-bg: rgba(20, 20, 30, 0.7);
             --glow: 0 0 15px rgba(0, 170, 255, 0.3);
         }
-        
+
         body {
             background: linear-gradient(135deg, #080817, #0d0d1a);
             color: var(--text);
@@ -33,7 +34,7 @@
             overflow-x: hidden;
             position: relative;
         }
-        
+
         /* تأثيرات الخلفية */
         .background-effects {
             position: fixed;
@@ -45,7 +46,7 @@
             z-index: -1;
             opacity: 0.1;
         }
-        
+
         .grid-overlay {
             position: absolute;
             top: 0;
@@ -57,7 +58,7 @@
                 linear-gradient(90deg, rgba(0, 170, 255, 0.05) 1px, transparent 1px);
             background-size: 40px 40px;
         }
-        
+
         /* شريط التنقل العلوي */
         .navbar {
             background: rgba(15, 15, 25, 0.95);
@@ -72,13 +73,13 @@
             backdrop-filter: blur(10px);
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
         }
-        
+
         .logo-container {
             display: flex;
             align-items: center;
             gap: 0.8rem;
         }
-        
+
         .logo-img {
             width: 40px;
             height: 40px;
@@ -87,7 +88,7 @@
             border: 2px solid var(--primary);
             box-shadow: var(--glow);
         }
-        
+
         .logo-text {
             font-size: 0.7rem;
             font-weight: 700;
@@ -96,12 +97,12 @@
             background-clip: text;
             color: transparent;
         }
-        
+
         .nav-icons {
             display: flex;
             gap: 1.2rem;
         }
-        
+
         .nav-icon {
             color: var(--text);
             font-size: 1.4rem;
@@ -112,17 +113,18 @@
             justify-content: center;
             width: 40px;
             height: 40px;
-            border-radius: 5%;
+            border-radius: 20%;
             background: rgba(255, 255, 255, 0.05);
             text-decoration: none;
+            -webkit-tap-highlight-color: transparent; /* إخفاء لون الضغط */
         }
-        
+
         .nav-icon:hover {
             color: var(--primary);
             transform: translateY(-3px);
             background: rgba(0, 170, 255, 0.1);
         }
-        
+
         .notification-badge {
             position: absolute;
             top: -5px;
@@ -137,7 +139,7 @@
             align-items: center;
             justify-content: center;
         }
-        
+
         /* تصميم يشبه تطبيق الجوال */
         .app-container {
             max-width: 500px;
@@ -150,7 +152,7 @@
             justify-content: center;
             min-height: 60vh;
         }
-        
+
         /* محتوى الصيانة */
         .maintenance-content {
             margin-top: 100px;
@@ -161,9 +163,9 @@
             max-width: 500px;
             margin-bottom: 30px;
         }
-        
+
         .maintenance-title {
-            font-size: 0.3rem;
+            font-size: 2rem;
             font-weight: 700;
             margin: 0rem 0;
             background: linear-gradient(to right, var(--primary), #00ddff);
@@ -171,29 +173,30 @@
             background-clip: text;
             color: transparent;
         }
-        
+
         .maintenance-text {
             font-size: 1.1rem;
             line-height: 1.6;
             margin-bottom: 2rem;
             color: #aaa;
         }
-        
+
         .back-button {
             direction: ltr;
             color: var(--text);
-            font-size: 1.2rem;
+            font-size: 1.5rem;
             transition: all 0.3s ease;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             padding: 10px 20px;
             border-radius: 3px;
-            background: rgba(255, 255, 255, 0.05);
+            ackground: rgba(255, 255, 255, 0.05);
             text-decoration: none;
             position: absolute;
             top: 90px;
             left: 20px;
+            -webkit-tap-highlight-color: transparent; /* إخفاء لون الضغط */
         }
 
         .back-button:hover {
@@ -201,7 +204,7 @@
             transform: translateY(-3px);
             background: rgba(0, 170, 255, 0.1);
         }
-        
+
         /* شريط التنقل السفلي */
         .bottom-nav {
             position: fixed;
@@ -216,7 +219,7 @@
             padding: 0.8rem 0;
             z-index: 100;
         }
-        
+
         .nav-item {
             display: flex;
             flex-direction: column;
@@ -227,97 +230,104 @@
             transition: all 0.3s ease;
             padding: 5px 15px;
             border-radius: 15px;
+            -webkit-tap-highlight-color: transparent; /* إخفاء لون الضغط */
         }
-        
+
         .nav-item i {
             font-size: 1.5rem;
             margin-bottom: 0.3rem;
         }
-        
+
         .nav-item.active, .nav-item:hover {
             color: var(--primary);
             background: rgba(0, 170, 255, 0.1);
             transform: translateY(-3px);
         }
-        
+
+        .custom-icon1 {
+            filter: brightness(0) invert(1); /* يحول الأيقونة للون أبيض */
+        }
+
         /* تصميم متجاوب */
         @media (max-width: 600px) {
             .app-container {
                 padding: 0.8rem;
             }
-            
+
             .maintenance-content {
                 padding: 1.5rem;
                 margin-top: 120px;
             }
-            
+
             .maintenance-title {
-                font-size: 1.3rem;
+                font-size: 1.8rem;
             }
-            
+
             .maintenance-text {
                 font-size: 1rem;
             }
-            
+
             .back-button {
                 top: 85px;
                 left: 15px;
                 padding: 8px 16px;
             }
-.gears {
-  position: relative;
-  width: 200px;
-  height: 200px;
-  margin-top: 30px;    /* مسافة فوق */
-  margin-bottom: -20px; /* مسافة تحت */
-  margin-left: auto;
-  margin-right: auto;
-}
+        }
 
-/* كل ترس */
-.gear {
-  position: absolute;
-  transform-origin: center center;
-}
+        .gears {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin-top: 30px;    /* مسافة فوق */
+            margin-bottom: -20px; /* مسافة تحت */
+            margin-left: auto;
+            margin-right: auto;
+        }
 
-/* الترس الكبير */
-.gear1 {
-  font-size: 100px;
-  color: #7089b3; /* أزرق رمادي */
-  top: -15px;
-  left: 60px;
-  animation: spin 6s linear infinite;
-}
+        /* كل ترس */
+        .gear {
+            position: absolute;
+            transform-origin: center center;
+        }
 
-/* الترس الوسط */
-.gear2 {
-  font-size: 70px;
-  color: #00aaff; /* أزرق */
-  top: 75px;
-  left: 30px;
-  animation: spin-reverse 4s linear infinite;
-}
+        /* الترس الكبير */
+        .gear1 {
+            font-size: 100px;
+            color: #7089b3; /* أزرق رمادي */
+            top: -15px;
+            left: 60px;
+            animation: spin 6s linear infinite;
+        }
 
-/* الترس الصغير */
-.gear3 {
-  font-size: 50px;
-  color: #ffffff; /* أبيض */
-  top: 85px;
-  left: 105px;
-  animation: spin 3s linear infinite;
-}
+        /* الترس الوسط */
+        .gear2 {
+            font-size: 70px;
+            color: #00aaff; /* أزرق */
+            top: 75px;
+            left: 30px;
+            animation: spin-reverse 4s linear infinite;
+        }
 
-/* دوران مع عقارب الساعة */
-@keyframes spin {
-  from {transform: rotate(0deg);}
-  to {transform: rotate(360deg);}
-}
+        /* الترس الصغير */
+        .gear3 {
+            font-size: 50px;
+            color: #ffffff; /* أبيض */
+            top: 85px;
+            left: 105px;
+            animation: spin 3s linear infinite;
+        }
 
-/* دوران عكس عقارب الساعة */
-@keyframes spin-reverse {
-  from {transform: rotate(0deg);}
-  to {transform: rotate(-360deg);}
-}
+        /* دوران مع عقارب الساعة */
+        @keyframes spin {
+            from {transform: rotate(0deg);}
+            to {transform: rotate(360deg);}
+        }
+
+        /* دوران عكس عقارب الساعة */
+        @keyframes spin-reverse {
+            from {transform: rotate(0deg);}
+            to {transform: rotate(-360deg);}
+        }
     </style>
 </head>
 <body>
@@ -325,17 +335,15 @@
     <div class="background-effects">
         <div class="grid-overlay"></div>
     </div>
-    
+
     <!-- شريط التنقل العلوي -->
     <nav class="navbar">
         <div class="logo-container">
             <img src="https://i.postimg.cc/0QwwyJj3/image.png" width="100" alt="شعار R.D.F" class="ogo-img">
         </div>
         <div class="nav-icons">
-            <a href="https://alriadh.github.io/ALRIADH1/Notificationsx/Abdx.NOTx.html" target="_blank" class="nav-icon">
+            <a href="https://alriadh.github.io/ALRIADH1/Notificationsx-000/Abdx.NOTx.html" target="_blank" class="nav-icon">
                 <i class="fa-regular fa-bell"></i>
-                <!--i class="fa-sharp fa-regular fa-bell fa-beat-fade" style="color: #ff0000;"></i-->
-                <!--span class="notification-badge">3</span-->
             </a>
             <div class="nav-icons">
                 <a href="CUP.html" class="nav-icon">
@@ -344,28 +352,28 @@
             </div>
         </div>
     </nav>
-    
+
     <!-- زر الرجوع -->
     <a href="https://alriadh.github.io/ALRIADH1/rdf-login/Abdx.HOMx.html" target="_blank" class="back-button">
         <i class="fas fa-arrow-left"></i>
     </a>
+    
     <!-- تصميم يشبه تطبيق الجوال -->
     <div class="app-container">
         <!-- محتوى الصيانة -->
         <div class="maintenance-content">
-<!-- بعد -->
-<div class="gears">
-  <i class="fas fa-cog gear gear1"></i>
-  <i class="fas fa-cog gear gear2"></i>
-  <i class="fas fa-cog gear gear3"></i>
-</div>
-            
-<h2 class="maintenance-title">الصفحة قيد التطوير</h2>
+            <!-- بعد -->
+            <div class="gears">
+                <i class="fas fa-cog gear gear1"></i>
+                <i class="fas fa-cog gear gear2"></i>
+                <i class="fas fa-cog gear gear3"></i>
+            </div>
 
-<p class="maintenance-text">نعمل على تحسينها، شكراً لصبرك.</p>
+            <h2 class="maintenance-title">الصفحة قيد التطوير</h2>
+            <p class="maintenance-text">نعمل على تحسينها، شكراً لصبرك.</p>
         </div>
     </div>
-    
+
     <!-- شريط التنقل السفلي -->
     <div class="bottom-nav">
         <a href="https://alriadh.github.io/ALRIADH1/rdf-login/Abdx.HOMx.html" target="_blank" class="nav-item active">
@@ -376,22 +384,16 @@
             <img src="https://i.postimg.cc/jdWKK6dw/image.png" width="24" alt="الدردشة" class="custom-icon">
             <span>الدردشة</span>
         </a>
-<a href="https://alriadh.github.io/ALRIADH1/X-AA-B/Abdx.CONx.html" target="_blank" class="nav-item">
-    <img src="https://img.icons8.com/?size=100&id=3cQj5bRpA3X8&format=png&color=000000" width="24" alt="المحتوى" class="custom-icon1">
-    <span>المحتوى</span>
-</a>
-
-<style>
-.custom-icon1 {
-    filter: brightness(0) invert(1); /* يحول الأيقونة للون أبيض */
-}
-</style>
-       <a href="https://alriadh.github.io/ALRIADH1/X-AA-B/Abdx.PROx.html" target="_blank" class="nav-item">
+        <a href="https://alriadh.github.io/ALRIADH1/X-AA-B/Abdx.CONx.html" target="_blank" class="nav-item">
+            <img src="https://i.postimg.cc/L55gw7r6/image.png" width="24" alt="المحتوى" class="custom-icon1">
+            <span>المحتوى</span>
+        </a>
+        <a href="https://alriadh.github.io/ALRIADH1/X-AA-B/Abdx.PROx.html" target="_blank" class="nav-item">
             <img src="https://i.postimg.cc/ZKSjYVVC/image.png" width="24" alt="صفحتي" class="custom-icon">
             <span>صفحتي</span>
         </a>
     </div>
-    
+
     <script type="module">
         import { initializeApp as initActiveApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
         import { getDatabase as getActiveDB, ref as activeRef, update as activeUpdate } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js";
