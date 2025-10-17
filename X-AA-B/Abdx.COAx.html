@@ -15,7 +15,13 @@
         font-style: normal;
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
+    * { 
+        margin: 0; 
+        padding: 0; 
+        box-sizing: border-box; 
+        font-family: 'Cairo', sans-serif; 
+        -webkit-tap-highlight-color: transparent; /* إخفاء لون الضغط */
+    }
 
     :root {
         --dark-bg: #0a0a12;
@@ -64,8 +70,9 @@
     .nav-icon {
         color: var(--text); font-size: 1.4rem; position: relative;
         display: flex; align-items: center; justify-content: center;
-        width: 40px; height: 40px; border-radius: 5%; background: rgba(255,255,255,0.05);
+        width: 40px; height: 40px; border-radius: 20%; background: rgba(255,255,255,0.05);
         text-decoration: none; transition: all 0.3s ease;
+        -webkit-tap-highlight-color: transparent; /* إخفاء لون الضغط */
     }
     .nav-icon:hover { color: var(--primary); transform: translateY(-3px); background: rgba(0,170,255,0.1); }
 
@@ -117,16 +124,18 @@
 
     .back-button {
         position:absolute; top:90px; left:20px; z-index:200;
-        direction:ltr; color: var(--text); font-size:1.2rem;
+        direction:ltr; color: var(--text); font-size:1.5rem;
         transition: all 0.3s ease; display: inline-flex; align-items:center; justify-content:center;
-        padding: 10px 20px; border-radius:3px; background: rgba(255,255,255,0.05); text-decoration:none;
+        padding: 10px 20px; border-radius:3px; ackground: rgba(255,255,255,0.05); text-decoration:none;
+        -webkit-tap-highlight-color: transparent; /* إخفاء لون الضغط */
     }
     .back-button:hover { color: var(--primary); transform: translateY(-3px); background: rgba(0,170,255,0.1); }
 
     .publish-now-btn {
         display:inline-block; background:#1e1e2a; color:#666;
-        padding:1rem 2.5rem; border-radius:5px; font-weight:600; font-size:1.1rem;
+        padding:1rem 3.5rem; border-radius:15px; font-weight:600; font-size:1.1rem;
         margin-top:1rem; box-shadow:none; transition: all 0.5s ease; border:none; cursor:not-allowed; opacity:0.6;
+        -webkit-tap-highlight-color: transparent; /* إخفاء لون الضغط */
     }
     .publish-now-btn.active {
         background: linear-gradient(135deg, var(--primary), #00aaff);
@@ -141,7 +150,11 @@
         display:flex; justify-content:space-around; padding:0.8rem 0; z-index:100;
     }
 
-    .nav-item { display:flex; flex-direction:column; align-items:center; text-decoration:none; color:#aaa; font-size:0.85rem; transition: all 0.3s ease; padding:5px 15px; border-radius:15px; }
+    .nav-item { 
+        display:flex; flex-direction:column; align-items:center; text-decoration:none; 
+        color:#aaa; font-size:0.85rem; transition: all 0.3s ease; padding:5px 15px; border-radius:15px;
+        -webkit-tap-highlight-color: transparent; /* إخفاء لون الضغط */
+    }
     .nav-item i { font-size:1.5rem; margin-bottom:0.3rem; }
     .nav-item.active, .nav-item:hover { color: var(--primary); background: rgba(0,170,255,0.1); transform:translateY(-3px); }
 
@@ -166,10 +179,8 @@
       <img src="https://i.postimg.cc/0QwwyJj3/image.png" width="100" alt="شعار R.D.F" class="lgo-img">
     </div>
     <div class="nav-icons">
-     <a href="https://alriadh.github.io/ALRIADH1/Notificationsx/Abdx.NOTx.html" target="_blank"
- class="nav-icon"><i class="fa-regular fa-bell"></i></a>
-      <a href="https://alriadh.github.io/ALRIADH1/X-AA-B/Abdx.ABOx.html" target="_blank"
- class="nav-icon"><i class="fas fa-info" style="color:#DDDDDD;font-size:19px;"></i></a>
+     <a href="https://alriadh.github.io/ALRIADH1/Notificationsx-000/Abdx.NOTx.html" target="_blank" class="nav-icon"><i class="fa-regular fa-bell"></i></a>
+      <a href="https://alriadh.github.io/ALRIADH1/X-AA-B/Abdx.ABOx.html" target="_blank" class="nav-icon"><i class="fas fa-info" style="color:#DDDDDD;font-size:19px;"></i></a>
     </div>
   </nav>
 
@@ -198,7 +209,7 @@
   <div class="bottom-nav">
    <a href="https://alriadh.github.io/ALRIADH1/rdf-login/Abdx.HOMx.html" target="_blank" class="nav-item"><img src="https://i.postimg.cc/1RYdGs59/image.png" width="24" alt="الرئيسية"><span>الرئيسية</span></a>
  <a href="https://alriadh.github.io/ALRIADH1/X-AA-B/Abdx.CHAx.html" target="_blank" class="nav-item"><img src="https://i.postimg.cc/jdWKK6dw/image.png" width="24" alt="الدردشة"><span>الدردشة</span></a>
-   <a href="https://alriadh.github.io/ALRIADH1/X-AA-B/Abdx.CONx.html" target="_blank" class="nav-item active"><img src="https://img.icons8.com/?size=100&id=3cQj5bRpA3X8&format=png&color=00aaff" width="24" alt="المحتوى"><span>المحتوى</span></a>
+   <a href="#" target="_blank" class="nav-item active"><img src="https://i.postimg.cc/QC2gRYyY/image.png" width="24" alt="المحتوى"><span>المحتوى</span></a>
  <a href="https://alriadh.github.io/ALRIADH1/X-AA-B/Abdx.PROx.html" target="_blank" class="nav-item"><img src="https://i.postimg.cc/ZKSjYVVC/image.png" width="24" alt="صفحتي"><span>صفحتي</span></a>
   </div>
 
@@ -217,7 +228,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 </script>
-    
+
     <script type="module">
 import { initializeApp as initActiveApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
 import { getDatabase as getActiveDB, ref as activeRef, update as activeUpdate } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js";
