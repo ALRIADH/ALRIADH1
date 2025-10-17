@@ -6,6 +6,23 @@
   <title>R.D.F - دردشة المدرسين</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
+    /* إخفاء اللون الأزرق عند الضغط على العناصر */
+    * {
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    /* تأثيرات بديلة للحفاظ على تجربة المستخدم */
+    a, button, .nav-item, .active-members-btn, .bubble, .reply-container, 
+    .send-button, .back-button, .modal-button, .reply-preview-cancel {
+        transition: all 0.2s ease;
+    }
+
+    a:active, button:active, .nav-item:active, .active-members-btn:active, 
+    .bubble:active, .reply-container:active, .send-button:active, 
+    .back-button:active, .modal-button:active, .reply-preview-cancel:active {
+        transform: scale(0.98);
+    }
+
     :root{
       --primary-color:#00AAFF; --secondary-color:#1e40af; --dark-bg:#0A0A12;
       --card-bg:#0A0A12; --border-color:#334155; --text-color:#e2e8f0;
@@ -14,7 +31,7 @@
       --reply-bg: rgba(255,255,255,0.1);
       --reply-border: #00aaff;
     }
-    
+
     *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Tahoma, Geneva, Verdana, sans-serif;}
     body{background:var(--dark-bg);color:var(--text-color);padding-top:80px;}
     .navbar{background:rgba(15,15,25,0.95);border-bottom:1px solid rgba(255,255,255,0.1);padding:1rem 1.5rem;display:flex;justify-content:space-between;align-items:center;position:fixed;top:0;left:0;right:0;z-index:1000;backdrop-filter:blur(10px);box-shadow:0 5px 20px rgba(0,0,0,0.3);}
@@ -22,7 +39,7 @@
     .logo-img{width:40px;height:40px;object-fit:cover;border-radius:50%;border:2px solid var(--primary);box-shadow:var(--glow);}
     .logo-text{font-size:1.2rem;font-weight:700;background:linear-gradient(to right,var(--primary),#00ddff);-webkit-background-clip:text;background-clip:text;color:transparent;}
     .nav-icons{display:flex;gap:1.2rem;}
-    .nav-icon{color:var(--text);font-size:1.4rem;position:relative;transition:all .3s;display:flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:5%;background:rgba(255,255,255,0.05);text-decoration:none;}
+    .nav-icon{color:var(--text);font-size:1.4rem;position:relative;transition:all .3s;display:flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:20%;background:rgba(255,255,255,0.05);text-decoration:none;}
     .nav-icon:hover{color:var(--primary);transform:translateY(-3px);background:rgba(0,170,255,0.1);}
     .notification-badge{position:absolute;top:-5px;right:-5px;background:#ff003c;color:white;font-size:.7rem;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
 
@@ -33,7 +50,7 @@
     .group-info{display:flex;align-items:center;gap:12px;}
     .group-avatar{width:40px;height:40px;border-radius:50%;object-fit:cover;border:2px solid var(--primary-color);}
     .group-name{font-weight:600;font-size:18px;}
-    .active-members-btn{display:flex;align-items:center;gap:8px;padding:8px 7px;background:rgba(0,170,255,0.1);color:var(--primary-color);text-decoration:none;border-radius:4px;font-size:14px;border:1px solid var(--primary-color);}
+    .active-members-btn{display:flex;align-items:center;gap:8px;padding:8px 7px;background:rgba(0,170,255,0.1);color:var(--primary-color);text-decoration:none;border-radius:10px;font-size:12px;border:1px solid var(--primary-color);}
     .active-members-btn:hover{background:var(--primary-color);color:white;transform:translateY(-2px);box-shadow:var(--glow);}
 
     .chat-area{flex:1;display:flex;flex-direction:column;overflow:hidden;background:var(--dark-bg);}
@@ -41,7 +58,7 @@
     .messages-container::-webkit-scrollbar{width:8px;}
     .messages-container::-webkit-scrollbar-thumb{background:var(--border-color);border-radius:4px;}
     #messages{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px;}
-    
+
     /* تعديلات الرسائل - محاذاة بجانب الصورة */
     .message{
       display:flex;
@@ -50,21 +67,21 @@
       animation:fadeIn .3s;
       align-items: flex-start;
     }
-    
+
     @keyframes fadeIn{
       from{opacity:0;transform:translateY(10px);}
       to{opacity:1;transform:translateY(0);}
     }
-    
+
     .my-message{
       align-self:flex-end;
       flex-direction: row-reverse;
     }
-    
+
     .other-message{
       align-self:flex-start;
     }
-    
+
     .avatar{
       width:36px;
       height:36px;
@@ -228,7 +245,7 @@
     .message-input {
       flex: 1;
       padding: 12px 16px;
-      border-radius: 5px;
+      border-radius: 50px;
       border: 1px solid var(--border-color);
       background: var(--card-bg);
       color: var(--text-color);
@@ -238,7 +255,7 @@
 
     .send-button {
       padding: 12px 20px;
-      border-radius: 10%;
+      border-radius: 30%;
       border: none;
       background: var(--primary-color);
       color: white;
@@ -247,8 +264,8 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 48px;
-      height: 48px;
+      width: 50px;
+      height: 40px;
     }
 
     .send-button:hover {
@@ -580,7 +597,7 @@
       const targetBubble = document.querySelector(`.bubble[data-key="${messageKey}"]`);
       if (targetBubble) {
         targetBubble.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        
+
         // إضافة تأثير تمييز للرسالة
         targetBubble.style.backgroundColor = 'rgba(0, 170, 255, 0.3)';
         setTimeout(() => {
@@ -593,7 +610,7 @@
     function handleDoubleTap(messageKey, bubble) {
       const currentTime = new Date().getTime();
       const tapLength = currentTime - lastTap;
-      
+
       if (lastTap && currentMessageKey === messageKey && tapLength < 500) {
         // الضغط المزدوج تم
         bubble.classList.add('double-tap-effect');
@@ -605,7 +622,7 @@
         // الضغط الأول
         lastTap = currentTime;
         currentMessageKey = messageKey;
-        
+
         // إعادة تعيين المؤقت بعد 500 مللي ثانية
         setTimeout(() => {
           lastTap = 0;
@@ -659,25 +676,25 @@
 
     function showReplyPreview(sender, text, messageKey){
       replySender.textContent = sender || 'رد';
-      
+
       // اقتصاص النص الطويل
       const maxLength = 50;
       let displayText = text || '';
       if(displayText.length > maxLength) {
         displayText = displayText.substring(0, maxLength) + '...';
       }
-      
+
       replyText.textContent = displayText;
       replyPreview.style.display = 'flex';
       replyingToMessage = messageKey;
       input.focus();
     }
-    
+
     function cancelReply(){
       replyPreview.style.display = 'none';
       replyingToMessage = null;
     }
-    
+
     cancelReplyBtn.addEventListener('click', cancelReply);
 
     function renderMessage(m, key){
@@ -707,12 +724,12 @@
         const replyContainer = document.createElement('div');
         replyContainer.className = 'reply-container';
         replyContainer.dataset.replyTo = m.replyTo; // حفظ مفتاح الرسالة الأصل
-        
+
         // إضافة حدث النقر للرد
         replyContainer.addEventListener('click', () => {
           scrollToMessage(m.replyTo);
         });
-        
+
         // جلب اسم المرسل الأصلي
         let originalSenderName = 'مجهول';
         if(m.replyTo){
@@ -730,7 +747,7 @@
 
         const replyTextEl = document.createElement('div');
         replyTextEl.className = 'reply-text';
-        
+
         // اقتصاص نص الرد
         let replyDisplayText = m.replyText || '';
         const replyMaxLength = 60;
