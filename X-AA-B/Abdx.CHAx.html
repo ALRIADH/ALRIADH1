@@ -862,9 +862,8 @@
     });
 
     // تحديث نشاط المستخدم في activeUsersTest
-    const activeUsername = "عبدالرحمن الشوكي";
-    const activeName = "عبدالرحمن الشوكي";
-    const activeAvatar = "https://files.catbox.moe/ne3tq8.jpg";
+   
+   
     function updateActivity(){
       update(ref(activeDB, 'activeUsersTest/' + encodeURIComponent(activeUsername)), {
         name: activeName,
