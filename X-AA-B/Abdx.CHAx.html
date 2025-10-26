@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>R.D.F - دردشة المدرسين</title>
+  <title>R.D.F - الدردشة</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     /* إخفاء اللون الأزرق عند الضغط على العناصر */
@@ -421,7 +421,7 @@
   <div class="app-container">
     <div class="topbar">
       <div class="topbar-left">
-        <a href="https://alriadh.github.io/ALRIADH1/rdf-login/Abdx.HOMx.html" target="_blank" class="back-button"><img src="https://i.postimg.cc/ZRPL2rZg/image.png" width="24"></a>
+        <a href="https://alriadh.github.io/ALRIADH1/X-AA-B/Abdx.CH1x.html" target="_blank" class="back-button"><img src="https://i.postimg.cc/ZRPL2rZg/image.png" width="24"></a>
         <div class="group-info">
           <img src="https://i.postimg.cc/Y0mv4vwt/propack-new.png" class="group-avatar">
           <div class="group-name">أخوة تحت عرش الرحمن</div>
@@ -862,8 +862,9 @@
     });
 
     // تحديث نشاط المستخدم في activeUsersTest
-   
-   
+    const activeUsername = "عبدالرحمن الشوكي";
+    const activeName = "عبدالرحمن الشوكي";
+    const activeAvatar = "https://files.catbox.moe/ne3tq8.jpg";
     function updateActivity(){
       update(ref(activeDB, 'activeUsersTest/' + encodeURIComponent(activeUsername)), {
         name: activeName,
