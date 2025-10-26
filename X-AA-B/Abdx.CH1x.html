@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>R.D.F - الدردشة</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* أنماط CSS مخصصة بتصميم R.D.F */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        :root {
+            --dark-bg: #0a0a12;
+            --primary: #00aaff;
+            --accent: #ff003c;
+            --text: #e0e0e0;
+            --light-gray: #1e1e2a;
+            --card-bg: rgba(20, 20, 30, 0.7);
+            --glow: 0 0 15px rgba(0, 170, 255, 0.3);
+        }
+        
+        body {
+            background: linear-gradient(135deg, #080817, #0d0d1a);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        
+        .background-effects {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.1;
+        }
+
+        .grid-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(rgba(0, 170, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 170, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        
+        .main-container {
+            position: relative;
+            width: 90%;
+            max-width: 1000px;
+            height: 90vh;
+            background: var(--card-bg);
+            display: flex;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.5);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        
+        .left-container {
+            position: relative;
+            width: 35%;
+            height: 100%;
+            flex: 35%;
+            background: var(--card-bg);
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            height: 70px;
+            background: rgba(15, 15, 25, 0.95);
+            padding: 10px 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .user-img {
+            position: relative;
+            width: 45px;
+            height: 45px;
+            overflow: hidden;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid var(--primary);
+            box-shadow: var(--glow);
+        }
+        
+        .dp {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+            border-radius: 50%;
+        }
+        
+        .user-img:hover .dp {
+            transform: scale(1.1);
+        }
+        
+        .user-name {
+            font-weight: 600;
+            color: var(--text);
+            font-size: 16px;
+        }
+        
+        .nav-icons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 20px;
+        }
+        
+        .nav-icons i {
+            font-size: 20px;
+            cursor: pointer;
+            color: var(--text);
+            transition: all 0.3s ease;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .nav-icons i:hover {
+            color: var(--primary);
+            transform: translateY(-3px);
+            background: rgba(0, 170, 255, 0.1);
+        }
+        
+        .search-container {
+            position: relative;
+            width: 100%;
+            height: 60px;
+            background: rgba(30, 30, 42, 0.7);
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .search-container .input {
+            position: relative;
+            width: 100%;
+        }
+        
+        .search-container .input input {
+            width: 100%;
+            outline: none;
+            border: none;
+            background: rgba(20, 20, 30, 0.7);
+            padding: 12px 15px 12px 45px;
+            border-radius: 20px;
+            font-size: 14px;
+            color: var(--text);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .search-container .input input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(0, 170, 255, 0.3);
+        }
+        
+        .search-container .input i {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #aaa;
+            font-size: 16px;
+        }
+        
+        .chat-list {
+            position: relative;
+            height: calc(100% - 130px);
+            overflow-y: auto;
+            background: transparent;
+        }
+        
+        .chat-box {
+            position: relative;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            padding: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .chat-box:hover {
+            background: rgba(0, 170, 255, 0.05);
+            transform: translateX(-5px);
+        }
+        
+        .chat-box.active {
+            background: rgba(0, 170, 255, 0.1);
+            border-right: 3px solid var(--primary);
+        }
+        
+        .img-box {
+            position: relative;
+            width: 62px;
+            height: 50px;
+            overflow: hidden;
+            border-radius: 50%;
+            margin-left: 15px;
+        }
+        
+        .img-cover {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.5s ease;
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .img-cover.loaded {
+            opacity: 1;
+        }
+        
+        /* تأثير تحميل الصور المعدل */
+        .img-loading {
+            background: linear-gradient(90deg, #1e1e2a 25%, #2a2a3a 50%, #1e1e2a 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
+        
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        
+        .chat-details {
+            width: 100%;
+            margin-left: 10px;
+        }
+        
+        .text-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+        
+        .text-head h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text);
+        }
+        
+        .text-head .time {
+            font-size: 12px;
+            color: #aaa;
+        }
+        
+        /* تصميم متجاوب للهواتف */
+        @media (max-width: 768px) {
+            .main-container {
+                width: 100%;
+                height: 100vh;
+                border-radius: 0;
+            }
+            
+            .left-container {
+                width: 100%;
+            }
+        }
+
+        /* إخفاء شريط التمرير مع الحفاظ على وظيفته */
+        .chat-list::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .chat-list::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+
+        .chat-list::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
+        }
+        
+        /* رسالة الخصوصية في الأسفل */
+        .privacy-notice {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(15, 15, 25, 0.7);
+            color: #aaa;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .privacy-notice:hover {
+            color: var(--primary);
+            background: rgba(0, 170, 255, 0.05);
+        }
+        
+        .privacy-notice i {
+            margin-left: 8px;
+            font-size: 14px;
+        }
+        
+        /* القائمة المنبثقة للصورة */
+        .image-popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .image-popup.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .popup-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+            transform: scale(0.8);
+            transition: transform 0.3s ease;
+        }
+        
+        .image-popup.active .popup-content {
+            transform: scale(1);
+        }
+        
+        .popup-img {
+            width: 100%;
+            height: auto;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .close-popup {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            background: rgba(0, 0, 0, 0.5);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        /* القائمة المنبثقة للخصوصية */
+        .privacy-popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .privacy-popup.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .privacy-content {
+            position: relative;
+            background: var(--card-bg);
+            width: 90%;
+            max-width: 400px;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            transform: scale(0.8);
+            transition: transform 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .privacy-popup.active .privacy-content {
+            transform: scale(1);
+        }
+        
+        .privacy-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .privacy-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text);
+        }
+        
+        .close-privacy {
+            color: #aaa;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .close-privacy:hover {
+            color: var(--primary);
+            transform: rotate(90deg);
+        }
+        
+        .privacy-body {
+            color: #aaa;
+            line-height: 1.6;
+            text-align: center;
+        }
+        
+        .privacy-icon {
+            font-size: 40px;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        
+        .privacy-text {
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        
+        .privacy-details {
+            font-size: 14px;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <!-- تأثيرات الخلفية -->
+    <div class="background-effects">
+        <div class="grid-overlay"></div>
+    </div>
+    
+    <div class="main-container">
+        <div class="left-container">
+            <!-- الهيدر -->
+            <div class="header">
+                <div class="user-info">
+                    <div class="user-img" id="userImage">
+                        <img class="dp" src="https://i.postimg.cc/yxKmrQb2/20250920-231813.jpg" alt="صورة المستخدم">
+                    </div>
+                    <div class="user-name">عبدالرحمن عادل</div>
+                </div>
+                <div class="nav-icons">
+<a href="https://chat.whatsapp.com/GVQeXxCaLXt0YvQgpPziyp?mode=wwt" target="_blank" style="text-decoration: none;">
+    <i class="fab fa-whatsapp" style="color: #ffffff; font-size: 24px;"></i>
+</a>
+                    <!--i class="fas fa-comment-dots"></i-->
+                    <i class="fas fa-ellipsis-vertical"></i>
+                </div>
+            </div>
+            
+            <!-- شريط البحث -->
+            <div class="search-container">
+                <div class="input">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="        ابحث عن محادثة...">
+                </div>
+            </div>
+            
+            <!-- قائمة المحادثات -->
+            <div class="chat-list" id="chatList">
+                <!-- المحادثة 1 - المحادثة الثابتة -->
+                <a href="https://alriadh.github.io/ALRIADH1/X-AA-B/Abdx.CHAx.html" target="_blank" class="chat-box fixed-chat" data-chat-id="fixed-chat">
+                    <div class="img-box">
+                        <img class="img-cover img-loading profile-img" data-src="https://i.postimg.cc/k4RNxRYV/20251026-225616.jpg" src="https://i.postimg.cc/k4RNxRYV/20251026-225616.jpg" alt="صورة المجموعة">
+                    </div>
+                    <div class="chat-details">
+                        <div class="text-head">
+                            <h4>أخوة تحت عرش الرحمن</h4>
+<p class="time" id="fixed-chat-time">
+    <i class="fa-solid fa-thumbtack"></i>
+</p>
+                        </div>
+                    </div>
+                </a>
+                
+                <!-- المحادثات الأخرى -->
+                <a href="#" class="chat-box" data-chat-id="saif">
+                    <div class="img-box">
+                        <img class="img-cover img-loading profile-img" data-src="https://i.postimg.cc/yxKmrQb2/20250920-231813.jpg" src="https://i.postimg.cc/tTkJpBgF/20250919-232913.jpg" alt="صورة سيف">
+                    </div>
+                    <div class="chat-details">
+                        <div class="text-head">
+                            <h4>سيف علي الشوكي</h4>
+                            <p class="time" id="saif-time">أمس</p>
+                        </div>
+                    </div>
+                </a>
+                
+                <a href="#" class="chat-box" data-chat-id="abdelrahman">
+                    <div class="img-box">
+                        <img class="img-cover img-loading profile-img" data-src="https://i.postimg.cc/yxKmrQb2/20250920-231813.jpg" src="https://i.postimg.cc/4NDfCD1D/20250919-232533.jpg" alt="صورة عبدالرحمن">
+                    </div>
+                    <div class="chat-details">
+                        <div class="text-head">
+                            <h4>مشعل عبدة الشوكي</h4>
+                            <p class="time" id="abdelrahman-time">السبت</p>
+                        </div>
+                    </div>
+                </a>
+                
+                <a href="#" class="chat-box" data-chat-id="hussein">
+                    <div class="img-box">
+                        <img class="img-cover img-loading profile-img" data-src="https://i.postimg.cc/yxKmrQb2/20250920-231813.jpg" src="https://i.postimg.cc/G2CTcBxb/20250919-232919.jpg" alt="صورة حسين">
+                    </div>
+                    <div class="chat-details">
+                        <div class="text-head">
+                            <h4>حسين وحيد الجعفري</h4>
+                            <p class="time" id="hussein-time">الجمعة</p>
+                        </div>
+                    </div>
+                </a>
+                
+                <a href="#" class="chat-box" data-chat-id="ali">
+                    <div class="img-box">
+                        <img class="img-cover img-loading profile-img" data-src="https://i.postimg.cc/yxKmrQb2/20250920-231813.jpg" src="https://i.postimg.cc/VktNdf6d/20250919-232834.jpg" alt="صورة علي">
+                    </div>
+                    <div class="chat-details">
+                        <div class="text-head">
+                            <h4>علي محسن الفهد</h4>
+                            <p class="time" id="ali-time">الأربعاء</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            
+            <!-- رسالة الخصوصية -->
+            <div class="privacy-notice" id="privacyNotice">
+                <i class="fas fa-lock"></i>
+                <span>رسائلك الشخصية مشفرة تماماً بين الطرفين</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- القائمة المنبثقة للصورة -->
+    <div class="image-popup" id="imagePopup">
+        <div class="popup-content">
+            <img class="popup-img" id="popupImage" src="" alt="صورة الملف الشخصي">
+            <div class="close-popup" id="closeImagePopup">
+                <i class="fas fa-times"></i>
+            </div>
+        </div>
+    </div>
+    
+    <!-- القائمة المنبثقة للخصوصية -->
+    <div class="privacy-popup" id="privacyPopup">
+        <div class="privacy-content">
+            <div class="privacy-header">
+                <div class="privacy-title">خصوصية الرسائل</div>
+                <div class="close-privacy" id="closePrivacyPopup">
+                    <i class="fas fa-times"></i>
+                </div>
+            </div>
+            <div class="privacy-body">
+                <div class="privacy-icon">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <div class="privacy-text">دردشاتك تتم في خصوصية </div>
+                <div class="privacy-details">
+جميع رسائلك مشفّرة من طرف إلى طرف،
+مما يضمن بقاء محتواها بينك وبين المستلم فقط،
+ولا يمكن حتى لتوركس الوصول إلى محتواها أو قراءتها.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // دالة للحصول على الوقت الحالي بتنسيق مناسب
+        function getCurrentTime() {
+            const now = new Date();
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+            const ampm = hours >= 12 ? 'م' : 'ص';
+            const formattedHours = hours % 12 || 12;
+            return `${formattedHours}:${minutes.toString().padStart(2, '0')} ${ampm}`;
+        }
+
+        // دالة لتحديث ترتيب المحادثات
+        function updateChatOrder(clickedChatId) {
+            // لا نحدث ترتيب المحادثة الثابتة
+            if (clickedChatId === 'fixed-chat') return;
+            
+            const chatList = document.getElementById('chatList');
+            const allChats = Array.from(chatList.querySelectorAll('.chat-box:not(.fixed-chat)'));
+            const clickedChat = document.querySelector(`[data-chat-id="${clickedChatId}"]`);
+            
+            // تحديث الوقت للمحادثة المنقرة
+            const timeElement = clickedChat.querySelector('.time');
+            timeElement.textContent = getCurrentTime();
+            
+            // حفظ الوقت في localStorage
+            const chatData = JSON.parse(localStorage.getItem('chatOrder') || '{}');
+            chatData[clickedChatId] = new Date().getTime();
+            localStorage.setItem('chatOrder', JSON.stringify(chatData));
+            
+            // إعادة ترتيب المحادثات (باستثناء المحادثة الثابتة)
+            const sortedChats = allChats.sort((a, b) => {
+                const aId = a.getAttribute('data-chat-id');
+                const bId = b.getAttribute('data-chat-id');
+                const aTime = chatData[aId] || 0;
+                const bTime = chatData[bId] || 0;
+                return bTime - aTime; // الأحدث أولاً
+            });
+            
+            // إضافة المحادثات مرتبة بعد المحادثة الثابتة
+            const fixedChat = document.querySelector('.fixed-chat');
+            sortedChats.forEach(chat => {
+                if (chat !== fixedChat) {
+                    chatList.appendChild(chat);
+                }
+            });
+        }
+
+        // دالة لتحميل ترتيب المحادثات المحفوظ
+        function loadChatOrder() {
+            const chatData = JSON.parse(localStorage.getItem('chatOrder') || '{}');
+            const chatList = document.getElementById('chatList');
+            const allChats = Array.from(chatList.querySelectorAll('.chat-box:not(.fixed-chat)'));
+            
+            // تحديث الأوقات من البيانات المحفوظة
+            Object.keys(chatData).forEach(chatId => {
+                const timeElement = document.getElementById(`${chatId}-time`);
+                if (timeElement) {
+                    const savedTime = new Date(chatData[chatId]);
+                    const now = new Date();
+                    const diffTime = Math.abs(now - savedTime);
+                    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+                    
+                    if (diffDays === 0) {
+                        const hours = savedTime.getHours();
+                        const minutes = savedTime.getMinutes();
+                        const ampm = hours >= 12 ? 'م' : 'ص';
+                        const formattedHours = hours % 12 || 12;
+                        timeElement.textContent = `${formattedHours}:${minutes.toString().padStart(2, '0')} ${ampm}`;
+                    } else if (diffDays === 1) {
+                        timeElement.textContent = 'أمس';
+                    } else if (diffDays < 7) {
+                        const days = ['الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
+                        timeElement.textContent = days[savedTime.getDay()];
+                    } else {
+                        timeElement.textContent = `${savedTime.getDate()}/${savedTime.getMonth() + 1}`;
+                    }
+                }
+            });
+            
+            // ترتيب المحادثات حسب الوقت المحفوظ
+            const sortedChats = allChats.sort((a, b) => {
+                const aId = a.getAttribute('data-chat-id');
+                const bId = b.getAttribute('data-chat-id');
+                const aTime = chatData[aId] || 0;
+                const bTime = chatData[bId] || 0;
+                return bTime - aTime; // الأحدث أولاً
+            });
+            
+            // إضافة المحادثات مرتبة بعد المحادثة الثابتة
+            const fixedChat = document.querySelector('.fixed-chat');
+            sortedChats.forEach(chat => {
+                if (chat !== fixedChat) {
+                    chatList.appendChild(chat);
+                }
+            });
+        }
+
+        // البحث في المحادثات
+        document.getElementById('searchInput').addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const chatBoxes = document.querySelectorAll('.chat-box');
+            
+            chatBoxes.forEach(chatBox => {
+                const name = chatBox.querySelector('h4').textContent.toLowerCase();
+                
+                if (name.includes(searchTerm)) {
+                    chatBox.style.display = 'flex';
+                } else {
+                    chatBox.style.display = 'none';
+                }
+            });
+        });
+
+        // تأثير تحميل الصور - الإصلاح الرئيسي هنا
+        document.addEventListener('DOMContentLoaded', function() {
+            // تحميل ترتيب المحادثات المحفوظ
+            loadChatOrder();
+            
+            const images = document.querySelectorAll('.img-cover');
+            
+            images.forEach(img => {
+                // إخفاء الصورة أولاً
+                img.style.opacity = '0';
+                
+                // التحقق مما إذا كانت الصورة محملة مسبقاً
+                if (img.complete) {
+                    img.classList.remove('img-loading');
+                    img.classList.add('loaded');
+                    img.style.opacity = '1';
+                } else {
+                    // إزالة تأثير التحميل وإظهار الصورة بعد تحميلها بالكامل
+                    img.addEventListener('load', function() {
+                        this.classList.remove('img-loading');
+                        this.classList.add('loaded');
+                        this.style.opacity = '1';
+                    });
+                    
+                    // إذا فشل تحميل الصورة
+                    img.addEventListener('error', function() {
+                        this.classList.remove('img-loading');
+                        this.src = 'https://i.postimg.cc/yxKmrQb2/20250920-231813.jpg';
+                        // إعادة تحميل الصورة البديلة
+                        this.onload = function() {
+                            this.classList.add('loaded');
+                            this.style.opacity = '1';
+                        };
+                    });
+                }
+            });
+
+            // تأثير النقر على المحادثات
+            const chatBoxes = document.querySelectorAll('.chat-box');
+            chatBoxes.forEach(box => {
+                box.addEventListener('click', function(e) {
+                    const chatId = this.getAttribute('data-chat-id');
+                    
+                    // تحديث ترتيب المحادثة (باستثناء المحادثة الثابتة)
+                    if (chatId !== 'fixed-chat') {
+                        updateChatOrder(chatId);
+                    }
+                    
+                    // إزالة النشاط من جميع المحادثات
+                    chatBoxes.forEach(b => b.classList.remove('active'));
+                    // إضافة النشاط للمحادثة المختارة
+                    this.classList.add('active');
+                    
+                    // تأثير النقر
+                    this.style.transform = 'scale(0.98)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 150);
+                });
+            });
+            
+            // فتح القائمة المنبثقة للصورة
+            const profileImages = document.querySelectorAll('.profile-img, #userImage .dp');
+            const imagePopup = document.getElementById('imagePopup');
+            const popupImage = document.getElementById('popupImage');
+            const closeImagePopup = document.getElementById('closeImagePopup');
+            
+            profileImages.forEach(img => {
+                img.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    popupImage.src = this.src;
+                    imagePopup.classList.add('active');
+                    
+                    // منع أي أحداث أخرى قد تتداخل
+                    setTimeout(() => {
+                        imagePopup.style.pointerEvents = 'auto';
+                    }, 100);
+                });
+            });
+            
+            // إغلاق القائمة المنبثقة للصورة
+            closeImagePopup.addEventListener('click', function(e) {
+                e.stopPropagation();
+                imagePopup.classList.remove('active');
+            });
+            
+            // منع إغلاق القائمة عند النقر على المحتوى نفسه
+            document.querySelector('.popup-content').addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+            
+            // فتح القائمة المنبثقة للخصوصية
+            const privacyNotice = document.getElementById('privacyNotice');
+            const privacyPopup = document.getElementById('privacyPopup');
+            const closePrivacyPopup = document.getElementById('closePrivacyPopup');
+            
+            privacyNotice.addEventListener('click', function() {
+                privacyPopup.classList.add('active');
+            });
+            
+            // إغلاق القائمة المنبثقة للخصوصية
+            closePrivacyPopup.addEventListener('click', function() {
+                privacyPopup.classList.remove('active');
+            });
+            
+            // إغلاق القائمة المنبثقة للخصوصية عند النقر خارجها
+            privacyPopup.addEventListener('click', function(e) {
+                if (e.target === privacyPopup) {
+                    privacyPopup.classList.remove('active');
+                }
+            });
+            
+            // إغلاق القائمة المنبثقة للصورة عند النقر على زر ESC
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    imagePopup.classList.remove('active');
+                    privacyPopup.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
