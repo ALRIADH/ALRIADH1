@@ -536,7 +536,7 @@
 
         </a>
        <a href="https://alriadh.github.io/ALRIADH1/X-AA-B/Abdx.COAx.html" target="_blank" class="publish-option-btn1">
-            <i class="fas fa-plus"></i>
+            <i class='fa-solid fa-upload'></i>
 النشر
         </a>
     </div>
@@ -596,8 +596,8 @@
       video.addEventListener('play',()=>video.parentElement.classList.add('playing'));
       video.addEventListener('pause',()=>video.parentElement.classList.remove('playing'));
     });
-    // إخفاء تأثير التحميل بعد 4 ثواني
-    setTimeout(()=>document.getElementById('loadingOverlay').classList.add('hidden'),4000);
+    // إخفاء تأثير التحميل بعد 3 ثواني
+    setTimeout(()=>document.getElementById('loadingOverlay').classList.add('hidden'),3000);
   });
   function hideLoader(){document.getElementById('loadingOverlay').classList.add('hidden');}
   </script>
