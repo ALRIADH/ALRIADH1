@@ -12,6 +12,7 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-tap-highlight-color: transparent; /* إخفاء لون الضغط */
         }
 
         :root {
@@ -64,8 +65,97 @@
         }
 
         .login-header { text-align: center; margin-bottom: 2rem; }
-        .logo-container { display: flex; justify-content: center; margin-bottom: 1.5rem; }
-        .nexus-logo { width: 180px; height: 180px; }
+        .logo-container { 
+            display: flex; 
+            justify-content: center; 
+            margin-bottom: 1.5rem; 
+            position: relative;
+        }
+        .nexus-logo { 
+            width: 180px; 
+            height: 180px; 
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .nexus-logo.loaded {
+            opacity: 1;
+        }
+        .logo-loading {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        
+        /* تأثير التحميل الجديد البسيط */
+        .simple-loader {
+            width: 50px;
+            height: 50px;
+            position: relative;
+        }
+        
+        .loader-circle {
+            width: 100%;
+            height: 100%;
+            border: 2px solid rgba(26, 115, 232, 0.2);
+            border-top: 2px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        .loader-dots {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            gap: 3px;
+        }
+        
+        .dot {
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: var(--secondary);
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        
+        .dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        
+        .loading-status {
+            margin-top: 10px;
+            font-size: 0.8rem;
+            color: var(--secondary);
+            font-weight: 500;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { 
+                opacity: 0.3;
+                transform: scale(0.8);
+            }
+            50% { 
+                opacity: 1;
+                transform: scale(1.2);
+            }
+        }
+        
         .login-title {
             font-size: 2.2rem;
             background: linear-gradient(to right, var(--primary), var(--secondary));
@@ -88,6 +178,7 @@
             color: var(--text);
             font-size: 1.1rem;
             transition: all 0.3s ease;
+            -webkit-tap-highlight-color: transparent; /* إخفاء لون الضغط */
         }
         .input-group input:focus { outline: none; border-color: var(--primary); }
 
@@ -105,6 +196,7 @@
             position: relative;
             overflow: hidden;
             margin-top: 1rem;
+            -webkit-tap-highlight-color: transparent; /* إخفاء لون الضغط */
         }
         .login-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); }
         .login-btn:active { transform: translateY(1px); }
@@ -130,7 +222,18 @@
         .modal-loading .modal-icon { color: var(--primary); animation: spin 1.5s linear infinite; }
         .modal-title { font-size:1.5rem; margin-bottom:1rem; color: var(--text); }
         .modal-message { margin-bottom:1.5rem; color:#aaa; }
-        .modal-btn { padding:0.7rem 2rem; background: linear-gradient(45deg, var(--primary), var(--secondary)); border:none; border-radius:5px; color:white; font-size:1rem; font-weight:600; cursor:pointer; transition: all 0.3s ease; }
+        .modal-btn { 
+            padding:0.7rem 2rem; 
+            background: linear-gradient(45deg, var(--primary), var(--secondary)); 
+            border:none; 
+            border-radius:5px; 
+            color:white; 
+            font-size:1rem; 
+            font-weight:600; 
+            cursor:pointer; 
+            transition: all 0.3s ease; 
+            -webkit-tap-highlight-color: transparent; /* إخفاء لون الضغط */
+        }
         .modal-btn:hover { transform: translateY(-2px); box-shadow:0 5px 15px rgba(0,0,0,0.3); }
 
         .loading-container { width:100%; max-width:500px; margin:0.5rem auto; background: rgba(10,15,30,0.7); border-radius:10px; padding:1.5rem; border:1px solid rgba(0,170,255,0.3); display:none; }
@@ -142,10 +245,13 @@
 
         @keyframes loadingShine { 0% {transform:translateX(-100%);} 100% {transform:translateX(200%);} }
         @keyframes pulseLogo { 0% { transform:scale(1); filter:drop-shadow(0 0 15px rgba(0,170,255,0.7));} 100% { transform:scale(1.05); filter:drop-shadow(0 0 25px rgba(0,170,255,0.9));} }
-        @keyframes spin { 0% {transform:rotate(0deg);} 100% {transform:rotate(360deg);} }
 
         @media (max-width:768px) { .login-container { padding:1.5rem; } .nexus-logo { width:140px; height:140px; } .login-title { font-size:1.8rem; } .modal { padding:1.5rem; } }
         @media (max-width:480px) { .nexus-logo { width:70px; height:70px; } .login-title { font-size:1.6rem; } .modal-title { font-size:1.3rem; } }
+
+        .hidden {
+            display: none !important;
+        }
     </style>
 </head>
 <body>
@@ -153,7 +259,7 @@
     <div class="floating-shapes" id="particleContainer"></div>
 
     <!-- لوحة تسجيل الدخول -->
-    <div class="login-continer">
+    <div class="logi-container">
 
         <!-- الحقول الوهمية لمنع الحفظ -->
         <input type="text" name="fakeusernameremembered" style="display:none">
@@ -161,7 +267,18 @@
 
         <div class="login-header">
             <div class="logo-container">
-                <img src="https://i.postimg.cc/Gpv0XjqD/image.png" alt="NEXUS Logo" class="nexus-logo">
+                <div class="logo-loading">
+                    <div class="simple-loader">
+                        <div class="loader-circle"></div>
+                        <div class="loader-dots">
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                        </div>
+                    </div>
+                    <div class="loading-status"></div>
+                </div>
+                <img src="https://i.postimg.cc/WzCKPYXd/20251027-004334.png" alt="NEXUS Logo" class="nexus-logo">
             </div>
             <h1 class="login-title">TOREX</h1>
             <p class="login-subtitle">يرجى إدخال البيانات الخاصة بك</p>
@@ -215,6 +332,32 @@
     </div>
 
     <script type="module">
+        // إدارة تأثيرات التحميل للصورة
+        document.addEventListener('DOMContentLoaded', function() {
+            const logoImg = document.querySelector('.nexus-logo');
+            const logoLoading = document.querySelector('.logo-loading');
+            
+            // إضافة حدث عند تحميل الصورة
+            logoImg.addEventListener('load', function() {
+                this.classList.add('loaded');
+                setTimeout(() => {
+                    logoLoading.classList.add('hidden');
+                }, 300);
+            });
+            
+            // إذا فشل تحميل الصورة
+            logoImg.addEventListener('error', function() {
+                setTimeout(() => {
+                    logoLoading.classList.add('hidden');
+                }, 300);
+            });
+            
+            // التحقق مما إذا كانت الصورة محملة مسبقاً
+            if (logoImg.complete) {
+                logoImg.dispatchEvent(new Event('load'));
+            }
+        });
+
         // كود النقاط المتحركة كما هو
         const container = document.getElementById("particleContainer");
         const numberOfParticles = 60;
@@ -272,7 +415,7 @@
         async function login(){
             const username=usernameInput.value.trim();
             const password=passwordInput.value.trim();
-            if(!username||!password){ errorMessage.textContent="❌ يرجى إدخال اسم المستخدم وكلمة المرور"; showModal(errorModal); return; }
+            if(!username||!password){ errorMessage.textContent=" يرجى إدخال اسم المستخدم وكلمة المرور"; showModal(errorModal); return; }
             showModal(loadingModal);
             try{
                 const snapshot=await get(ref(db,"users"));
@@ -284,7 +427,7 @@
                             setTimeout(()=>{ window.location.href=users[key].page; },2000); break;
                         }
                     }
-                    if(!found){ hideModal(loadingModal); errorMessage.textContent="❌ اسم المستخدم أو كلمة المرور خطأ"; showModal(errorModal); }
+                    if(!found){ hideModal(loadingModal); errorMessage.textContent=" اسم المستخدم أو كلمة المرور خطأ"; showModal(errorModal); }
                 }else{ hideModal(loadingModal); errorMessage.textContent="🚨 لا توجد بيانات مستخدمين في قاعدة البيانات"; showModal(errorModal); }
             }catch(error){ console.error("خطأ بالاتصال:",error); hideModal(loadingModal); errorMessage.textContent="⚠️ مشكلة بالاتصال بقاعدة البيانات"; showModal(errorModal); }
         }
