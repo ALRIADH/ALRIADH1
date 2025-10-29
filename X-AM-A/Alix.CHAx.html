@@ -104,6 +104,87 @@
       margin-top: 0; /* إزالة الهامش العلوي */
     }
 
+    /* تأثير تحميل الصور */
+    .avatar-container {
+      position: relative;
+      width: 36px;
+      height: 36px;
+    }
+
+    .avatar-loading {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: rgba(30, 30, 40, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .avatar-loading::after {
+      content: "";
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(0, 170, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: var(--primary-color);
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* تأثير تحميل الرسائل */
+    .messages-loading {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      color: var(--primary-color);
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .messages-loading .spinner {
+      width: 32px;
+      height: 32px;
+      border: 3px solid rgba(0, 170, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: var(--primary-color);
+      animation: spin 1s linear infinite;
+    }
+
+    .messages-loading .dots {
+      display: flex;
+      gap: 5px;
+    }
+
+    .messages-loading .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--primary-color);
+      animation: pulse 1.4s ease-in-out infinite both;
+    }
+
+    .messages-loading .dot:nth-child(1) { animation-delay: -0.32s; }
+    .messages-loading .dot:nth-child(2) { animation-delay: -0.16s; }
+
+    @keyframes pulse {
+      0%, 80%, 100% { 
+        transform: scale(0.8);
+        opacity: 0.5;
+      }
+      40% { 
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
     /* تعديل فقاعات الرسائل لتكون مستطيلة أكثر */
     .bubble {
       position: relative;
@@ -433,9 +514,9 @@
   <div class="app-container">
     <div class="topbar">
       <div class="topbar-left">
-        <a href="https://alriadh.github.io/ALRIADH1/X-AM-A/Alix.CH1x.html" target="_blank" class="back-button"><img src="https://i.postimg.cc/ZRPL2rZg/image.png" width="24"></a>
+        <a href="https://alriadh.github.io/ALRIADH1/X-AM-A/Alix.CH1x.html" target="_blank" class="back-button"><img src="https://i.postimg.cc/nhgMcB7G/20251029-235655.png" width="24"></a>
         <div class="group-info">
-          <img src="https://i.postimg.cc/Y0mv4vwt/propack-new.png" class="group-avatar">
+          <img src="https://i.postimg.cc/900j7N56/20251030-000514.jpg" class="group-avatar">
           <div class="group-name">أخوة تحت عرش الرحمن</div>
         </div>
         <a href="https://alriadh.github.io/ALRIADH1/X-AM-A/Alix.ACTx.html" target="_blank" class="active-members-btn"><i class="fas fa-users"> المتصلين</i><span></span></a>
@@ -444,6 +525,11 @@
 
     <div class="chat-area">
       <div class="messages-container" id="messagesContainer">
+        <!-- تأثير تحميل الرسائل -->
+        <div class="messages-loading" id="messagesLoading">
+          <div class="spinner"></div>
+          <div>جاري تحميل الرسائل...</div>
+        </div>
         <ul id="messages"></ul>
       </div>
 
@@ -528,6 +614,7 @@
     // عناصر DOM
     const messagesEl = document.getElementById('messages');
     const messagesContainer = document.getElementById('messagesContainer');
+    const messagesLoading = document.getElementById('messagesLoading');
     const form = document.getElementById('messageForm');
     const input = document.getElementById('messageInput');
     const nameOverlay = document.getElementById('nameOverlay');
@@ -547,6 +634,9 @@
     // متغيرات للضغط المزدوج
     let lastTap = 0;
     let currentMessageKey = null;
+
+    // متغير لتتبع إذا كانت الرسائل قد تحملت
+    let messagesLoaded = false;
 
     if(!localStorage.getItem('chatClientId')) {
       localStorage.setItem('chatClientId', Math.random().toString(36).slice(2,12));
@@ -715,9 +805,30 @@
       const isMy = m.clientId === clientId;
       li.classList.add(isMy ? 'my-message' : 'other-message');
 
+      // حاوية الصورة مع تأثير التحميل
+      const avatarContainer = document.createElement('div');
+      avatarContainer.className = 'avatar-container';
+
       const img = document.createElement('img');
       img.className = 'avatar';
       img.src = m.avatar || 'https://i.pravatar.cc/40';
+
+      // تأثير تحميل الصورة
+      const avatarLoading = document.createElement('div');
+      avatarLoading.className = 'avatar-loading';
+
+      avatarContainer.appendChild(img);
+      avatarContainer.appendChild(avatarLoading);
+
+      // إخفاء تأثير التحميل عند تحميل الصورة
+      img.onload = function() {
+        avatarLoading.style.display = 'none';
+      };
+      img.onerror = function() {
+        avatarLoading.style.display = 'none';
+        // استخدام صورة بديلة في حالة الخطأ
+        this.src = 'https://i.pravatar.cc/40';
+      };
 
       const messageContent = document.createElement('div');
       messageContent.className = 'message-content';
@@ -781,10 +892,20 @@
       messageContent.appendChild(meta);
       messageContent.appendChild(bubble);
 
-      li.appendChild(img);
+      li.appendChild(avatarContainer);
       li.appendChild(messageContent);
 
       messagesEl.appendChild(li);
+      
+      // إخفاء تأثير التحميل بعد تحميل أول رسالة
+      if (!messagesLoaded && messagesLoading.style.display !== 'none') {
+        messagesLoaded = true;
+        setTimeout(() => {
+          messagesLoading.style.display = 'none';
+        }, 500);
+      }
+
+      // التمرير للأسفل بعد إضافة الرسالة
       messagesContainer.scrollTo({ top: messagesContainer.scrollHeight, behavior: 'smooth' });
 
       // إضافة حدث الضغط المزدوج للرسائل الخاصة بالمستخدم
@@ -889,6 +1010,14 @@
 
     // تشغيل السحب
     setTimeout(()=>{ setupSwipeToReply(); }, 700);
+
+    // إخفاء تأثير التحميل بعد 3 ثواني كحد أقصى (في حالة عدم وجود رسائل)
+    setTimeout(() => {
+      if (!messagesLoaded && messagesLoading.style.display !== 'none') {
+        messagesLoading.style.display = 'none';
+        messagesLoaded = true;
+      }
+    }, 3000);
 
     // DEBUG: لو في أخطاء افتح الكونسول وشوف
     console.info('Chat script loaded — clientId:', clientId);
