@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-   <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>R.D.F - الصفحة الرئيسية</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>R.D.F - الصفحة الرئيسية</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <style>
     /* هنا نعرّف الخط من ملفك على GitHub */
@@ -20,6 +20,8 @@
         padding: 0;
         box-sizing: border-box;
         font-family: 'Cairo', sans-serif;
+        /* إخفاء اللون الأزرق عند الضغط على العناصر */
+        -webkit-tap-highlight-color: transparent;
     }
 
     :root {
@@ -32,6 +34,15 @@
         --glow: 0 0 15px rgba(0, 170, 255, 0.3);
     }
 
+    /* تأثيرات بديلة للحفاظ على تجربة المستخدم */
+    a, button, .nav-item, .service-card, .stat-card {
+        transition: all 0.2s ease;
+    }
+
+    a:active, button:active, .nav-item:active, .service-card:active, .stat-card:active {
+        transform: scale(0.98);
+    }
+
     body {
         background: linear-gradient(135deg, #080817, #0d0d1a);
         color: var(--text);
@@ -39,738 +50,754 @@
         overflow-x: hidden;
         position: relative;
     }
-        
-        /* تأثيرات الخلفية */
-        .background-effects {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -1;
-            opacity: 0.1;
+
+    /* تأثيرات الخلفية */
+    .background-effects {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: -1;
+        opacity: 0.1;
+    }
+
+    .grid-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: 
+            linear-gradient(rgba(0, 170, 255, 0.05) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0, 170, 255, 0.05) 1px, transparent 1px);
+        background-size: 40px 40px;
+    }
+
+    /* شريط التنقل العلوي */
+    .navbar {
+        background: rgba(15, 15, 25, 0.95);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 1rem 1.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .logo-container {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        position: relative;
+    }
+
+    .logo-img {
+        width: 40px;
+        height: 40px;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 2px solid var(--primary);
+        box-shadow: var(--glow);
+        opacity: 0;
+        transition: opacity 0.5s ease;
+    }
+
+    .logo-img.loaded {
+        opacity: 1;
+    }
+
+    .logo-text {
+        font-size: 0.7rem;
+        font-weight: 700;
+        background: linear-gradient(to right, var(--primary), #00ddff);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+
+    .nav-icons {
+        display: flex;
+        gap: 1.2rem;
+    }
+
+    .nav-icon {
+        color: var(--text);
+        font-size: 1.4rem;
+        position: relative;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 20%;
+        background: rgba(255, 255, 255, 0.05);
+        text-decoration: none;
+    }
+        .nav-icons i {
+        font-size: 20px;
+        cursor: pointer;
+        color: var(--text);
+        transition: all 0.3s ease;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 20%;
+    }
+
+    .nav-icon:hover {
+        color: var(--primary);
+        transform: translateY(-3px);
+        background: rgba(0, 170, 255, 0.1);
+    }
+
+    .notification-badge {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        background: #ff003c;
+        color: white;
+        font-size: 0.7rem;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* تصميم يشبه تطبيق الجوال */
+    .app-container {
+        max-width: 500px;
+        margin: 0 auto;
+        padding: 1rem;
+        padding-bottom: 80px;
+    }
+
+    /* رأس الصفحة */
+    .user-header {
+        display: flex;
+        align-items: center;
+        gap: 1.2rem;
+        padding: 1.5rem 1rem;
+        margin-bottom: 1.5rem;
+        position: relative;
+    }
+
+    .avatar-container {
+        position: relative;
+        width: 120px;
+        height: 120px;
+    }
+
+    .user-avatar {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid var(--primary);
+        box-shadow: var(--glow);
+        opacity: 0;
+        transition: opacity 0.5s ease;
+    }
+
+    .user-avatar.loaded {
+        opacity: 1;
+    }
+
+    .user-info {
+        flex: 1;
+    }
+
+    .user-greeting {
+        font-size: 1rem;
+        color: #aaa;
+        margin-bottom: 0.3rem;
+    }
+
+    .user-name {
+        font-size: 1.8rem;
+        font-weight: 700;
+        background: linear-gradient(to right, var(--primary), #00ddff);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+
+    .user-rank {
+        font-size: 0.9rem;
+        background: rgba(255, 0, 60, 0.2);
+        color: #ff5577;
+        padding: 0.3rem 0.8rem;
+        border-radius: 20px;
+        display: inline-block;
+        margin-top: 0.5rem;
+        border: 1px solid rgba(255, 0, 60, 0.3);
+    }
+
+    /* قسم خدمات المنظمة */
+    .services-section {
+        margin: 2rem 0;
+    }
+
+    .section-title {
+        font-size: 1.5rem;
+        margin: 1.5rem 0 1.2rem;
+        padding-left: 0.5rem;
+        position: relative;
+        color: var(--text);
+        font-weight: 700;
+    }
+
+    .section-title::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        right: -0.5rem;
+        transform: translateY(-50%);
+        width: 5px;
+        height: 70%;
+        background: var(--primary);
+        border-radius: 5px;
+    }
+
+    .services-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    .service-card {
+        background: var(--card-bg);
+        border-radius: 15px;
+        padding: 1rem;
+        text-align: center;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-decoration: none;
+        color: inherit;
+        height: 120px;
+        justify-content: center;
+    }
+
+    .service-card:hover {
+        transform: translateY(-5px);
+        border-color: var(--primary);
+        box-shadow: 0 8px 20px rgba(0, 170, 255, 0.25);
+    }
+
+    .service-icon {
+        width: 45px;
+        height: 45px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0, 170, 255, 0.1);
+        border-radius: 50%;
+        margin-bottom: 0.7rem;
+        font-size: 1.4rem;
+        color: var(--primary);
+    }
+
+    .service-title {
+        font-size: 1rem;
+        margin-bottom: 0.3rem;
+        color: var(--text);
+        font-weight: 600;
+    }
+
+    .service-description {
+        font-size: 0.75rem;
+        color: #aaa;
+        line-height: 1.4;
+    }
+
+    /* قسم الإحصائيات - 4 عناصر في صف واحد */
+    .stats-section {
+        margin: 2rem 0;
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+    }
+
+    @keyframes fadeSlideUp {
+      0% { opacity: 0; transform: translateY(20px) scale(0.95); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .stat-card {
+      background: linear-gradient(145deg, rgba(0,170,255,0.15), rgba(20,20,30,0.9));
+      border-radius: 16px;
+      padding: 0.5rem 0.8rem;
+      border: 1px solid rgba(0,170,255,0.25);
+      box-shadow: 0 4px 12px rgba(0,170,255,0.12);
+      min-height: 80px;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      position: relative;
+      overflow: hidden;
+      animation: fadeSlideUp 0.6s ease forwards;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 10px 25px rgba(0,170,255,0.2);
+    }
+
+    .stat-card::before {
+      content: "";
+      position: absolute;
+      top: -30%;
+      left: -30%;
+      width: 160%;
+      height: 160%;
+      background: radial-gradient(circle at top right, rgba(0,170,255,0.25), transparent 70%);
+      z-index: 0;
+      opacity: 0.5;
+      transition: opacity 0.3s ease;
+    }
+    .stat-card:hover::before {
+      opacity: 0.8;
+    }
+
+    /* الأيقونة على اليمين */
+    .stat-icon i {
+      font-size: 1.4rem;
+      color: var(--primary);
+      flex-shrink: 0;
+    }
+
+    /* العمود اللي فيه الرقم والنص */
+    .stat-info {
+      display: flex;
+      flex-direction: column;
+      justify-content: center; /* الرقم والنص في الوسط عموديًا */
+      align-items: center;     /* الرقم والنص في الوسط أفقيًا */
+      flex: 1;
+      text-align: center;
+    }
+
+    /* الرقم */
+    .stat-value {
+      font-size: 1.1rem;
+      font-weight: 700;
+      background:#99E0FF;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 0.1rem;
+    }
+
+    /* الوصف */
+    .stat-label {
+      font-size: 0.65rem;
+      color: #aaa;
+    }
+
+    /* قسم المهام المنظمة */
+    .recent-tasks {
+        /*background: var(--card-bg);*/
+        border-radius: 20px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        /*border: 1px solid rgba(255, 255, 255, 0.08);*/
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .task-item {
+        display: flex;
+        align-items: center;
+        padding: 1rem 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .task-item:last-child {
+        border-bottom: none;
+    }
+
+    .task-icon {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0, 170, 255, 0.1);
+        border-radius: 50%;
+        margin-left: 1rem;
+        color: var(--primary);
+        font-size: 1.2rem;
+    }
+
+    .task-content {
+        flex: 1;
+    }
+
+    .task-title {
+        font-weight: 600;
+        margin-bottom: 0.3rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .task-status {
+        font-size: 0.75rem;
+        padding: 0.2rem 0.6rem;
+        border-radius: 12px;
+        background: rgba(0, 170, 255, 0.15);
+        color: var(--primary);
+    }
+
+    .task-status.completed {
+        background: rgba(0, 255, 102, 0.15);
+        color: #00ff66;
+    }
+
+    .task-status.pending {
+        background: rgba(255, 204, 0, 0.15);
+        color: #ffcc00;
+    }
+
+    .task-desc {
+        font-size: 0.85rem;
+        color: #aaa;
+    }
+
+    .task-time {
+        font-size: 0.75rem;
+        color: #888;
+        margin-top: 0.3rem;
+    }
+
+    /* شريط التنقل السفلي */
+    .bottom-nav {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: rgba(15, 15, 25, 0.95);
+        backdrop-filter: blur(10px);
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        justify-content: space-around;
+        padding: 0.8rem 0;
+        z-index: 100;
+    }
+
+    .nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-decoration: none;
+        color: #aaa;
+        font-size: 0.8rem;
+        transition: all 0.3s ease;
+        padding: 3px 15px;
+        border-radius: 15px;
+        position: relative;
+    }
+
+    .nav-item i {
+        font-size: 1.4rem;
+        margin-bottom: 0.3rem;
+    }
+
+    .nav-item.active, .nav-item:hover {
+        color: var(--primary);
+        background: rgba(0, 170, 255, 0.1);
+        transform: translateY(-3px);
+    }
+
+    /* التأثيرات والرسوم المتحركة */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .animate-card {
+        animation: fadeIn 0.6s ease forwards;
+    }
+
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+    .delay-4 { animation-delay: 0.4s; }
+
+    /* تأثيرات التحميل */
+    .loading-spinner {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 30px;
+        height: 30px;
+        border: 3px solid rgba(0, 170, 255, 0.3);
+        border-radius: 50%;
+        border-top-color: var(--primary);
+        animation: spin 1s linear infinite;
+        z-index: 10;
+    }
+
+    .media-loading {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: rgba(30, 30, 40, 0.7);
+        border-radius: 50%;
+    }
+
+    /* تأثيرات التحميل المخصصة للصور الصغيرة */
+    .avatar-loading {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: rgba(30, 30, 40, 0.7);
+    }
+
+    /* تأثير تحميل بديل للصور الصغيرة - تأثير النبض */
+    .pulse-loader {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 4px;
+    }
+
+    .pulse-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background-color: var(--primary);
+        animation: pulse 1.5s infinite ease-in-out;
+    }
+
+    .avatar-pulse .pulse-dot {
+        width: 8px;
+        height: 8px;
+    }
+
+    .logo-pulse .pulse-dot {
+        width: 6px;
+        height: 6px;
+    }
+
+    .bottom-nav-pulse .pulse-dot {
+        width: 4px;
+        height: 4px;
+        animation: gentleBounce 1.5s infinite ease-in-out;
+    }
+
+    .pulse-dot:nth-child(1) {
+        animation-delay: 0s;
+    }
+
+    .pulse-dot:nth-child(2) {
+        animation-delay: 0.2s;
+    }
+
+    .pulse-dot:nth-child(3) {
+        animation-delay: 0.4s;
+    }
+
+    @keyframes spin {
+        0% { transform: translate(-50%, -50%) rotate(0deg); }
+        100% { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+
+    @keyframes pulse {
+        0%, 100% { 
+            transform: scale(1); 
+            opacity: 1; 
         }
-        
-        .grid-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                linear-gradient(rgba(0, 170, 255, 0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 170, 255, 0.05) 1px, transparent 1px);
-            background-size: 40px 40px;
+        50% { 
+            transform: scale(0.7); 
+            opacity: 0.5; 
         }
-        
-        /* شريط التنقل العلوي */
-        .navbar {
-            background: rgba(15, 15, 25, 0.95);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 1rem 1.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    @keyframes gentleBounce {
+        0%, 100% { 
+            transform: translateY(0); 
+            opacity: 1; 
         }
-        
-        .logo-container {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            position: relative;
+        50% { 
+            transform: translateY(-5px); 
+            opacity: 0.7; 
         }
-        
-        .logo-ig {
-            width: 40px;
-            height: 40px;
-            object-fit: cover;
-            border-radius: 50%;
-            border: 2px solid var(--primary);
-            box-shadow: var(--glow);
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-        
-        .logo-img.loaded {
-            opacity: 1;
-        }
-        
-        .logo-text {
-            font-size: 0.7rem;
-            font-weight: 700;
-            background: linear-gradient(to right, var(--primary), #00ddff);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-        
-        .nav-icons {
-            display: flex;
-            gap: 1.2rem;
-        }
-        
-        .nav-icon {
-            color: var(--text);
-            font-size: 1.4rem;
-            position: relative;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            border-radius: 5%;
-            background: rgba(255, 255, 255, 0.05);
-            text-decoration: none;
-        }
-        
-        .nav-icon:hover {
-            color: var(--primary);
-            transform: translateY(-3px);
-            background: rgba(0, 170, 255, 0.1);
-        }
-        
-        .notification-badge {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background: #ff003c;
-            color: white;
-            font-size: 0.7rem;
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        /* تصميم يشبه تطبيق الجوال */
+    }
+
+    .hidden {
+        display: none !important;
+    }
+
+    /* تأثيرات تحميل الشريط السفلي */
+    .nav-icon-container {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .nav-icon-loading {
+        position: absolute;
+        top: -5px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        gap: 2px;
+    }
+
+    .custom-icon {
+        opacity: 0;
+        transition: opacity 0.5s ease;
+    }
+
+    .custom-icon.loaded {
+        opacity: 1;
+    }
+
+    /* تصميم متجاوب - تعديل لجعل الأزرار ثنائية ثابتة */
+    @media (max-width: 600px) {
         .app-container {
-            max-width: 500px;
-            margin: 0 auto;
-            padding: 1rem;
-            padding-bottom: 80px;
+            padding: 0.8rem;
         }
-        
-        /* رأس الصفحة */
+
         .user-header {
-            display: flex;
-            align-items: center;
-            gap: 1.2rem;
-            padding: 1.5rem 1rem;
-            margin-bottom: 1.5rem;
-            position: relative;
+            padding: 1rem 0.5rem;
         }
-        
-        .avatar-container {
-            position: relative;
-            width: 120px;
-            height: 120px;
-        }
-        
-        .user-avatar {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid var(--primary);
-            box-shadow: var(--glow);
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-        
-        .user-avatar.loaded {
-            opacity: 1;
-        }
-        
-        .user-info {
-            flex: 1;
-        }
-        
-        .user-greeting {
-            font-size: 1rem;
-            color: #aaa;
-            margin-bottom: 0.3rem;
-        }
-        
-        .user-name {
-            font-size: 1.6rem;
-            font-weight: 700;
-            background: linear-gradient(to right, var(--primary), #00ddff);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-        
-        .user-rank {
-            font-size: 0.9rem;
-            background: rgba(255, 0, 60, 0.2);
-            color: #ff5577;
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
-            display: inline-block;
-            margin-top: 0.5rem;
-            border: 1px solid rgba(255, 0, 60, 0.3);
-        }
-        
-        /* قسم خدمات المنظمة */
-        .services-section {
-            margin: 2rem 0;
-        }
-        
-        .section-title {
-            font-size: 1.5rem;
-            margin: 1.5rem 0 1.2rem;
-            padding-left: 0.5rem;
-            position: relative;
-            color: var(--text);
-            font-weight: 700;
-        }
-        
-        .section-title::before {
-            content: "";
-            position: absolute;
-            top: 50%;
-            right: -0.5rem;
-            transform: translateY(-50%);
-            width: 5px;
-            height: 70%;
-            background: var(--primary);
-            border-radius: 5px;
-        }
-        
+
+        /* إصلاح لجعل الأزرار ثنائية ثابتة */
         .services-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-            margin-bottom: 2rem;
+            grid-template-columns: 1fr 1fr; /* ثنائية ثابتة */
+            gap: 0.8rem;
         }
-        
-        .service-card {
-            background: var(--card-bg);
-            border-radius: 8px;
-            padding: 1rem;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-decoration: none;
-            color: inherit;
-            height: 120px;
-            justify-content: center;
+
+        .stats-grid {
+            grid-template-columns: 1fr 1fr; /* ثنائية ثابتة */
+            gap: 0.8rem;
         }
-        
-        .service-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--primary);
-            box-shadow: 0 8px 20px rgba(0, 170, 255, 0.25);
+
+        .stat-card {
+            min-width: auto;
         }
-        
+
+        .service-card, .stat-card {
+            padding: 0.8rem 0.5rem;
+        }
+
         .service-icon {
-            width: 45px;
-            height: 45px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(0, 170, 255, 0.1);
-            border-radius: 50%;
-            margin-bottom: 0.7rem;
-            font-size: 1.4rem;
-            color: var(--primary);
-        }
-        
-        .service-title {
-            font-size: 1rem;
-            margin-bottom: 0.3rem;
-            color: var(--text);
-            font-weight: 600;
-        }
-        
-        .service-description {
-            font-size: 0.75rem;
-            color: #aaa;
-            line-height: 1.4;
-        }
-        
-        /* قسم الإحصائيات - 4 عناصر في صف واحد */
-        .stats-section {
-            margin: 2rem 0;
-        }
-        
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 1rem;
-}
-
-@keyframes fadeSlideUp {
-  0% { opacity: 0; transform: translateY(20px) scale(0.95); }
-  100% { opacity: 1; transform: translateY(0) scale(1); }
-}
-
-.stat-card {
-  background: linear-gradient(145deg, rgba(0,170,255,0.15), rgba(20,20,30,0.9));
-  border-radius: 16px;
-  padding: 0.5rem 0.8rem;
-  border: 1px solid rgba(0,170,255,0.25);
-  box-shadow: 0 4px 12px rgba(0,170,255,0.12);
-  min-height: 80px;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  position: relative;
-  overflow: hidden;
-  animation: fadeSlideUp 0.6s ease forwards;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.stat-card:hover {
-  transform: translateY(-4px) scale(1.02);
-  box-shadow: 0 10px 25px rgba(0,170,255,0.2);
-}
-
-.stat-card::before {
-  content: "";
-  position: absolute;
-  top: -30%;
-  left: -30%;
-  width: 160%;
-  height: 160%;
-  background: radial-gradient(circle at top right, rgba(0,170,255,0.25), transparent 70%);
-  z-index: 0;
-  opacity: 0.5;
-  transition: opacity 0.3s ease;
-}
-.stat-card:hover::before {
-  opacity: 0.8;
-}
-
-/* الأيقونة على اليمين */
-.stat-icon i {
-  font-size: 1.4rem;
-  color: var(--primary);
-  flex-shrink: 0;
-}
-
-/* العمود اللي فيه الرقم والنص */
-.stat-info {
-  display: flex;
-  flex-direction: column;
-  justify-content: center; /* الرقم والنص في الوسط عموديًا */
-  align-items: center;     /* الرقم والنص في الوسط أفقيًا */
-  flex: 1;
-  text-align: center;
-}
-
-/* الرقم */
-.stat-value {
-  font-size: 1.1rem;
-  font-weight: 700;
-  background:#99E0FF;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  margin-bottom: 0.1rem;
-}
-
-/* الوصف */
-.stat-label {
-  font-size: 0.65rem;
-  color: #aaa;
-}
-        
-        /* قسم المهام المنظمة */
-        .recent-tasks {
-            /*background: var(--card-bg);*/
-            border-radius: 20px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            /*border: 1px solid rgba(255, 255, 255, 0.08);*/
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-        
-        .task-item {
-            display: flex;
-            align-items: center;
-            padding: 1rem 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .task-item:last-child {
-            border-bottom: none;
-        }
-        
-        .task-icon {
             width: 40px;
             height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(0, 170, 255, 0.1);
-            border-radius: 50%;
-            margin-left: 1rem;
-            color: var(--primary);
             font-size: 1.2rem;
         }
-        
-        .task-content {
-            flex: 1;
+
+        .service-title {
+            font-size: 0.9rem;
         }
-        
-        .task-title {
-            font-weight: 600;
-            margin-bottom: 0.3rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+
+        .service-description {
+            display: none;
         }
-        
-        .task-status {
-            font-size: 0.75rem;
-            padding: 0.2rem 0.6rem;
-            border-radius: 12px;
-            background: rgba(0, 170, 255, 0.15);
-            color: var(--primary);
+
+        .stat-icon {
+            font-size: 1.2rem;
         }
-        
-        .task-status.completed {
-            background: rgba(0, 255, 102, 0.15);
-            color: #00ff66;
+
+        .stat-value {
+            font-size: 1.2rem;
         }
-        
-        .task-status.pending {
-            background: rgba(255, 204, 0, 0.15);
-            color: #ffcc00;
+    }
+
+    @media (max-width: 400px) {
+        .user-name {
+            font-size: 1.3rem;
         }
-        
-        .task-desc {
-            font-size: 0.85rem;
-            color: #aaa;
+
+        .user-rank {
+            font-size: 0.8rem;
         }
-        
-        .task-time {
-            font-size: 0.75rem;
-            color: #888;
-            margin-top: 0.3rem;
-        }
-        
-        /* شريط التنقل السفلي */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: rgba(15, 15, 25, 0.95);
-            backdrop-filter: blur(10px);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            justify-content: space-around;
-            padding: 0.8rem 0;
-            z-index: 100;
-        }
-        
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-decoration: none;
-            color: #aaa;
-            font-size: 0.85rem;
-            transition: all 0.3s ease;
-            padding: 5px 15px;
-            border-radius: 15px;
-            position: relative;
-        }
-        
-        .nav-item i {
-            font-size: 1.5rem;
-            margin-bottom: 0.3rem;
-        }
-        
-        .nav-item.active, .nav-item:hover {
-            color: var(--primary);
-            background: rgba(0, 170, 255, 0.1);
-            transform: translateY(-3px);
-        }
-        
-        /* التأثيرات والرسوم المتحركة */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .animate-card {
-            animation: fadeIn 0.6s ease forwards;
-        }
-        
-        .delay-1 { animation-delay: 0.1s; }
-        .delay-2 { animation-delay: 0.2s; }
-        .delay-3 { animation-delay: 0.3s; }
-        .delay-4 { animation-delay: 0.4s; }
-        
-        /* تأثيرات التحميل */
-        .loading-spinner {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 30px;
-            height: 30px;
-            border: 3px solid rgba(0, 170, 255, 0.3);
-            border-radius: 50%;
-            border-top-color: var(--primary);
-            animation: spin 1s linear infinite;
-            z-index: 10;
-        }
-        
-        .media-loading {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: rgba(30, 30, 40, 0.7);
-            border-radius: 50%;
-        }
-        
-        /* تأثيرات التحميل المخصصة للصور الصغيرة */
-        .avatar-loading {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: rgba(30, 30, 40, 0.7);
-        }
-        
-        /* تأثير تحميل بديل للصور الصغيرة - تأثير النبض */
-        .pulse-loader {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 4px;
-        }
-        
-        .pulse-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background-color: var(--primary);
-            animation: pulse 1.5s infinite ease-in-out;
-        }
-        
-        .avatar-pulse .pulse-dot {
-            width: 8px;
-            height: 8px;
-        }
-        
-        .logo-pulse .pulse-dot {
-            width: 6px;
-            height: 6px;
-        }
-        
-        .bottom-nav-pulse .pulse-dot {
-            width: 4px;
-            height: 4px;
-            animation: gentleBounce 1.5s infinite ease-in-out;
-        }
-        
-        .pulse-dot:nth-child(1) {
-            animation-delay: 0s;
-        }
-        
-        .pulse-dot:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-        
-        .pulse-dot:nth-child(3) {
-            animation-delay: 0.4s;
-        }
-        
-        @keyframes spin {
-            0% { transform: translate(-50%, -50%) rotate(0deg); }
-            100% { transform: translate(-50%, -50%) rotate(360deg); }
-        }
-        
-        @keyframes pulse {
-            0%, 100% { 
-                transform: scale(1); 
-                opacity: 1; 
-            }
-            50% { 
-                transform: scale(0.7); 
-                opacity: 0.5; 
-            }
-        }
-        
-        @keyframes gentleBounce {
-            0%, 100% { 
-                transform: translateY(0); 
-                opacity: 1; 
-            }
-            50% { 
-                transform: translateY(-5px); 
-                opacity: 0.7; 
-            }
-        }
-        
-        .hidden {
-            display: none !important;
-        }
-        
-        /* تأثيرات تحميل الشريط السفلي */
-        .nav-icon-container {
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        
-        .nav-icon-loading {
-            position: absolute;
-            top: -5px;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            gap: 2px;
-        }
-        
+
         .custom-icon {
-            opacity: 0;
-            transition: opacity 0.5s ease;
+            width: 24px;
+            height: 24px;
         }
-        
-        .custom-icon.loaded {
-            opacity: 1;
+
+        /* إصلاح نهائي لجعل الأزرار ثنائية ثابتة */
+        .services-grid {
+            grid-template-columns: 1fr 1fr; /* ثنائية ثابتة */
+            gap: 0.5rem;
         }
-        
-        /* تصميم متجاوب - تعديل لجعل الأزرار ثنائية ثابتة */
-        @media (max-width: 600px) {
-            .app-container {
-                padding: 0.8rem;
-            }
-            
-            .user-header {
-                padding: 1rem 0.5rem;
-            }
-            
-            /* إصلاح لجعل الأزرار ثنائية ثابتة */
-            .services-grid {
-                grid-template-columns: 1fr 1fr; /* ثنائية ثابتة */
-                gap: 0.8rem;
-            }
-            
-            .stats-grid {
-                grid-template-columns: 1fr 1fr; /* ثنائية ثابتة */
-                gap: 0.8rem;
-            }
-            
-            .stat-card {
-                min-width: auto;
-            }
-            
-            .service-card, .stat-card {
-                padding: 0.8rem 0.5rem;
-            }
-            
-            .service-icon {
-                width: 40px;
-                height: 40px;
-                font-size: 1.2rem;
-            }
-            
-            .service-title {
-                font-size: 0.9rem;
-            }
-            
-            .service-description {
-                display: none;
-            }
-            
-            .stat-icon {
-                font-size: 1.2rem;
-            }
-            
-            .stat-value {
-                font-size: 1.2rem;
-            }
+
+        .stats-grid {
+            grid-template-columns: 1fr 1fr; /* ثنائية ثابتة */
+            gap: 0.5rem;
         }
-        
-        @media (max-width: 400px) {
-            .user-name {
-                font-size: 1.3rem;
-            }
-            
-            .user-rank {
-                font-size: 0.8rem;
-            }
-            
-            .custom-icon {
-                width: 24px;
-                height: 24px;
-            }
-            
-            /* إصلاح نهائي لجعل الأزرار ثنائية ثابتة */
-            .services-grid {
-                grid-template-columns: 1fr 1fr; /* ثنائية ثابتة */
-                gap: 0.5rem;
-            }
-            
-            .stats-grid {
-                grid-template-columns: 1fr 1fr; /* ثنائية ثابتة */
-                gap: 0.5rem;
-            }
-            
-            .stat-card {
-                min-width: auto;
-            }
+
+        .stat-card {
+            min-width: auto;
         }
-    </style>
+    }
+
+    .custom-icon1 {
+        filter: brightness(0) invert(1); /* يحول الأيقونة للون أبيض */
+    }
+</style>
 </head>
 <body>
     <!-- تأثيرات الخلفية -->
     <div class="background-effects">
         <div class="grid-overlay"></div>
     </div>
-    
+
     <!-- شريط التنقل العلوي -->
     <nav class="navbar">
         <div class="logo-container">
-            <img src="https://i.postimg.cc/0QwwyJj3/image.png" width="100" alt="شعار R.D.F" class="logo-img">
+            <img src="https://i.postimg.cc/0QwwyJj3/image.png" width="100" alt="شعار R.D.F" class="loo-img">
             <!--div class="logo-text">R.D.F</div-->
         </div>
-        
+
         <div class="nav-icons">
-            <a href="https://alriadh.github.io/ALRIADH1/Notificationsx-000/Mesx.NOTx.html" target="_blank" class="nav-icon">
+           <a href="https://alriadh.github.io/ALRIADH1/Notificationsx-000/Mesx.NOTx.html" target="_blank" class="nav-icon">
                 <i class="fa-regular fa-bell"></i>
-                <span class="notification-badge">1</span>
-                
+                <!--span class="notification-badge">3</span-->
+
                 <!--i class="fa-sharp fa-regular fa-bell fa-beat-fade" style="color: #ff0000;"></i-->
             </a>
-            <a href="https://alriadh.github.io/ALRIADH1/X-MA-A/Mesx.ABOx.html" target="_blank" class="nav-icon">
+           <a href="https://alriadh.github.io/ALRIADH1/X-MA-A/Mesx.ABOx.html" target="_blank" class="nav-icon">
               <i class="fas fa-info" style="color: #DDDDDD; font-size: 19px;"></i>
                 <!--img src="https://i.postimg.cc/ydzX6THV/image.png" width="22" alt="عن الإصدار" class="custom-icon"-->
             </a>
         </div>
     </nav>
-    
+
     <!-- تصميم يشبه تطبيق الجوال -->
     <div class="app-container">
         <!-- رأس الصفحة -->
@@ -784,7 +811,7 @@
                         <div class="pulse-dot"></div>
                     </div>
                 </div>
-                <img src="https://files.catbox.moe/4je8hs.jpg" alt="صورة العضو" class="user-avatar">
+                <img src="https://i.postimg.cc/4NDfCD1D/20250919-232533.jpg" alt="صورة العضو" class="user-avatar">
             </div>
             <div class="user-info">
                 <div class="user-greeting">مرحباً بعودتك</div>
@@ -792,8 +819,8 @@
                 <div class="user-rank">أبو الكل الشوكي</div>
             </div>
         </div>
-        
-   
+
+
         <!-- قسم خدمات المنظمة مع الإضافات -->
         <div class="services-section">
             <div class="services-grid">
@@ -805,15 +832,15 @@
                     <h3 class="service-title">تقديم اقتراح</h3>
                     <p class="service-description">شاركنا أفكارك لتحسين خدماتنا</p>
                 </a>
-                
-                 <a href="https://alriadh.github.io/ALRIADH1/Error-504/Mesx.ERRx.html" target="_blank" class="service-card animate-card delay-1">
+
+                <a href="https://alriadh.github.io/ALRIADH1/Error-504/Mesx.ERRx.html" target="_blank" class="service-card animate-card delay-1">
                     <div class="service-icon">
                         <i class="fas fa-headset"></i>
                     </div>
                     <h3 class="service-title">الدعم الفني</h3>
                     <p class="service-description">أبلغنا عن أي مشكلة تواجهك</p>
                 </a>
-                
+
                 <!-- الصف الثاني -->
                 <a href="https://alriadh.github.io/ALRIADH1/Error-504/Mesx.ERRx.html" target="_blank" class="service-card animate-card delay-2">
                     <div class="service-icon">
@@ -822,29 +849,29 @@
                     <h3 class="service-title">إدارة الأموال</h3>
                     <p class="service-description">قدم طلباتك الخاصة للدعم</p>
                 </a>
-                
-                <a href="https://alriadh.github.io/ALRIADH1/Error-504/Mesx.ERRx.html" target="_blank" class="service-card animate-card delay-3">
+
+                <a href="https://alriadh.github.io/ALRIADH1/X-MA-A/Mesx-HOM/Mesx.SEAx.html" target="_blank" class="service-card animate-card delay-3">
                     <div class="service-icon">
                         <i class="fas fa-medal"></i>
                     </div>
                     <h3 class="service-title">الموسم</h3>
                     <p class="service-description">تواصل مع فريق الدعم</p>
                 </a>
-                
+
                 <!-- الصف الثالث - الإضافات الجديدة -->
                 <a href="https://alriadh.github.io/ALRIADH1/Error-504/Mesx.ERRx.html" target="_blank" class="service-card animate-card">
                     <div class="service-icon">
-                        <i class="fas fa-hand-holding-heart"></i>
+                      <i class='fa-solid fa-inbox'></i>
                     </div>
-                    <h3 class="service-title">تقديم طلب</h3>
+                    <h3 class="service-title">محتوى توركس</h3>
                     <p class="service-description">إدارة الأموال والمصروفات</p>
                 </a>
-                
-                <a href="https://alriadh.github.io/ALRIADH1/Error-504/Mesx.ERRx.html" target="_blank" class="service-card animate-card delay-1">
+
+                <a href="https://alriadh.github.io/ALRIADH1/X-MA-A/Mesx.MORx.html" target="_blank" class="service-card animate-card delay-1">
                     <div class="service-icon">
-                        <i class="fas fa-exclamation-circle"></i>
+                        <i class="fa-solid fa-bars"></i>
                     </div>
-                    <h3 class="service-title">إبلاغ عن مشكلة</h3>
+                    <h3 class="service-title">المزيد</h3>
                     <p class="service-description">التبرع ودعم المنظمة</p>
                 </a>
             </div>
@@ -860,7 +887,7 @@
                     <div class="stat-value">1</div>
                     <div class="stat-label">الصور التي نشرتها</div>
                 </div>
-                
+
                 <div class="stat-card animate-card delay-1">
                     <div class="stat-icon">
                         <i class="fas fa-video"></i>
@@ -868,7 +895,7 @@
                     <div class="stat-value">0</div>
                     <div class="stat-label">الفيدوهات التي نشرتها</div>
                 </div>
-                
+
                 <div class="stat-card animate-card delay-2">
                     <div class="stat-icon">
                         <i class="fas fa-lightbulb"></i>
@@ -876,7 +903,7 @@
                     <div class="stat-value">0</div>
         <div class="stat-label">الاقتراحات التي قدمتها</div>
                 </div>
-                
+
                 <div class="stat-card animate-card delay-3">
                     <div class="stat-icon">
         <i class="fas fa-users"></i>
@@ -885,10 +912,6 @@
         <div class="stat-label">الأجتماعات التي حضرتها</div>
                 </div>
     </div>
-
-  </div>
-</div>
-                </div>
             </div>
         </div>
                 <!-- قسم مهام المنظمة -->
@@ -949,57 +972,47 @@
               </div--!>
     <!-- شريط التنقل السفلي -->
     <div class="bottom-nav">
-       <a href="#"
- class="nav-item active">
+        <a href="#" class="nav-item active">
             <div class="nav-icon-container">
                 <div class="nav-icon-loading bottom-nav-pulse">
                     <div class="pulse-dot"></div>
                     <div class="pulse-dot"></div>
                     <div class="pulse-dot"></div>
                 </div>
-                <img src="https://i.postimg.cc/3w6S7GL1/image.png" width="24" alt="الرئيسية" class="custom-icon">
+                <img src="https://i.postimg.cc/3w6S7GL1/image.png" width="22" alt="الرئيسية" class="custom-icon">
             </div>
             <span>الرئيسية</span>
         </a>
-       <a href="https://alriadh.github.io/ALRIADH1/X-MA-A/Mesx.CHAx.html" target="_blank"
- class="nav-item">
+        <a href="https://alriadh.github.io/ALRIADH1/X-MA-A/Mesx.CH1x.html" target="_blank" class="nav-item">
             <div class="nav-icon-container">
                 <div class="nav-icon-loading bottom-nav-pulse">
                     <div class="pulse-dot"></div>
                     <div class="pulse-dot"></div>
                     <div class="pulse-dot"></div>
                 </div>
-                <img src="https://i.postimg.cc/jdWKK6dw/image.png" width="24" alt="الدردشة" class="custom-icon">
+                <img src="https://i.postimg.cc/jdWKK6dw/image.png" width="22" alt="الدردشة" class="custom-icon">
             </div>
             <span>الدردشة</span>
         </a>
-<a href="https://alriadh.github.io/ALRIADH1/X-MA-A/Mesx.CONx.html" target="_blank"
- class="nav-item">
-    <div class="nav-icon-container">
-        <div class="nav-icon-loading bottom-nav-pulse">
-            <div class="pulse-dot"></div>
-            <div class="pulse-dot"></div>
-            <div class="pulse-dot"></div>
-        </div>
-        <img src="https://i.postimg.cc/L55gw7r6/image.png" width="24" alt="المحتوى" class="custom-icon custom-icon1">
-    </div>
-    <span>المحتوى</span>
-</a>
-
-<style>
-.custom-icon1 {
-    filter: brightness(0) invert(1); /* يحول الأيقونة للون أبيض */
-}
-</style>
-       <a href="https://alriadh.github.io/ALRIADH1/X-MA-A/Mesx.PROx.html" target="_blank"
- class="nav-item">
+        <a href="https://alriadh.github.io/ALRIADH1/X-MA-A/Mesx.CONx.html" target="_blank" class="nav-item">
             <div class="nav-icon-container">
                 <div class="nav-icon-loading bottom-nav-pulse">
                     <div class="pulse-dot"></div>
                     <div class="pulse-dot"></div>
                     <div class="pulse-dot"></div>
                 </div>
-                <img src="https://i.postimg.cc/ZKSjYVVC/image.png" width="24" alt="صفحتي" class="custom-icon">
+                <img src="https://i.postimg.cc/L55gw7r6/image.png" width="22" alt="المحتوى" class="custom-icon custom-icon1">
+            </div>
+            <span>المحتوى</span>
+        </a>
+       <a href="https://alriadh.github.io/ALRIADH1/X-MA-A/Mesx.PROx.html" target="_blank" class="nav-item">
+            <div class="nav-icon-container">
+                <div class="nav-icon-loading bottom-nav-pulse">
+                    <div class="pulse-dot"></div>
+                    <div class="pulse-dot"></div>
+                    <div class="pulse-dot"></div>
+                </div>
+                <img src="https://i.postimg.cc/ZKSjYVVC/image.png" width="22" alt="صفحتي" class="custom-icon">
             </div>
             <span>صفحتي</span>
         </a>
@@ -1009,12 +1022,12 @@
 // إدارة تأثيرات التحميل للصور
 document.addEventListener('DOMContentLoaded', function() {
     const images = document.querySelectorAll('img');
-    
+
     images.forEach(img => {
         // إضافة حدث عند تحميل الصورة
         img.addEventListener('load', function() {
             this.classList.add('loaded');
-            
+
             // إخفاء تأثير التحميل المناسب
             if (this.classList.contains('logo-img')) {
                 this.parentElement.querySelector('.avatar-loading').classList.add('hidden');
@@ -1024,7 +1037,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 this.parentElement.querySelector('.nav-icon-loading').classList.add('hidden');
             }
         });
-        
+
         // إذا فشل تحميل الصورة
         img.addEventListener('error', function() {
             if (this.classList.contains('logo-img')) {
@@ -1035,7 +1048,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 this.parentElement.querySelector('.nav-icon-loading').classList.add('hidden');
             }
         });
-        
+
         // التحقق مما إذا كانت الصورة محملة مسبقاً
         if (img.complete) {
             img.dispatchEvent(new Event('load'));
@@ -1065,7 +1078,7 @@ const activeDB = getActiveDB(activeApp);
 // بيانات العضو
 const activeUsername = "Ali";
 const activeName = "مشعل الشوكي";
-const activeAvatar = "https://files.catbox.moe/4je8hs.jpg";
+const activeAvatar = "https://i.postimg.cc/4NDfCD1D/20250919-232533.jpg";
 
 function updateActivity() {
   activeUpdate(activeRef(activeDB, 'activeUsersTest/' + activeUsername), {
