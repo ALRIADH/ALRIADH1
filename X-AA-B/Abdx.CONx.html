@@ -138,6 +138,18 @@
             background: rgba(255, 255, 255, 0.05);
             text-decoration: none;
         }
+            .nav-icons i {
+        font-size: 20px;
+        cursor: pointer;
+        color: var(--text);
+        transition: all 0.3s ease;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 20%;
+    }
 
         .nav-icon:hover {
             color: var(--primary);
@@ -568,7 +580,7 @@
             <img src="https://i.postimg.cc/1RYdGs59/image.png" width="22" alt="الرئيسية" class="custom-icon">
             <span>الرئيسية</span>
         </a>
-        <a href="https://alriadh.github.io/ALRIADH1/X-AA-B/Abdx.CHAx.html" target="_blank" class="nav-item">
+        <a href="https://alriadh.github.io/ALRIADH1/X-AA-B/Abdx.CH1x.html" target="_blank" class="nav-item">
             <img src="https://i.postimg.cc/jdWKK6dw/image.png" width="22" alt="الدردشة" class="custom-icon">
             <span>الدردشة</span>
         </a>
@@ -620,7 +632,7 @@
     const activeDB=getActiveDB(activeApp);
     const activeUsername="عبدالرحمن الشوكي";
     const activeName="عبدالرحمن الشوكي";
-    const activeAvatar="https://files.catbox.moe/ne3tq8.jpg";
+    const activeAvatar="https://i.postimg.cc/yxKmrQb2/20250920-231813.jpg";
     function updateActivity(){
       activeUpdate(activeRef(activeDB,'activeUsersTest/'+activeUsername),{
         name:activeName,avatar:activeAvatar,lastActive:Date.now()
