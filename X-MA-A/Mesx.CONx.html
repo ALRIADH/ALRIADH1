@@ -1,12 +1,27 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-      <meta charset="UTF-8">
+     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>R.D.F - الصفحة الرئيسية</title>
+<title>R.D.F - محتوى الأعضاء</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <style>
+    /* إخفاء اللون الأزرق عند الضغط على العناصر */
+    * {
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    /* تأثيرات بديلة للحفاظ على تجربة المستخدم */
+    a, button, .nav-item, .publish-btn, .publish-option-btn, .publish-option-btn1 {
+        transition: all 0.2s ease;
+    }
+
+    a:active, button:active, .nav-item:active, .publish-btn:active, 
+    .publish-option-btn:active, .publish-option-btn1:active {
+        transform: scale(0.98);
+    }
+
     /* هنا نعرّف الخط من ملفك على GitHub */
     @font-face {
         font-family: 'Cairo';
@@ -39,7 +54,7 @@
         overflow-x: hidden;
         position: relative;
     }
-        
+
         /* تأثيرات الخلفية */
         .background-effects {
             position: fixed;
@@ -51,7 +66,7 @@
             z-index: -1;
             opacity: 0.1;
         }
-        
+
         .grid-overlay {
             position: absolute;
             top: 0;
@@ -63,7 +78,7 @@
                 linear-gradient(90deg, rgba(0, 170, 255, 0.05) 1px, transparent 1px);
             background-size: 40px 40px;
         }
-        
+
         /* شريط التنقل العلوي */
         .navbar {
             background: rgba(15, 15, 25, 0.95);
@@ -78,13 +93,13 @@
             backdrop-filter: blur(10px);
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
         }
-        
+
         .logo-container {
             display: flex;
             align-items: center;
             gap: 0.8rem;
         }
-        
+
         .logo-img {
             width: 40px;
             height: 40px;
@@ -93,7 +108,7 @@
             border: 2px solid var(--primary);
             box-shadow: var(--glow);
         }
-        
+
         .logo-text {
             font-size: 0.7rem;
             font-weight: 700;
@@ -102,13 +117,13 @@
             background-clip: text;
             color: transparent;
         }
-        
+
         .nav-icons {
             display: flex;
             gap: 1.2rem;
             align-items: center;
         }
-        
+
         .nav-icon {
             color: var(--text);
             font-size: 1.4rem;
@@ -119,17 +134,29 @@
             justify-content: center;
             width: 40px;
             height: 40px;
-            border-radius: 5%;
+            border-radius: 20%;
             background: rgba(255, 255, 255, 0.05);
             text-decoration: none;
         }
-        
+            .nav-icons i {
+        font-size: 20px;
+        cursor: pointer;
+        color: var(--text);
+        transition: all 0.3s ease;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 20%;
+    }
+
         .nav-icon:hover {
             color: var(--primary);
             transform: translateY(-3px);
             background: rgba(0, 170, 255, 0.1);
         }
-        
+
         /* زر النشر الجديد تحت الشريط العلوي */
         .publish-container {
             border-bottom: 0px solid rgba(255, 255, 255, 0.1);
@@ -140,12 +167,12 @@
             gap: 8px;
             backdrop-filter: blur(10px);
         }
-        
+
         .publish-btn {
             background: rgba(0, 170, 255, 0.2);
             color: var(--text);
             border: 1px solid var(--primary);
-            border-radius: 3px;
+            border-radius: 4px;
             padding: 8px 16px;
             font-size: 0.85rem;
             cursor: pointer;
@@ -162,19 +189,19 @@
             max-width: 33%;
             height: 25px;
         }
-        
+
         .publish-btn:hover {
             background: rgba(0, 170, 255, 0.3);
             transform: translateY(-2px);
             box-shadow: 0 0 12px rgba(0, 170, 255, 0.3);
         }
-        
+
         .publish-option-btn {
             height: 25px;
             background: rgba(255, 255, 255, 0.05);
             color: var(--text);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 3px;
+            border-radius: 4px;
             padding: 8px 12px;
             font-size: 0.85rem;
             cursor: pointer;
@@ -188,23 +215,23 @@
             min-width: 0;
             max-width: 33%;
         }
-        
+
         .publish-option-btn:hover {
             background: rgba(255, 255, 255, 0.1);
             transform: translateY(-2px);
             border-color: var(--primary);
         }
-        
+
         .publish-option-btn i {
             font-size: 0.85rem;
         }
-        
+
         .publish-option-btn1 {
             height: 25px;
             background: rgba(355, 355, 355, 0.19);
             color: var(--text);
             border: 1px solid rgba(955, 255, 255, 0.7);
-            border-radius: 5px;
+            border-radius: 6px;
             padding: 8px 12px;
             font-size: 0rem;
             cursor: pointer;
@@ -218,17 +245,17 @@
             min-width: 0;
             max-width: 33%;
         }
-        
+
         .publish-option-btn1:hover {
             background: rgba(255, 255, 255, 0.1);
             transform: translateY(-2px);
             border-color: var(--primary);
         }
-        
+
         .publish-option-btn1 i {
             font-size: 0.85rem;
         }
-        
+
         .notification-badge {
             position: absolute;
             top: -5px;
@@ -243,7 +270,7 @@
             align-items: center;
             justify-content: center;
         }
-        
+
         /* تصميم يشبه تطبيق الجوال */
         .app-container {
             max-width: 500px;
@@ -251,9 +278,9 @@
             padding: 1rem;
             padding-bottom: 80px;
             margin-top: -7.5px;
-            
+
         }
-        
+
         /* تأثير التحميل */
         .loading-overlay {
             position: absolute;
@@ -270,7 +297,7 @@
             border-radius: 16px;
             backdrop-filter: blur(10px);
         }
-        
+
         .loading-spinner {
             width: 60px;
             height: 60px;
@@ -280,18 +307,18 @@
             animation: spin 1s linear infinite;
             margin-bottom: 20px;
         }
-        
+
         .loading-text {
             font-size: 1.2rem;
             color: var(--text);
             text-align: center;
         }
-        
+
         .loading-dots {
             display: flex;
             margin-top: 10px;
         }
-        
+
         .loading-dot {
             width: 10px;
             height: 10px;
@@ -300,34 +327,34 @@
             margin: 0 5px;
             animation: pulse 1.5s infinite ease-in-out;
         }
-        
+
         .loading-dot:nth-child(2) {
             animation-delay: 0.2s;
         }
-        
+
         .loading-dot:nth-child(3) {
             animation-delay: 0.4s;
         }
-        
+
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-        
+
         @keyframes pulse {
             0%, 100% { transform: scale(0.8); opacity: 0.5; }
             50% { transform: scale(1.2); opacity: 1; }
         }
-        
+
         .hidden {
             display: none;
         }
-        
+
         /* قسم المنشورات */
         .posts-container {
             margin-top: 20px;
         }
-        
+
         .post {
             background: var(--card-bg);
             border-radius: 16px;
@@ -336,7 +363,7 @@
             border: 1px solid rgba(255, 255, 255, 0.08);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
-        
+
         .post-header {
             padding: 12px 16px;
             display: flex;
@@ -344,7 +371,7 @@
             gap: 10px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         }
-        
+
         .post-avatar {
             width: 40px;
             height: 40px;
@@ -352,11 +379,11 @@
             object-fit: cover;
             border: 2px solid var(--primary);
         }
-        
+
         .post-user-info {
             flex: 1;
         }
-        
+
         .post-username {
             font-weight: 600;
             font-size: 1rem;
@@ -364,7 +391,7 @@
             align-items: center;
             gap: 5px;
         }
-        
+
         .verified-badge {
             color: var(--verified-badge);
             font-size: 0.9rem;
@@ -372,37 +399,37 @@
             align-items: center;
             justify-content: center;
         }
-        
+
         .post-time {
             font-size: 0.8rem;
             color: #aaa;
         }
-        
+
         .post-content {
             padding: 0;
             position: relative;
         }
-        
+
         .post-media {
             width: 100%;
             display: block;
             max-height: 500px;
             object-fit: cover;
         }
-        
+
         .post-video {
             width: 100%;
             display: block;
             max-height: 500px;
             background: #000;
         }
-        
+
         .post-text {
             padding: 15px;
             font-size: 0.95rem;
             line-height: 1.5;
         }
-        
+
         /* شريط التنقل السفلي */
         .bottom-nav {
             position: fixed;
@@ -417,73 +444,73 @@
             padding: 0.8rem 0;
             z-index: 100;
         }
-        
+
         .nav-item {
             display: flex;
             flex-direction: column;
             align-items: center;
             text-decoration: none;
             color: #aaa;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             transition: all 0.3s ease;
-            padding: 5px 15px;
+            position: relative;
+            padding: 3px 15px;
             border-radius: 15px;
         }
-        
+
         .nav-item i {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             margin-bottom: 0.3rem;
         }
-        
+
         .nav-item.active, .nav-item:hover {
             color: var(--primary);
             background: rgba(0, 170, 255, 0.1);
             transform: translateY(-3px);
         }
-        
+
         /* تصميم متجاوب */
         @media (max-width: 600px) {
             .app-container {
                 padding: 0.3rem;
             }
-            
+
             .publish-container {
                 flex-wrap: nowrap;
             }
-            
+
             .publish-btn, .publish-option-btn {
                 font-size: 0.8rem;
                 padding: 6px 10px;
             }
-            
-            .publish-btn span, .publish-option-btn span {
-                display: none;
-            }
-            
+
+
+
             .publish-btn i, .publish-option-btn i {
                 margin: 0;
                 font-size: 0.9rem;
             }
         }
-        
+
         @media (max-width: 400px) {
             .publish-container {
                 gap: 5px;
             }
-            
+
             .publish-btn, .publish-option-btn {
                 padding: 6px 8px;
             }
         }
-        
+
         /* تأثيرات للفيديو عند التشغيل */
         .playing {
             box-shadow: 0 0 15px rgba(0, 170, 255, 0.5);
         }
-        
+
         .custom-icon1 {
             filter: brightness(0) saturate(100%) invert(61%) sepia(63%) saturate(5904%) hue-rotate(172deg) brightness(95%) contrast(97%);
         }
+      
     </style>
 </head>
 <body>
@@ -491,46 +518,41 @@
     <div class="background-effects">
         <div class="grid-overlay"></div>
     </div>
-    
+
     <!-- شريط التنقل العلوي -->
     <nav class="navbar">
         <div class="logo-container">
             <img src="https://i.postimg.cc/0QwwyJj3/image.png" width="100"  class="ogo-img">
         </div>
-        
+
         <div class="nav-icons">
-          <a href="https://alriadh.github.io/ALRIADH1/Notificationsx-000/Mesx.NOTx.html" target="_blank"
- class="nav-icon">
+            <a href="https://alriadh.github.io/ALRIADH1/Notificationsx-000/Mesx.NOTx.html" target="_blank" class="nav-icon">
                 <i class="fa-regular fa-bell"></i>
             </a>
-           <a href="https://alriadh.github.io/ALRIADH1/X-MA-A/Mesx.ABOx.html" target="_blank"
- class="nav-icon">
+            <a href="https://alriadh.github.io/ALRIADH1/X-MA-A/Mesx.ABOx.html" target="_blank" class="nav-icon">
                 <i class="fas fa-info" style="color: #DDDDDD; font-size: 19px;"></i>
             </a>
         </div>
     </nav>
-    
+
     <!-- زر النشر تحت الشريط العلوي -->
     <div class="publish-container">
-        
+
         <a href="#" class="publish-btn">
             <i class="fas fa-users"></i>
 الأعضاء
-      <a href="https://alriadh.github.io/ALRIADH1/X-MA-A/Mesx.COOx.html" target="_blank"
- target="_blank"
- class="publish-option-btn">
+       <a href="https://alriadh.github.io/ALRIADH1/X-MA-A/Mesx.COOx.html" target="_blank" class="publish-option-btn">
             <i class="fas fa-building"></i>
 المنظمة
         </a>
-        
+
         </a>
-        <a href="https://alriadh.github.io/ALRIADH1/X-MA-A/Mesx.COAx.html" target="_blank"
- class="publish-option-btn1">
-            <i class="fas fa-plus"></i>
+       <a href="https://alriadh.github.io/ALRIADH1/X-MA-A/Mesx.COAx.html" target="_blank" class="publish-option-btn1">
+            <i class='fa-solid fa-upload'></i>
 النشر
         </a>
     </div>
-    
+
 <div class="app-container">
     <!-- تأثير التحميل -->
     <div class="loading-overlay" id="loadingOverlay">
@@ -542,7 +564,7 @@
             <div class="loading-dot"></div>
         </div>
     </div>
-    
+
     <iframe 
       src="https://alriadh.github.io/ALRIADH1/Content-200/CONx.MEMx.html" 
       style="width:100%;height:80vh;border:none;border-radius:16px;"
@@ -554,23 +576,20 @@
     <!-- هنا حذفت كل المنشورات وحطيت الـ iframe -->
     <!-- شريط التنقل السفلي -->
     <div class="bottom-nav">
-       <a href="https://alriadh.github.io/ALRIADH1/rdf-login/Mesx.HOMx.html"
- class="nav-item">
-            <img src="https://i.postimg.cc/1RYdGs59/image.png" width="24" alt="الرئيسية" class="custom-icon">
+        <a href="https://alriadh.github.io/ALRIADH1/rdf-login/Mesx.HOMx.html" target="_blank" class="nav-item">
+            <img src="https://i.postimg.cc/1RYdGs59/image.png" width="22" alt="الرئيسية" class="custom-icon">
             <span>الرئيسية</span>
         </a>
-        <a href="https://alriadh.github.io/ALRIADH1/X-MA-A/Mesx.CHAx.html" target="_blank"
- class="nav-item">
-            <img src="https://i.postimg.cc/jdWKK6dw/image.png" width="24" alt="الدردشة" class="custom-icon">
+        <a href="https://alriadh.github.io/ALRIADH1/X-MA-A/Mesx.CH1x.html" target="_blank" class="nav-item">
+            <img src="https://i.postimg.cc/jdWKK6dw/image.png" width="22" alt="الدردشة" class="custom-icon">
             <span>الدردشة</span>
         </a>
         <a href="#" class="nav-item active">
-            <img src="https://i.postimg.cc/QC2gRYyY/image.png" width="24" alt="المحتوى" class="custom-icon1">
+            <img src="https://i.postimg.cc/QC2gRYyY/image.png" width="22" alt="المحتوى" class="custom-icon1">
             <span>المحتوى</span>
         </a>
-        <a href="https://alriadh.github.io/ALRIADH1/X-MA-A/Mesx.PROx.html" target="_blank"
- class="nav-item">
-            <img src="https://i.postimg.cc/ZKSjYVVC/image.png" width="24" class="custom-icon">
+        <a href="https://alriadh.github.io/ALRIADH1/X-MA-A/Mesx.PROx.html" target="_blank" class="nav-item">
+            <img src="https://i.postimg.cc/ZKSjYVVC/image.png" width="22" class="custom-icon">
             <span>صفحتي</span>
         </a>
     </div>
@@ -589,8 +608,8 @@
       video.addEventListener('play',()=>video.parentElement.classList.add('playing'));
       video.addEventListener('pause',()=>video.parentElement.classList.remove('playing'));
     });
-    // إخفاء تأثير التحميل بعد 4 ثواني
-    setTimeout(()=>document.getElementById('loadingOverlay').classList.add('hidden'),4000);
+    // إخفاء تأثير التحميل بعد 3 ثواني
+    setTimeout(()=>document.getElementById('loadingOverlay').classList.add('hidden'),3000);
   });
   function hideLoader(){document.getElementById('loadingOverlay').classList.add('hidden');}
   </script>
@@ -613,7 +632,7 @@
     const activeDB=getActiveDB(activeApp);
     const activeUsername="Ali";
     const activeName="مشعل الشوكي";
-    const activeAvatar="https://files.catbox.moe/4je8hs.jpg";
+    const activeAvatar="https://i.postimg.cc/4NDfCD1D/20250919-232533.jpg";
     function updateActivity(){
       activeUpdate(activeRef(activeDB,'activeUsersTest/'+activeUsername),{
         name:activeName,avatar:activeAvatar,lastActive:Date.now()
