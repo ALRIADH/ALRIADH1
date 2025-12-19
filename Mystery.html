@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ملف عبدالرحمن الشوكي الشخصي</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-tap-highlight-color: transparent; /* هذا هو التعديل المطلوب */
+        }
+
+        :root {
+            --dark-bg: #0a0a12;
+            --primary: #00aaff;
+            --text: #e0e0e0;
+            --card-bg: rgba(20, 20, 30, 0.9);
+            --border: #2a2a3a;
+        }
+
+        body {
+            background: var(--dark-bg);
+            color: var(--text);
+            min-height: 100vh;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* زر الخروج */
+        .exit-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 100;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: rgba(20, 20, 30, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text);
+            font-size: 1.2rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border);
+        }
+
+        .exit-button:hover {
+            color: var(--primary);
+            background: rgba(0, 170, 255, 0.1);
+        }
+
+        /* المحتوى الرئيسي */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        /* رأس الصفحة */
+        .profile-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .profile-avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .profile-name {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .profile-subtitle {
+            font-size: 1.2rem;
+            color: #aaa;
+        }
+
+        /* الأقسام */
+        .section {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            margin-bottom: 1.2rem;
+            color: var(--primary);
+            font-weight: 600;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* البطاقات داخل الأقسام */
+        .info-card {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: rgba(30, 30, 42, 0.5);
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(30, 30, 42, 0.7);
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: var(--primary);
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-value {
+            flex: 2;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-update {
+            font-size: 0.8rem;
+            color: #888;
+            margin-top: 0.5rem;
+            text-align: left;
+        }
+
+        /* صورة الأب */
+        .father-image {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid var(--primary);
+        }
+
+        /* قائمة الإخوة */
+        .brothers-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .brother-card {
+            background: rgba(0, 170, 255, 0.05);
+            border-radius: 20px;
+            padding: 1rem;
+            flex: 1;
+            min-width: 200px;
+            text-align: center;
+        }
+
+        .brother-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary);
+            margin: 0 auto 0.8rem;
+        }
+
+        .brother-name {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .brother-details {
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+
+        /* تأثيرات الكتابة */
+        .typing-element {
+            overflow: hidden;
+            white-space: nowrap;
+            opacity: 0;
+        }
+
+        /* تصميم متجاوب */
+        @media (max-width: 768px) {
+            .container {
+                padding: 2rem 1rem;
+            }
+            
+            .profile-name {
+                font-size: 1.6rem;
+            }
+            
+            .profile-avatar {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .brothers-list {
+                flex-direction: column;
+            }
+            
+            .info-row {
+                flex-direction: column;
+                gap: 0.3rem;
+            }
+            
+            .info-update {
+                text-align: right;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .profile-name {
+                font-size: 1.4rem;
+            }
+            
+            .section {
+                padding: 1rem;
+            }
+            
+            .section-title {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- زر الخروج -->
+    <a href="https://alriadh.github.io/ALRIADH1/X-AA-B/Abdx.CH1x.html" class="exit-button">
+        <i class="fas fa-arrow-left"></i>
+    </a>
+    
+    <!-- المحتوى الرئيسي -->
+    <div class="container">
+        <!-- رأس الملف الشخصي -->
+        <div class="profile-header">
+            <img src="https://i.postimg.cc/yxKmrQb2/20250920-231813.jpg" alt="الصورة الشخصية" class="profile-avatar">
+            <h1 class="profile-name">عبدالرحمن عادل إسماعيل ناجي الشوكي</h1>
+            <p class="profile-subtitle typing-element" id="main-subtitle">الملف الشخصي - معلومات أساسية</p>
+        </div>
+        
+        <!-- قسم المعلومات الأساسية -->
+        <div class="section">
+            <h2 class="section-title">
+                <i class="fas fa-user-circle"></i>
+                <span class="typing-element" id="section1-title">المعلومات الأساسية</span>
+            </h2>
+            
+            <div class="info-card typing-element" id="card1-1">
+                <div class="info-row">
+                    <div class="info-label">
+                        <i class="fas fa-birthday-cake"></i>
+                        تاريخ الميلاد:
+                    </div>
+                    <div class="info-value">13 يوليو 2006</div>
+                </div>
+                <div class="info-update">آخر تحديث: 29 أكتوبر 2025</div>
+            </div>
+            
+            <div class="info-card typing-element" id="card1-2">
+                <div class="info-row">
+                    <div class="info-label">
+                        <i class="fas fa-map-marker-alt"></i>
+                        مكان الميلاد:
+                    </div>
+                    <div class="info-value">اليمن – الضالع</div>
+                </div>
+                <div class="info-update">آخر تحديث: 29 أكتوبر 2025</div>
+            </div>
+            
+            <div class="info-card typing-element" id="card1-3">
+                <div class="info-row">
+                    <div class="info-label">
+                        <i class="fas fa-home"></i>
+                        الإقامة الحالية:
+                    </div>
+                    <div class="info-value">اليمن – الضالع (سناح)</div>
+                </div>
+                <div class="info-update">آخر تحديث: 29 أكتوبر 2025</div>
+            </div>
+            
+            <div class="info-card typing-element" id="card1-4">
+                <div class="info-row">
+                    <div class="info-label">
+                        <i class="fas fa-map-pin"></i>
+                        مكان المنزل:
+                    </div>
+                    <div class="info-value">اليمن – الضالع (إحداثيات GBS)</div>
+                </div>
+                <div class="info-update">آخر تحديث: 29 أكتوبر 2025</div>
+            </div>
+            
+            <div class="info-card typing-element" id="card1-5">
+                <div class="info-row">
+                    <div class="info-label">
+                        <i class="fas fa-pray"></i>
+                        الديانة:
+                    </div>
+                    <div class="info-value">الإسلام</div>
+                </div>
+                <div class="info-update">آخر تحديث: 29 أكتوبر 2025</div>
+            </div>
+            
+            <div class="info-card typing-element" id="card1-6">
+                <div class="info-row">
+                    <div class="info-label">
+                        <i class="fas fa-heart"></i>
+                        الحالة الاجتماعية:
+                    </div>
+                    <div class="info-value">أعزب</div>
+                </div>
+                <div class="info-update">آخر تحديث: 29 أكتوبر 2025</div>
+            </div>
+            
+            <div class="info-card typing-element" id="card1-7">
+                <div class="info-row">
+                    <div class="info-label">
+                        <i class="fas fa-venus-mars"></i>
+                        الجنس:
+                    </div>
+                    <div class="info-value">ذكر</div>
+                </div>
+                <div class="info-update">آخر تحديث: 29 أكتوبر 2025</div>
+            </div>
+            
+            <div class="info-card typing-element" id="card1-8">
+                <div class="info-row">
+                    <div class="info-label">
+                        <i class="fas fa-tint"></i>
+                        فصيلة الدم:
+                    </div>
+                    <div class="info-value">B-</div>
+                </div>
+                <div class="info-update">آخر تحديث: 29 أكتوبر 2025</div>
+            </div>
+            
+            <div class="info-card typing-element" id="card1-9">
+                <div class="info-row">
+                    <div class="info-label">
+                        <i class="fas fa-id-card"></i>
+                        رقم البطاقة:
+                    </div>
+                    <div class="info-value">475474567455</div>
+                </div>
+                <div class="info-update">آخر تحديث: 29 أكتوبر 2025</div>
+            </div>
+        </div>
+        
+        <!-- قسم العائلة -->
+        <div class="section">
+            <h2 class="section-title">
+                <i class="fas fa-users"></i>
+                <span class="typing-element" id="section2-title">العائلة</span>
+            </h2>
+            
+            <div class="info-card typing-element" id="card2-1">
+                <div class="info-row">
+                    <div class="info-label">
+                        <i class="fas fa-male"></i>
+                        الأب:
+                    </div>
+                    <div class="info-value">
+                        عادل إسماعيل ناجي قحطان الشوكي
+                        <img src="https://i.postimg.cc/yxKmrQb2/20250920-231813.jpg" alt="صورة الأب" class="father-image">
+                    </div>
+                </div>
+                <div class="info-update">آخر تحديث: 29 أكتوبر 2025</div>
+            </div>
+            
+            <div class="info-card typing-element" id="card2-2">
+                <div class="info-row">
+                    <div class="info-label">
+                        <i class="fas fa-female"></i>
+                        الأم:
+                    </div>
+                    <div class="info-value">سترلله صالح ناجي قحطان الشوكي</div>
+                </div>
+                <div class="info-update">آخر تحديث: 29 أكتوبر 2025</div>
+            </div>
+            
+            <div class="info-card typing-element" id="card2-3">
+                <div class="info-row">
+                    <div class="info-label">
+                        <i class="fas fa-user-friends"></i>
+                        الإخوة:
+                    </div>
+                    <div class="info-value"></div>
+                </div>
+                <div class="brothers-list">
+                    <div class="brother-card typing-element" id="brother1">
+                        <img src="https://i.postimg.cc/yxKmrQb2/20250920-231813.jpg" alt="خليل" class="brother-avatar">
+                        <div class="brother-name">خليل</div>
+                        <div class="brother-details">مقيم في السعودية – مواليد 1993 – متزوج</div>
+                    </div>
+                    <div class="brother-card typing-element" id="brother2">
+                        <img src="https://i.postimg.cc/yxKmrQb2/20250920-231813.jpg" alt="عمر" class="brother-avatar">
+                        <div class="brother-name">عمر</div>
+                        <div class="brother-details">مقيم في اليمن – مواليد 1995 – متزوج</div>
+                    </div>
+                    <div class="brother-card typing-element" id="brother3">
+                        <img src="https://i.postimg.cc/yxKmrQb2/20250920-231813.jpg" alt="بكيل" class="brother-avatar">
+                        <div class="brother-name">بكيل</div>
+                        <div class="brother-details">مقيم في السعودية – مواليد 2001 – متزوج</div>
+                    </div>
+                </div>
+                <div class="info-update">آخر تحديث: 29 أكتوبر 2025</div>
+            </div>
+            
+            <div class="info-card typing-element" id="card2-4">
+                <div class="info-row">
+                    <div class="info-label">
+                        <i class="fas fa-female"></i>
+                        عدد الأخوات:
+                    </div>
+                    <div class="info-value">3 (غير مصرح بأسمائهن)</div>
+                </div>
+                <div class="info-update">آخر تحديث: 29 أكتوبر 2025</div>
+            </div>
+            
+            <div class="info-card typing-element" id="card2-5">
+                <div class="info-row">
+                    <div class="info-label">
+                        <i class="fa-solid fa-hourglass-half"></i>
+                        المتوفون:
+                    </div>
+                    <div class="info-value">لا يوجد</div>
+                </div>
+                <div class="info-update">آخر تحديث: 29 أكتوبر 2025</div>
+            </div>
+            
+            <div class="info-card typing-element" id="card2-6">
+                <div class="info-row">
+                    <div class="info-label">
+                        <i class="fas fa-heartbeat"></i>
+                        الأمراض المزمنة:
+                    </div>
+                    <div class="info-value">لا يوجد</div>
+                </div>
+                <div class="info-update">آخر تحديث: 29 أكتوبر 2025</div>
+            </div>
+        </div>
+        
+        <!-- قسم التواصل -->
+        <div class="section">
+            <h2 class="section-title">
+                <i class="fas fa-address-book"></i>
+                <span class="typing-element" id="section3-title">التواصل</span>
+            </h2>
+            
+            <div class="info-card typing-element" id="card3-1">
+                <div class="info-row">
+                    <div class="info-label">
+                        <i class="fas fa-phone"></i>
+                        رقم الهاتف:
+                    </div>
+                    <div class="info-value">776849791</div>
+                </div>
+                <div class="info-update">آخر تحديث: 29 أكتوبر 2025</div>
+            </div>
+            
+            <div class="info-card typing-element" id="card3-2">
+                <div class="info-row">
+                    <div class="info-label">
+                        <i class="fas fa-envelope"></i>
+                        البريد الإلكتروني:
+                    </div>
+                    <div class="info-value">sasnalsjkl@gmail.com</div>
+                </div>
+                <div class="info-update">آخر تحديث: 29 أكتوبر 2025</div>
+            </div>
+        </div>
+        
+        <!-- قسم الملاحظات العامة -->
+        <div class="section">
+            <h2 class="section-title">
+                <i class="fas fa-sticky-note"></i>
+                <span class="typing-element" id="section4-title">ملاحظات عامة</span>
+            </h2>
+            
+            <div class="info-card typing-element" id="card4-1">
+                <div class="info-row">
+                    <div class="info-label">
+                        <i class="fas fa-user-secret"></i>
+                        الأسماء المستعارة:
+                    </div>
+                    <div class="info-value">لا توجد أسماء مستعارة أو كُنى</div>
+                </div>
+                <div class="info-update">آخر تحديث: 29 أكتوبر 2025</div>
+            </div>
+            
+            <div class="info-card typing-element" id="card4-2">
+                <div class="info-row">
+                    <div class="info-label">
+                        <i class="fas fa-check-circle"></i>
+                        دقة البيانات:
+                    </div>
+                    <div class="info-value">جميع البيانات المذكورة حديثة ودقيقة حتى تاريخه</div>
+                </div>
+                <div class="info-update">آخر تحديث: 29 أكتوبر 2025</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // تأثير الكتابة المتدرج مثل الذكاء الاصطناعي
+        document.addEventListener('DOMContentLoaded', function() {
+            // جميع العناصر التي نريد تطبيق تأثير الكتابة عليها
+            const typingElements = [
+                // العنوان الرئيسي
+                { id: 'main-subtitle', delay: 500 },
+                
+                // قسم المعلومات الأساسية
+                { id: 'section1-title', delay: 1000 },
+                { id: 'card1-1', delay: 1500 },
+                { id: 'card1-2', delay: 2000 },
+                { id: 'card1-3', delay: 2500 },
+                { id: 'card1-4', delay: 3000 },
+                { id: 'card1-5', delay: 3500 },
+                { id: 'card1-6', delay: 4000 },
+                { id: 'card1-7', delay: 4500 },
+                { id: 'card1-8', delay: 5000 },
+                { id: 'card1-9', delay: 5500 },
+                
+                // قسم العائلة
+                { id: 'section2-title', delay: 6000 },
+                { id: 'card2-1', delay: 6500 },
+                { id: 'card2-2', delay: 7000 },
+                { id: 'card2-3', delay: 7500 },
+                { id: 'brother1', delay: 8000 },
+                { id: 'brother2', delay: 8500 },
+                { id: 'brother3', delay: 9000 },
+                { id: 'card2-4', delay: 9500 },
+                { id: 'card2-5', delay: 10000 },
+                { id: 'card2-6', delay: 10500 },
+                
+                // قسم التواصل
+                { id: 'section3-title', delay: 11000 },
+                { id: 'card3-1', delay: 11500 },
+                { id: 'card3-2', delay: 12000 },
+                
+                // قسم الملاحظات العامة
+                { id: 'section4-title', delay: 12500 },
+                { id: 'card4-1', delay: 13000 },
+                { id: 'card4-2', delay: 13500 }
+            ];
+            
+            // تطبيق تأثير الكتابة على كل عنصر بالترتيب
+            typingElements.forEach(element => {
+                setTimeout(() => {
+                    const el = document.getElementById(element.id);
+                    if (el) {
+                        el.style.animation = `typing 2s steps(40, end), blink-caret 0.75s step-end infinite`;
+                        el.style.opacity = '1';
+                        
+                        // إزالة المؤشر بعد انتهاء الكتابة
+                        setTimeout(() => {
+                            el.style.borderRight = 'none';
+                        }, 2000);
+                    }
+                }, element.delay);
+            });
+            
+            // تعريف تأثيرات CSS للكتابة
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes typing {
+                    from { width: 0 }
+                    to { width: 100% }
+                }
+                
+                @keyframes blink-caret {
+                    from, to { border-color: transparent }
+                    50% { border-color: var(--primary) }
+                }
+            `;
+            document.head.appendChild(style);
+        });
+    </script>
+</body>
+</html>
