@@ -1,61 +1,40 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-     <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>R.D.F - محتوى المنظمة</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>R.D.F - محتوى المنظمة</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            outline: none;
+        }
 
-<style>
-    /* إخفاء اللون الأزرق عند الضغط على العناصر */
-    * {
-        -webkit-tap-highlight-color: transparent;
-    }
+        :root {
+            --dark-bg: #0a0a12;
+            --primary: #00aaff;
+            --accent: #ff003c;
+            --text: #e0e0e0;
+            --light-gray: #1e1e2a;
+            --card-bg: rgba(20, 20, 30, 0.7);
+            --glow: 0 0 15px rgba(0, 170, 255, 0.3);
+        }
 
-    /* تأثيرات بديلة للحفاظ على تجربة المستخدم */
-    a, button, .nav-item, .nav-icon, .publish-btn, 
-    .publish-option-btn, .publish-option-btn1 {
-        transition: all 0.2s ease;
-    }
-
-    a:active, button:active, .nav-item:active, .nav-icon:active, 
-    .publish-btn:active, .publish-option-btn:active, 
-    .publish-option-btn1:active {
-        transform: scale(0.98);
-    }
-
-    /* هنا نعرّف الخط من ملفك على GitHub */
-    @font-face {
-        font-family: 'Cairo';
-        src: url('fonts/Cairo[slnt,wght].ttf') format('truetype');
-        font-weight: 100 900; /* لأن الخط متغير */
-        font-style: normal;
-    }
-
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: 'Cairo', sans-serif;
-    }
-
-    :root {
-        --dark-bg: #0a0a12;
-        --primary: #00aaff;
-        --accent: #ff003c;
-        --text: #e0e0e0;
-        --light-gray: #1e1e2a;
-        --card-bg: rgba(20, 20, 30, 0.7);
-        --glow: 0 0 15px rgba(0, 170, 255, 0.3);
-    }
-
-    body {
-        background: linear-gradient(135deg, #080817, #0d0d1a);
-        color: var(--text);
-        min-height: 100vh;
-        overflow-x: hidden;
-        position: relative;
-    }
+        body {
+            background: linear-gradient(135deg, #080817, #0d0d1a);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            padding-top: 10px;
+            transition: background 0.3s ease;
+        }
 
         /* تأثيرات الخلفية */
         .background-effects {
@@ -81,280 +60,17 @@
             background-size: 40px 40px;
         }
 
-        /* شريط التنقل العلوي */
-        .navbar {
-            background: rgba(15, 15, 25, 0.95);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 0.50rem 1.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
-        }
-
-        .logo-container {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-        }
-
-        .logo-img {
-            width: 40px;
-            height: 40px;
-            object-fit: cover;
-            border-radius: 50%;
-            border: 2px solid var(--primary);
-            box-shadow: var(--glow);
-        }
-
-        .logo-text {
-            font-size: 0.7rem;
-            font-weight: 700;
-            background: linear-gradient(to right, var(--primary), #00ddff);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        .nav-icons {
-            display: flex;
-            gap: 1.2rem;
-            align-items: center;
-        }
-
-        .nav-icon {
-            color: var(--text);
-            font-size: 1.4rem;
-            position: relative;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            border-radius: 20%;
-            background: rgba(255, 255, 255, 0.05);
-            text-decoration: none;
-        }
-            .nav-icons i {
-        font-size: 20px;
-        cursor: pointer;
-        color: var(--text);
-        transition: all 0.3s ease;
-        width: 40px;
-        height: 40px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 20%;
-    }
-
-        .nav-icon:hover {
-            color: var(--primary);
-            transform: translateY(-3px);
-            background: rgba(0, 170, 255, 0.1);
-        }
-
-        /* زر النشر الجديد تحت الشريط العلوي */
-        .publish-container {
-            border-bottom: 0px solid rgba(255, 255, 255, 0.1);
-            padding: 0.20rem 1.5rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 8px;
-            backdrop-filter: blur(10px);
-        }
-
-        .publish-btn {
-            background: rgba(0, 170, 255, 0.2);
-            color: var(--text);
-            border: 1px solid var(--primary);
-            border-radius: 4px;
-            padding: 8px 16px;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            text-align: center;
-            box-shadow: 0 0 8px rgba(0, 170, 255, 0.1);
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
-            min-width: 0;
-            max-width: 33%;
-            height: 25px;
-        }
-
-        .publish-btn:hover {
-            background: rgba(0, 170, 255, 0.3);
-            transform: translateY(-2px);
-            box-shadow: 0 0 12px rgba(0, 170, 255, 0.3);
-        }
-
-        .publish-option-btn {
-            height: 25px;
-            background: rgba(255, 255, 255, 0.05);
-            color: var(--text);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
-            padding: 8px 12px;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
-            flex: 1;
-            min-width: 0;
-            max-width: 33%;
-        }
-
-        .publish-option-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: translateY(-2px);
-            border-color: var(--primary);
-        }
-
-        .publish-option-btn i {
-            font-size: 0.85rem;
-        }
-
-        .publish-option-btn1 {
-            height: 25px;
-            background: rgba(355, 355, 355, 0.19);
-            color: var(--text);
-            border: 1px solid rgba(955, 255, 255, 0.7);
-            border-radius: 6px;
-            padding: 8px 12px;
-            font-size: 0rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
-            flex: 1;
-            min-width: 0;
-            max-width: 33%;
-        }
-
-        .publish-option-btn1:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: translateY(-2px);
-            border-color: var(--primary);
-        }
-
-        .publish-option-btn1 i {
-            font-size: 0.85rem;
-        }
-
-        .notification-badge {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background: #ff003c;
-            color: white;
-            font-size: 0.7rem;
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
         /* تصميم يشبه تطبيق الجوال */
         .app-container {
             max-width: 500px;
             margin: 0 auto;
-            padding: 1rem;
-            padding-bottom: 80px;
-            margin-top: -7.5px;
-
-        }
-
-        /* تأثير التحميل */
-        .loading-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            background: rgba(10, 10, 18, 0.9);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 10;
-            border-radius: 16px;
-            backdrop-filter: blur(10px);
-        }
-
-        .loading-spinner {
-            width: 60px;
-            height: 60px;
-            border: 5px solid rgba(0, 170, 255, 0.2);
-            border-radius: 50%;
-            border-top: 5px solid var(--primary);
-            animation: spin 1s linear infinite;
-            margin-bottom: 20px;
-        }
-
-        .loading-text {
-            font-size: 1.2rem;
-            color: var(--text);
-            text-align: center;
-        }
-
-        .loading-dots {
-            display: flex;
-            margin-top: 10px;
-        }
-
-        .loading-dot {
-            width: 10px;
-            height: 10px;
-            background: var(--primary);
-            border-radius: 50%;
-            margin: 0 5px;
-            animation: pulse 1.5s infinite ease-in-out;
-        }
-
-        .loading-dot:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-
-        .loading-dot:nth-child(3) {
-            animation-delay: 0.4s;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(0.8); opacity: 0.5; }
-            50% { transform: scale(1.2); opacity: 1; }
-        }
-
-        .hidden {
-            display: none;
+            padding: 0.5rem;
+            transition: transform 0.3s ease;
         }
 
         /* قسم المنشورات */
         .posts-container {
-            margin-top: 20px;
+            margin-top: 10px;
         }
 
         .post {
@@ -374,32 +90,58 @@
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         }
 
-        .post-avatar {
+        .avatar-container {
+            position: relative;
             width: 40px;
             height: 40px;
+        }
+
+        .post-avatar {
+            width: 100%;
+            height: 100%;
             border-radius: 50%;
             object-fit: cover;
             border: 2px solid var(--primary);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .post-avatar.loaded {
+            opacity: 1;
         }
 
         .post-user-info {
             flex: 1;
         }
 
-        .post-username {
-            font-weight: 600;
-            font-size: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 5px;
+.post-username {
+    font-weight: 600;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: -10px; /* المسافة مع العنصر اللي تحته */
+}
+
+        /* أيقونة التوثيق كصورة */
+        .verified-badge {
+            position: relative;
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            top: -0.5px;
         }
 
-        .verified-badge {
-            color: var(--verified-badge);
-            font-size: 0.9rem;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
+        .verified-badge img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .verified-badge img.loaded {
+            opacity: 1;
         }
 
         .post-time {
@@ -417,92 +159,24 @@
             display: block;
             max-height: 500px;
             object-fit: cover;
+            opacity: 0;
+            transition: opacity 0.5s ease;
         }
 
-        .post-video {
-            width: 100%;
-            display: block;
-            max-height: 500px;
-            background: #000;
+        .post-media.loaded {
+            opacity: 1;
         }
 
         .post-text {
-            padding: 15px;
+            padding: 13px;
             font-size: 0.95rem;
             line-height: 1.5;
-        }
-
-        /* شريط التنقل السفلي */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: rgba(15, 15, 25, 0.95);
-            backdrop-filter: blur(10px);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            justify-content: space-around;
-            padding: 0.8rem 0;
-            z-index: 100;
-        }
-
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-decoration: none;
-            color: #aaa;
-            font-size: 0.8rem;
-            transition: all 0.3s ease;
-            position: relative;
-            padding: 3px 15px;
-            border-radius: 15px;
-        }
-
-        .nav-item i {
-            font-size: 1.4rem;
-            margin-bottom: 0.3rem;
-        }
-
-        .nav-item.active, .nav-item:hover {
-            color: var(--primary);
-            background: rgba(0, 170, 255, 0.1);
-            transform: translateY(-3px);
         }
 
         /* تصميم متجاوب */
         @media (max-width: 600px) {
             .app-container {
-                padding: 0.3rem;
-            }
-
-            .publish-container {
-                flex-wrap: nowrap;
-            }
-
-            .publish-btn, .publish-option-btn {
-                font-size: 0.8rem;
-                padding: 6px 10px;
-            }
-
-            .publish-btn span, .publish-option-btn span {
-                display: none;
-            }
-
-            .publish-btn i, .publish-option-btn i {
-                margin: 0;
-                font-size: 0.9rem;
-            }
-        }
-
-        @media (max-width: 400px) {
-            .publish-container {
-                gap: 5px;
-            }
-
-            .publish-btn, .publish-option-btn {
-                padding: 6px 8px;
+                padding: 0.5rem;
             }
         }
 
@@ -511,8 +185,550 @@
             box-shadow: 0 0 15px rgba(0, 170, 255, 0.5);
         }
 
-        .custom-icon1 {
-            filter: brightness(0) saturate(100%) invert(61%) sepia(63%) saturate(5904%) hue-rotate(172deg) brightness(95%) contrast(97%);
+        /* زر العودة للأعلى */
+        .scroll-top-btn {
+            position: fixed;
+            bottom: 25px;
+            left: 25px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(0, 170, 255, 0.15);
+            color: var(--text);
+            border: 1px solid rgba(0, 170, 255, 0.3);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition);
+            z-index: 99;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(5px);
+        }
+
+        .scroll-top-btn:hover {
+            background: rgba(0, 170, 255, 0.3);
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 170, 255, 0.2);
+        }
+
+        /* تأثيرات التحميل العامة */
+        .loading-spinner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 30px;
+            height: 30px;
+            border: 3px solid rgba(0, 170, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s linear infinite;
+            z-index: 10;
+        }
+
+        .media-loading {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(30, 30, 40, 0.7);
+        }
+
+        /* تأثيرات التحميل المخصصة للصور الصغيرة */
+        .avatar-loading {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(30, 30, 40, 0.7);
+        }
+
+        .badge-loading {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(30, 30, 40, 0.7);
+        }
+
+        .badge-spinner {
+            width: 12px;
+            height: 12px;
+            border: 1.5px solid rgba(0, 170, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s linear infinite;
+        }
+
+        /* تأثير تحميل بديل للصور الصغيرة - تأثير النبض */
+        .pulse-loader {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .pulse-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            animation: pulse 1.5s infinite ease-in-out;
+        }
+
+        .avatar-pulse .pulse-dot {
+            width: 8px;
+            height: 8px;
+        }
+
+        .pulse-dot:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        .pulse-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .pulse-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes spin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { 
+                transform: scale(1); 
+                opacity: 1; 
+            }
+            50% { 
+                transform: scale(0.7); 
+                opacity: 0.5; 
+            }
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* تنسيق خاص للفيديو العريض */
+        .video-container {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 56.25%; /* نسبة 16:9 */
+            background: #000;
+        }
+
+        .video-thumbnail {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            z-index: 1;
+        }
+
+        .video-thumbnail.loaded {
+            opacity: 1;
+        }
+
+        /* تصميم زر التشغيل للفيديوهات - الإصلاح الكامل */
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 2;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .play-button::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 0;
+            height: 0;
+            border-left: 20px solid white;
+            border-top: 12px solid transparent;
+            border-bottom: 12px solid transparent;
+            margin-left: 3px;
+            transition: all 0.3s ease;
+        }
+
+        .play-button:hover {
+            background: rgba(0, 170, 255, 0.8);
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        .play-button:hover::after {
+            border-left-color: var(--dark-bg);
+        }
+
+        /* حاوية الفيديو iframe */
+        .video-iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            z-index: 3;
+            display: none;
+        }
+
+        /* حاجز لمنع التفاعل مع واجهة Google Drive */
+        .interaction-blocker {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: transparent;
+            z-index: 4;
+            display: none;
+        }
+        
+        /* حاجز لمنع التفاعل مع واجهة Google Drive - يغطي الزاوية اليمنى السفلية */
+        .drive-controls-blocker {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 30%; /* يغطي الجزء الأيمن من الفيديو */
+            height: 20%; /* يغطي الجزء السفلي من الفيديو */
+            background: transparent;
+            z-index: 10;
+            display: none;
+        }
+
+        /* تصميم فيديوهات الشورت (مقاطع صغيرة) */
+        .shorts-section {
+            padding: 10px 0;
+        }
+
+        .shorts-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 15px;
+            padding: 0 10px;
+        }
+
+        .shorts-title h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .shorts-title i {
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+
+        .shorts-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            padding: 0 10px;
+        }
+
+        .short-item {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            background: var(--light-gray);
+            aspect-ratio: 9/16;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .short-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .short-thumbnail {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .short-thumbnail.loaded {
+            opacity: 1;
+        }
+
+        .short-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 12px;
+            background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.99),
+    rgba(0, 0, 0, 0.7),
+    rgba(0, 0, 0, 0.3),
+    transparent
+);
+            color: white;
+            transition: opacity 0.3s ease;
+            z-index: 2;
+        }
+
+.short-title {
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: -5px; /* هذه المسافة */
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+        .short-views {
+            font-size: 0.8rem;
+            color: #ccc;
+        }
+
+        /* تصميم زر التشغيل للشورتات - الإصلاح الكامل */
+        .short-play-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            z-index: 2;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .short-play-icon::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 0;
+            height: 0;
+            border-left: 12px solid #000;
+            border-top: 8px solid transparent;
+            border-bottom: 8px solid transparent;
+            margin-left: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .short-play-icon:hover {
+            background: rgba(0, 170, 255, 0.9);
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        .short-play-icon:hover::after {
+            border-left-color: white;
+        }
+
+        /* تأثيرات عند إخفاء الفيديو وإظهار الصورة المصغرة */
+        .video-hidden .video-thumbnail,
+        .video-hidden .play-button,
+        .video-hidden .short-thumbnail,
+        .video-hidden .short-play-icon,
+        .video-hidden .short-info {
+            display: block !important;
+            opacity: 1 !important;
+        }
+
+        .video-hidden .video-iframe,
+        .video-hidden .interaction-blocker,
+        .video-hidden .drive-controls-blocker {
+            display: none !important;
+        }
+
+        /* تأثيرات الأنيميشن عند الظهور */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        /* إصلاح تنسيق الصور */
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* وضع ملء الشاشة للشورتات مثل اليوتيوب */
+        .shorts-fullscreen-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: 1000;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .shorts-fullscreen-overlay.active {
+            display: flex;
+        }
+
+        .shorts-fullscreen-container {
+            width: 100%;
+            height: 100%;
+            max-width: 500px;
+            position: relative;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+.shorts-fullscreen-close {
+    position: absolute;
+    top: 16px;
+    right: 10px;
+    width: 50px;
+    height: 50px;
+    background: Black; /* خلفية صلبة وواضحة */
+    border-radius: 50%; /* دائري */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 1100;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5); /* ظل ليظهر أكثر */
+    transition: all 0.3s ease;
+}
+
+.shorts-fullscreen-close:hover {
+    background: #0099dd; /* لون أغمق عند التمرير */
+    transform: scale(1.2); /* تكبير بسيط */
+}
+
+.shorts-fullscreen-close i {
+    color: white; /* الرمز باللون الأبيض */
+    font-size: 24px; /* أكبر وأكثر وضوح */
+}
+
+.shorts-fullscreen-controls {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 20px;
+    background: linear-gradient(
+        transparent,
+        rgba(0,0,0,0.6),
+        rgba(0,0,0,0.9),
+        rgba(0,0,0,1.0),
+        rgba(0,0,0,1)
+    );
+    z-index: 1002;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+        .shorts-fullscreen-container:hover .shorts-fullscreen-controls {
+            opacity: 1;
+        }
+
+        .shorts-fullscreen-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: white;
+        }
+
+        .shorts-fullscreen-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #ccc;
+            font-size: 0.9rem;
+        }
+
+        .shorts-fullscreen-views {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .shorts-fullscreen-views i {
+            font-size: 16px;
+        }
+
+        /* عند تنشيط وضع الشورت */
+        body.shorts-mode {
+            overflow: hidden;
+        }
+
+        .shorts-mode .app-container {
+            transform: scale(0.9);
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        .shorts-mode .background-effects {
+            opacity: 0;
+        }
+
+        /* تعديل for fullscreen iframe */
+        .fullscreen-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* طبقة الحجب لـ iframe في وضع ملء الشاشة */
+        .fullscreen-blocker {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 20%; /* حاجز أعلى لمنع التفاعل مع واجهة Google Drive */
+            background: transparent;
+            z-index: 1003;
         }
     </style>
 </head>
@@ -522,127 +738,527 @@
         <div class="grid-overlay"></div>
     </div>
 
-    <!-- شريط التنقل العلوي -->
-    <nav class="navbar">
-        <div class="logo-container">
-            <img src="https://i.postimg.cc/0QwwyJj3/image.png" width="100"  class="ogo-img">
-        </div>
-
-        <div class="nav-icons">
-            <a href="https://alriadh.github.io/ALRIADH1/Notificationsx-000/Abdx.NOTx.html" target="_blank" class="nav-icon">
-                <i class="fa-regular fa-bell"></i>
-            </a>
-            <a href="https://alriadh.github.io/ALRIADH1/X-AA-B/Abdx.ABOx.html" target="_blank" class="nav-icon">
-                <i class="fas fa-info" style="color: #DDDDDD; font-size: 19px;"></i>
-            </a>
-        </div>
-    </nav>
-
-    <!-- زر النشر تحت الشريط العلوي -->
-    <div class="publish-container">
-
-<a href="https://alriadh.github.io/ALRIADH1/X-AA-B/Abdx.CONx.html" target="_blank" class="publish-option-btn">
-            <i class="fas fa-users"></i>
-الأعضاء
-        <a href="#" class="publish-btn">
-            <i class="fas fa-building"></i>
-المنظمة
-        </a>
-
-        </a>
-<a href="https://alriadh.github.io/ALRIADH1/X-AA-B/Abdx.COAx.html" target="_blank" class="publish-option-btn1">
-            <i class='fa-solid fa-upload'></i>
-النشر
-        </a>
-    </div>
-
-<div class="app-container">
-    <!-- تأثير التحميل -->
-    <div class="loading-overlay" id="loadingOverlay">
-        <div class="loading-spinner"></div>
-        <div class="loading-text">جاري تحميل المحتوى</div>
-        <div class="loading-dots">
-            <div class="loading-dot"></div>
-            <div class="loading-dot"></div>
-            <div class="loading-dot"></div>
+    <!-- وضع ملء الشاشة للشورتات -->
+    <div class="shorts-fullscreen-overlay" id="shortsFullscreen">
+        <div class="shorts-fullscreen-container">
+            <button class="shorts-fullscreen-close" id="closeShorts">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+            <div class="fullscreen-blocker"></div>
+            <iframe class="fullscreen-iframe" id="fullscreenIframe" allow="autoplay; fullscreen">
+            </iframe>
+            <div class="shorts-fullscreen-controls">
+                <div class="shorts-fullscreen-title" id="shortsFullscreenTitle">عنوان الشورت</div>
+                <div class="shorts-fullscreen-info">
+                    <div class="shorts-fullscreen-views">
+                        <i class="fas fa-eye"></i>
+                        <span id="shortsFullscreenViews">0 مشاهدة</span>
+                    </div>
+                    <div id="shortsFullscreenChannel">منظمة R.D.F</div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <iframe 
-      src="https://alriadh.github.io/ALRIADH1/Content-200/CONx.ORGx.html" 
-      style="width:100%;height:80vh;border:none;border-radius:16px;"
-      onload="hideLoader()">
-    </iframe>
-  </div>
-</div>
-  <div class="posts-container">
-    <!-- هنا حذفت كل المنشورات وحطيت الـ iframe -->
-    <!-- شريط التنقل السفلي -->
-    <div class="bottom-nav">
-<a href="https://alriadh.github.io/ALRIADH1/rdf-login/Abdx.HOMx.html" target="_blank" class="nav-item">
-            <img src="https://i.postimg.cc/1RYdGs59/image.png" width="22" alt="الرئيسية" class="custom-icon">
-            <span>الرئيسية</span>
-        </a>
-<a href="https://alriadh.github.io/ALRIADH1/X-AA-B/Abdx.CH1x.html" target="_blank" class="nav-item">
-            <img src="https://i.postimg.cc/jdWKK6dw/image.png" width="22" alt="الدردشة" class="custom-icon">
-            <span>الدردشة</span>
-        </a>
-<a href="#" class="nav-item active">
-            <img src="https://i.postimg.cc/QC2gRYyY/image.png" width="22" alt="المحتوى" class="custom-icon1">
-            <span>المحتوى</span>
-        </a>
-<a href="https://alriadh.github.io/ALRIADH1/X-AA-B/Abdx.PROx.html" target="_blank" class="nav-item">
-            <img src="https://i.postimg.cc/ZKSjYVVC/image.png" width="22" class="custom-icon">
-            <span>صفحتي</span>
-        </a>
+    <div class="app-container">
+        <div class="posts-container">
+
+            <!-- منشور صورة 1 -->
+            <div class="post">
+                <div class="post-header">
+                    <div class="avatar-container">
+                        <div class="avatar-loading">
+                            <!-- تأثير النبض لصورة المستخدم -->
+                            <div class="pulse-loader avatar-pulse">
+                                <div class="pulse-dot"></div>
+                                <div class="pulse-dot"></div>
+                                <div class="pulse-dot"></div>
+                            </div>
+                        </div>
+                        <img src="https://i.postimg.cc/Y0mv4vwt/propack-new.png" class="post-avatar" alt="">
+                    </div>
+                    <div class="post-user-info">
+                        <div class="post-username">
+                            منظمة R.D.F 
+                            <span class="verified-badge">
+                                <div class="badge-loading">
+                                    <!-- تأثير دوار صغير لشارة التوثيق -->
+                                    <div class="badge-spinner"></div>
+                                </div>
+                                <img src="https://files.catbox.moe/nk02wx.png" alt="توثيق">
+                            </span>
+                        </div>
+                        <div class="post-time">2025/10/4</div>
+                    </div>
+                </div>
+                <div class="post-content" style="position: relative;">
+                    <div class="media-loading">
+                        <div class="loading-spinner"></div>
+                    </div>
+                    <img src="https://i.postimg.cc/8zKSQq9k/image.jpg" class="post-media" alt="صورة المنشور">
+                </div>
+                <div class="post-text">
+أعضاء R.D.F أنتم القوة والفخر والروح التي تجعل المنظمة عظيمة.
+                </div>
+            </div>
+
+            <!-- منشور فيديو 1 -->
+            <div class="post">
+                <div class="post-header">
+                    <div class="avatar-container">
+                        <div class="avatar-loading">
+                            <!-- تأثير النبض لصورة المستخدم -->
+                            <div class="pulse-loader avatar-pulse">
+                                <div class="pulse-dot"></div>
+                                <div class="pulse-dot"></div>
+                                <div class="pulse-dot"></div>
+                            </div>
+                        </div>
+                        <img src="https://i.postimg.cc/Y0mv4vwt/propack-new.png" class="post-avatar" alt="">
+                    </div>
+                    <div class="post-user-info">
+                        <div class="post-username">
+                            منظمة R.D.F 
+                            <span class="verified-badge">
+                                <div class="badge-loading">
+                                    <!-- تأثير دوار صغير لشارة التوثيق -->
+                                    <div class="badge-spinner"></div>
+                                </div>
+                                <img src="https://files.catbox.moe/nk02wx.png" alt="توثيق">
+                            </span>
+                        </div>
+                        <div class="post-time">2025/10/5</div>
+                    </div>
+                </div>
+                <div class="post-content">
+                    <div class="video-container">
+                        <!-- الصورة المصغرة للفيديو -->
+                        <div class="media-loading">
+                            <div class="loading-spinner"></div>
+                        </div>
+                        <img src="https://i.postimg.cc/02jRvvbm/image.jpg" class="video-thumbnail" alt="صورة مصغرة للفيديو">
+                        <div class="play-button">
+                            <!-- تمت إزالة أيقونة font-awesome واستبدالها بعنصر وهمي -->
+                        </div>
+
+                        <!-- iframe لعرض فيديو Google Drive -->
+                        <iframe 
+                            class="video-iframe" 
+                            allow="autoplay; fullscreen"
+                            data-video-id="1eo_WCoT2K_kFv2rpt-hwh_2FxVjNiupG">
+                        </iframe>
+                        
+                        <!-- حاجز لمنع التفاعل مع واجهة Google Drive -->
+                        <div class="interaction-blocker"></div>
+                        
+                        <!-- حاجز لمنع التفاعل مع واجهة Google Drive (الزاوية اليمنى السفلية) -->
+                        <div class="drive-controls-blocker"></div>
+                    </div>
+                </div>
+                <div class="post-text">
+                    تشتعلُ السماء احتفالاً بخمسِ أعوام من القوة.
+                </div>
+            </div>
+
+            <!-- قسم فيديوهات الشورت -->
+            <div class="post">
+                <div class="shorts-section">
+                    <div class="shorts-title">
+                        <i class="fas fa-fire"></i>
+                        <h3>Shorts</h3>
+                    </div>
+                    <div class="shorts-container">
+                    
+                        <!-- شورت 1 -->
+                        <div class="short-item" data-short-id="1" data-title="تدريبات القوة الخاصة X" data-views="1.2M" data-video-id="1fmLF7MtqN82bfaK5UFlqQ5nR-3gMEOhn">
+                            <div class="media-loading">
+                                <div class="loading-spinner"></div>
+                            </div>
+                            <img src="https://i.postimg.cc/fW8C7BSd/20251018-204445.jpg" class="short-thumbnail" alt="شورت 1">
+                            <div class="short-play-icon">
+                                <!-- تمت إزالة أيقونة font-awesome واستبدالها بعنصر وهمي -->
+                            </div>
+                            <div class="short-info">
+                                <div class="short-title">تدريبات القوة الخاصة</div>
+                                <div class="short-views">2026/1/15</div>
+                            </div>
+                        </div>
+                        
+                        <!-- شورت 2 -->
+                        <div class="short-item" data-short-id="2" data-title="لحظات ملهمة من التدريب" data-views="850K" data-video-id="1Vy-ppn42MoioENDxJfb-hxm4IQsmkYOw">
+                            <div class="media-loading">
+                                <div class="loading-spinner"></div>
+                            </div>
+                            <img src="https://i.postimg.cc/02jRvvbm/image.jpg" class="short-thumbnail" alt="شورت 2">
+                            <div class="short-play-icon">
+                                <!-- تمت إزالة أيقونة font-awesome واستبدالها بعنصر وهمي -->
+                            </div>
+                            <div class="short-info">
+                                <div class="short-title">لحظات ملهمة من التدريب</div>
+                                <div class="short-views">2026/1/20</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
+    <!-- زر العودة للأعلى -->
+    <button class="scroll-top-btn" id="scrollTopBtn">
+        <i class="fas fa-arrow-up"></i>
+    </button>
 
-  <script>
-  document.addEventListener('DOMContentLoaded',function(){
-    const videos=document.querySelectorAll('video');
-    const observer=new IntersectionObserver((entries)=>{
-      entries.forEach(entry=>{
-        if(!entry.isIntersecting){entry.target.pause();}
-      });
-    },{threshold:.5});
-    videos.forEach(video=>{
-      observer.observe(video);
-      video.addEventListener('play',()=>video.parentElement.classList.add('playing'));
-      video.addEventListener('pause',()=>video.parentElement.classList.remove('playing'));
-    });
-    // إخفاء تأثير التحميل بعد 3 ثواني
-    setTimeout(()=>document.getElementById('loadingOverlay').classList.add('hidden'),3000);
-  });
-  function hideLoader(){document.getElementById('loadingOverlay').classList.add('hidden');}
-  </script>
+    <script>
+        // متغيرات عامة
+        let activeVideo = null;
+        let shortsFullscreenActive = false;
+        let currentShortsIndex = 0;
+        const shortsItems = [];
 
-  <!-- سكربت Firebase مستقل module -->
-  <script type="module">
-    import { initializeApp as initActiveApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
-    import { getDatabase as getActiveDB, ref as activeRef, update as activeUpdate } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js";
-    const activeConfig = {
-      apiKey: "AIzaSyBkdgdvqCMDazd_lVDjk3AxBQv_NuoT2CY",
-      authDomain: "activeusersproject.firebaseapp.com",
-      databaseURL: "https://activeusersproject-default-rtdb.firebaseio.com",
-      projectId: "activeusersproject",
-      storageBucket: "activeusersproject.firebasestorage.app",
-      messagingSenderId: "1758034379682",
-      appId: "1:578197913531:web:74f4b5c2b7d0f429424e9e",
-      measurementId: "G-TSP2J3ERRZ"
-    };
-    const activeApp=initActiveApp(activeConfig);
-    const activeDB=getActiveDB(activeApp);
-    const activeUsername="عبدالرحمن الشوكي";
-    const activeName="عبدالرحمن الشوكي";
-    const activeAvatar="https://i.postimg.cc/yxKmrQb2/20250920-231813.jpg";
-    function updateActivity(){
-      activeUpdate(activeRef(activeDB,'activeUsersTest/'+activeUsername),{
-        name:activeName,avatar:activeAvatar,lastActive:Date.now()
-      }).then(()=>console.log("تم تحديث النشاط")).catch(err=>console.error("خطأ:",err));
-    }
-    updateActivity();
-    setInterval(updateActivity,10000);
-  </script>
+        // كود لإيقاف الفيديو عند التمرير بعيداً عنه
+        document.addEventListener('DOMContentLoaded', function() {
+            // جمع عناصر الشورتات
+            document.querySelectorAll('.short-item').forEach(item => {
+                shortsItems.push(item);
+            });
+
+            // إعداد وضع ملء الشاشة للشورتات
+            setupShortsFullscreen();
+
+            // إنشاء مراقب للعناصر لإيقاف الفيديوهات عند التمرير بعيداً
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    const iframe = entry.target;
+                    const container = iframe.parentElement;
+                    
+                    if (!entry.isIntersecting && !shortsFullscreenActive && container.classList.contains('playing')) {
+                        // إيقاف الفيديو وإظهار الصورة المصغرة
+                        stopVideo(container);
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            // مراقبة كل iframe فيديو
+            document.querySelectorAll('.video-iframe').forEach(iframe => {
+                observer.observe(iframe);
+            });
+
+            // زر العودة للأعلى
+            const scrollTopBtn = document.getElementById('scrollTopBtn');
+
+            window.addEventListener('scroll', () => {
+                if (window.pageYOffset > 300 && !shortsFullscreenActive) {
+                    scrollTopBtn.style.display = 'flex';
+                } else {
+                    scrollTopBtn.style.display = 'none';
+                }
+            });
+
+            scrollTopBtn.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+
+            // إدارة تأثيرات التحميل للصور
+            const images = document.querySelectorAll('img');
+
+            images.forEach(img => {
+                // إضافة حدث عند تحميل الصورة
+                img.addEventListener('load', function() {
+                    this.classList.add('loaded');
+
+                    // إخفاء تأثير التحميل المناسب
+                    const container = this.parentElement;
+                    const loadingElement = container.querySelector('.media-loading, .avatar-loading, .badge-loading');
+                    
+                    if (loadingElement) {
+                        loadingElement.classList.add('hidden');
+                    }
+                });
+
+                // إذا فشل تحميل الصورة
+                img.addEventListener('error', function() {
+                    const container = this.parentElement;
+                    const loadingElement = container.querySelector('.media-loading, .avatar-loading, .badge-loading');
+                    
+                    if (loadingElement) {
+                        loadingElement.classList.add('hidden');
+                    }
+                    
+                    // استبدال الصورة المعطوبة بصورة بديلة
+                    if (this.classList.contains('post-avatar') || this.classList.contains('verified-badge img')) {
+                        this.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iIzFlMWUyYSIvPjx0ZXh0IHg9IjUwIiB5PSI1MCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEyIiBmaWxsPSIjZTBlMGUwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+RkFJTDwvdGV4dD48L3N2Zz4=';
+                    }
+                });
+
+                // التحقق مما إذا كانت الصورة محملة مسبقاً
+                if (img.complete) {
+                    img.dispatchEvent(new Event('load'));
+                }
+            });
+
+            // تشغيل الفيديو عند النقر على الصورة المصغرة (الفيديوهات العريضة)
+            document.querySelectorAll('.play-button').forEach(button => {
+                button.addEventListener('click', function() {
+                    const container = this.closest('.video-container');
+                    playVideo(container);
+                });
+            });
+
+            // تشغيل الفيديو عند النقر على الشورتات
+            document.querySelectorAll('.short-play-icon').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const container = this.closest('.short-item');
+                    playShortVideo(container);
+                });
+            });
+
+            // دالة لتشغيل الفيديو
+            function playVideo(container) {
+                const thumbnail = container.querySelector('.video-thumbnail');
+                const playIcon = container.querySelector('.play-button');
+                const iframe = container.querySelector('.video-iframe');
+                const blocker = container.querySelector('.interaction-blocker');
+                const driveBlocker = container.querySelector('.drive-controls-blocker');
+                const loading = container.querySelector('.media-loading');
+
+                // إخفاء الصورة المصغرة وزر التشغيل
+                if (thumbnail) thumbnail.style.display = 'none';
+                if (playIcon) playIcon.style.display = 'none';
+                if (loading) loading.style.display = 'none';
+
+                // تعيين مصدر iframe من Google Drive
+                const videoId = iframe.getAttribute('data-video-id');
+                const previewUrl = `https://drive.google.com/file/d/${videoId}/preview`;
+                iframe.src = previewUrl;
+                
+                // إظهار iframe وطبقة الحجب
+                iframe.style.display = 'block';
+                blocker.style.display = 'block';
+                if (driveBlocker) driveBlocker.style.display = 'block';
+                
+                // إذا كان هناك فيديو نشط آخر، أوقفه
+                if (activeVideo && activeVideo !== container) {
+                    stopVideo(activeVideo);
+                }
+                
+                // تعيين هذا الفيديو كفيديو نشط
+                activeVideo = container;
+                container.classList.add('playing');
+                container.classList.remove('video-hidden');
+            }
+
+            // دالة لتشغيل فيديو الشورت
+            function playShortVideo(container) {
+                const videoId = container.getAttribute('data-video-id');
+                const title = container.getAttribute('data-title');
+                const views = container.getAttribute('data-views');
+                
+                // فتح الفيديو في وضع ملء الشاشة
+                openShortsFullscreen(videoId, title, views);
+            }
+
+            // دالة لإيقاف الفيديو وإظهار الصورة المصغرة
+            function stopVideo(container) {
+                const thumbnail = container.querySelector('.video-thumbnail');
+                const playIcon = container.querySelector('.play-button');
+                const iframe = container.querySelector('.video-iframe');
+                const blocker = container.querySelector('.interaction-blocker');
+                const driveBlocker = container.querySelector('.drive-controls-blocker');
+                const loading = container.querySelector('.media-loading');
+
+                // إخفاء iframe وطبقة الحجب
+                iframe.style.display = 'none';
+                blocker.style.display = 'none';
+                if (driveBlocker) driveBlocker.style.display = 'none';
+                
+                // إزالة مصدر iframe لإيقاف التشغيل
+                iframe.src = '';
+
+                // إظهار الصورة المصغرة وزر التشغيل
+                if (thumbnail) {
+                    thumbnail.style.display = 'block';
+                    thumbnail.classList.add('fade-in');
+                }
+                if (playIcon) {
+                    playIcon.style.display = 'flex';
+                    playIcon.style.transform = 'translate(-50%, -50%)'; // تأكد من أن زر التشغيل في مكانه الصحيح
+                    playIcon.classList.add('fade-in');
+                }
+                if (loading) {
+                    loading.style.display = 'flex';
+                    // إعادة تعيين مؤشر التحميل
+                    loading.innerHTML = '<div class="loading-spinner"></div>';
+                }
+                
+                // إضافة حالة إخفاء الفيديو
+                container.classList.add('video-hidden');
+                container.classList.remove('playing');
+                
+                // إزالة تأثير الأنيميشن بعد فترة
+                setTimeout(() => {
+                    if (thumbnail) thumbnail.classList.remove('fade-in');
+                    if (playIcon) playIcon.classList.remove('fade-in');
+                }, 500);
+            }
+
+            // إعداد وضع ملء الشاشة للشورتات
+            function setupShortsFullscreen() {
+                const shortsFullscreen = document.getElementById('shortsFullscreen');
+                const closeShorts = document.getElementById('closeShorts');
+                const fullscreenIframe = document.getElementById('fullscreenIframe');
+                
+                // عند النقر على شورت
+                document.querySelectorAll('.short-item').forEach((item, index) => {
+                    item.addEventListener('click', function(e) {
+                        // منع النقر المزدوج
+                        if (e.target.closest('.short-play-icon')) {
+                            return;
+                        }
+                        
+                        e.stopPropagation();
+                        
+                        const videoId = this.getAttribute('data-video-id');
+                        const title = this.getAttribute('data-title');
+                        const views = this.getAttribute('data-views');
+                        
+                        // فتح الفيديو في وضع ملء الشاشة
+                        openShortsFullscreen(videoId, title, views, index);
+                    });
+                });
+
+                // زر إغلاق وضع ملء الشاشة
+                closeShorts.addEventListener('click', function() {
+                    closeShortsFullscreen();
+                });
+
+                // إغلاق عند النقر خارج الشاشة
+                shortsFullscreen.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        closeShortsFullscreen();
+                    }
+                });
+
+                // إغلاق بمفتاح ESC
+                document.addEventListener('keydown', function(e) {
+                    if (e.key === 'Escape' && shortsFullscreenActive) {
+                        closeShortsFullscreen();
+                    }
+                    
+                    // التنقل بين الشورتات بالسهم للأعلى والأسفل
+                    if (shortsFullscreenActive) {
+                        if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+                            e.preventDefault();
+                            navigateShorts(e.key === 'ArrowUp' ? -1 : 1);
+                        }
+                    }
+                });
+
+                // منع إغلاق الفيديو عند النقر على عناصر التحكم
+                const controls = document.querySelector('.shorts-fullscreen-controls');
+                if (controls) {
+                    controls.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                    });
+                }
+            }
+
+            // فتح وضع ملء الشاشة للشورتات
+            function openShortsFullscreen(videoId, title, views, index = 0) {
+                const shortsFullscreen = document.getElementById('shortsFullscreen');
+                const fullscreenIframe = document.getElementById('fullscreenIframe');
+                
+                shortsFullscreenActive = true;
+                currentShortsIndex = index;
+                
+                // تعيين البيانات
+                document.getElementById('shortsFullscreenTitle').textContent = title;
+                document.getElementById('shortsFullscreenViews').textContent = views + ' مشاهدة';
+                
+                // تعيين مصدر iframe
+                const previewUrl = `https://drive.google.com/file/d/${videoId}/preview`;
+                fullscreenIframe.src = previewUrl;
+                
+                // تفعيل وضع الشورت
+                document.body.classList.add('shorts-mode');
+                shortsFullscreen.classList.add('active');
+                
+                // إخفاء شريط التمرير
+                document.documentElement.style.overflow = 'hidden';
+                document.body.style.overflow = 'hidden';
+            }
+
+            // إغلاق وضع ملء الشاشة للشورتات
+            function closeShortsFullscreen() {
+                const shortsFullscreen = document.getElementById('shortsFullscreen');
+                const fullscreenIframe = document.getElementById('fullscreenIframe');
+                
+                shortsFullscreenActive = false;
+                
+                // إزالة مصدر iframe لإيقاف التشغيل
+                fullscreenIframe.src = '';
+                
+                // إلغاء وضع الشورت
+                document.body.classList.remove('shorts-mode');
+                shortsFullscreen.classList.remove('active');
+                
+                // إعادة شريط التمرير
+                document.documentElement.style.overflow = '';
+                document.body.style.overflow = '';
+            }
+
+            // التنقل بين الشورتات
+            function navigateShorts(direction) {
+                currentShortsIndex += direction;
+                
+                // التحقق من الحدود
+                if (currentShortsIndex < 0) {
+                    currentShortsIndex = shortsItems.length - 1;
+                } else if (currentShortsIndex >= shortsItems.length) {
+                    currentShortsIndex = 0;
+                }
+                
+                // الحصول على الشورت الجديد
+                const newShort = shortsItems[currentShortsIndex];
+                const videoId = newShort.getAttribute('data-video-id');
+                const title = newShort.getAttribute('data-title');
+                const views = newShort.getAttribute('data-views');
+                
+                // تحديث البيانات في وضع ملء الشاشة
+                document.getElementById('shortsFullscreenTitle').textContent = title;
+                document.getElementById('shortsFullscreenViews').textContent = views + ' مشاهدة';
+                
+                // تغيير مصدر iframe
+                const fullscreenIframe = document.getElementById('fullscreenIframe');
+                const previewUrl = `https://drive.google.com/file/d/${videoId}/preview`;
+                fullscreenIframe.src = previewUrl;
+            }
+
+            // إضافة تأثير الظهور التدريجي للعناصر
+            const posts = document.querySelectorAll('.post');
+            posts.forEach((post, index) => {
+                post.style.opacity = '0';
+                post.style.transform = 'translateY(20px)';
+                post.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                
+                setTimeout(() => {
+                    post.style.opacity = '1';
+                    post.style.transform = 'translateY(0)';
+                }, 100 + (index * 100));
+            });
+        });
+
+        // وظيفة لتحسين أداء الفيديو
+        window.addEventListener('load', function() {
+            // تأخير تحميل الفيديوهات حتى تكون الصفحة جاهزة
+            setTimeout(() => {
+                console.log('موقع R.D.F جاهز - جميع الفيديوهات تعمل بـ iframe من Google Drive');
+            }, 1000);
+        });
+    </script>
 </body>
 </html>
