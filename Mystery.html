@@ -11,7 +11,7 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            -webkit-tap-highlight-color: transparent; /* هذا هو التعديل المطلوب */
+            -webkit-tap-highlight-color: transparent;
         }
 
         :root {
@@ -20,6 +20,8 @@
             --text: #e0e0e0;
             --card-bg: rgba(20, 20, 30, 0.9);
             --border: #2a2a3a;
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
         }
 
         body {
@@ -70,13 +72,75 @@
             border-bottom: 1px solid var(--border);
         }
 
-        .profile-avatar {
+        .profile-avatar-container {
+            position: relative;
             width: 150px;
             height: 150px;
-            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+        }
+
+        .profile-avatar {
+            width: 100%;
+            height: 100%;
+            border-radius: 12%;
             object-fit: cover;
-            border: 2px solid var(--primary);
-            margin-bottom: 1.5rem;
+            border: 1.6px solid var(--primary);
+            
+            /* حالة البداية */
+            opacity: 0;
+            transform: translateY(16px) scale(0.96);
+            filter: blur(3px);
+
+            /* الحركة */
+            animation: intelReveal 1.4s ease-out forwards;
+        }
+
+        /* تأثير تحميل الصور */
+        .image-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .loading-spinner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(0, 170, 255, 0.3);
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            z-index: 2;
+        }
+
+        @keyframes spin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        .profile-avatar.loaded, .father-image.loaded, .brother-avatar.loaded {
+            opacity: 1;
+        }
+
+        /* حركة حديثة وهادئة */
+        @keyframes intelReveal {
+            0% {
+                opacity: 0;
+                transform: translateY(16px) scale(0.96);
+                filter: blur(3px);
+            }
+            70% {
+                opacity: 1;
+                transform: translateY(0) scale(1.02);
+                filter: blur(0.5px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+                filter: blur(0);
+            }
         }
 
         .profile-name {
@@ -87,7 +151,7 @@
         }
 
         .profile-subtitle {
-            font-size: 1.2rem;
+            font-size: 1rem;
             color: #aaa;
         }
 
@@ -114,11 +178,10 @@
 
         /* البطاقات داخل الأقسام */
         .info-card {
-            margin-bottom: 1rem;
-            padding: 1rem;
-            background: rgba(30, 30, 42, 0.5);
+            margin-bottom: 0.5rem;
+            padding: 0.6rem;
+            background: rgba(30, 30, 42, 0.4);
             border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(30, 30, 42, 0.7);
         }
 
         .info-row {
@@ -145,19 +208,26 @@
         }
 
         .info-update {
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             color: #888;
             margin-top: 0.5rem;
             text-align: left;
         }
 
         /* صورة الأب */
+        .father-image-container {
+            position: relative;
+            display: inline-block;
+        }
+
         .father-image {
-            width: 40px;
-            height: 40px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             object-fit: cover;
             border: 1px solid var(--primary);
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
         /* قائمة الإخوة */
@@ -177,13 +247,21 @@
             text-align: center;
         }
 
-        .brother-avatar {
+        .brother-avatar-container {
+            position: relative;
             width: 80px;
             height: 80px;
+            margin: 0 auto 0.8rem;
+        }
+
+        .brother-avatar {
+            width: 100%;
+            height: 100%;
             border-radius: 50%;
             object-fit: cover;
             border: 2px solid var(--primary);
-            margin: 0 auto 0.8rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
         .brother-name {
@@ -204,6 +282,111 @@
             opacity: 0;
         }
 
+        /* تصميم الأزرار الزرقاء */
+        .copy-button {
+            color: #00aaff;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            background: transparent;
+            border: none;
+            font-size: inherit;
+            font-family: inherit;
+        }
+
+        .copy-button:hover {
+            color: #66ccff;
+            text-decoration: underline;
+        }
+
+        .app-link {
+            color: #00aaff;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin: 0 5px;
+            display: inline-block;
+        }
+
+        .app-link:hover {
+            color: #66ccff;
+            transform: translateY(-2px);
+        }
+
+        /* تصميم الرسالة المنبثقة الزجاجية */
+        .copy-notification {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.8);
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 25px 35px;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            z-index: 1000;
+            opacity: 0;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3),
+                        0 0 0 1px rgba(255, 255, 255, 0.1),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            pointer-events: none;
+        }
+
+        .copy-notification.show {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .copy-notification i {
+            font-size: 1.5rem;
+            color: #4dff91;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                text-shadow: 0 0 10px rgba(77, 255, 145, 0.5);
+            }
+            50% {
+                transform: scale(1.1);
+                text-shadow: 0 0 20px rgba(77, 255, 145, 0.8);
+            }
+            100% {
+                transform: scale(1);
+                text-shadow: 0 0 10px rgba(77, 255, 145, 0.5);
+            }
+        }
+
+        /* طبقة التعتيم */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            z-index: 999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .overlay.show {
+            opacity: 1;
+            pointer-events: all;
+        }
+
         /* تصميم متجاوب */
         @media (max-width: 768px) {
             .container {
@@ -214,7 +397,7 @@
                 font-size: 1.6rem;
             }
             
-            .profile-avatar {
+            .profile-avatar-container {
                 width: 120px;
                 height: 120px;
             }
@@ -231,11 +414,32 @@
             .info-update {
                 text-align: right;
             }
+            .social-grid {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr); /* عمودين */
+                gap: 10px; /* مسافة بين الأعمدة والصفوف */
+            }
+
+            .social-grid div {
+                display: flex;
+                align-items: center;
+                gap: 5px; /* مسافة بين الأيقونة والنص */
+            }
+            
+            .copy-notification {
+                padding: 20px 25px;
+                font-size: 1.1rem;
+                width: 90%;
+                max-width: 300px;
+                text-align: center;
+                flex-direction: column;
+                gap: 10px;
+            }
         }
 
         @media (max-width: 480px) {
             .profile-name {
-                font-size: 1.4rem;
+                font-size: 1.3rem;
             }
             
             .section {
@@ -245,22 +449,68 @@
             .section-title {
                 font-size: 1.2rem;
             }
+            .copy-button {
+                color: #00aaff;
+                cursor: pointer;
+                font-weight: 600;
+                font-size: 0.8rem; /* تصغير الخط */
+                display: flex;
+                align-items: center;
+                gap: 5px;
+                transition: all 0.3s ease;
+                background: transparent;
+                border: none;
+                font-family: inherit;
+                text-decoration: none !important; /* منع أي خط تحت النص */
+                outline: none; /* إزالة الإطار عند التركيز */
+            }
+
+            .copy-button i {
+                font-size: 0.8rem; /* تصغير الأيقونة */
+            }
+
+            /* منع الخط نهائيًا عند التركيز أو الضغط */
+            .copy-button:focus,
+            .copy-button:active,
+            .copy-button:hover {
+                text-decoration: none !important;
+                outline: none;
+            }
+            
+            .copy-notification {
+                padding: 15px 20px;
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
 <body>
     <!-- زر الخروج -->
-    <a href="https://alriadh.github.io/ALRIADH1/X-AA-B/Abdx.CH1x.html" class="exit-button">
+    <a href="https://script.google.com/macros/s/AKfycbymLDmzW-8HFGI2DKz49S7KeLJzzZsUSNt6AYlO3C2a3LkIdtIER3HA7cfbE09JQsM/exec"
+    target="_blank" class="exit-button">
         <i class="fas fa-arrow-left"></i>
     </a>
+    
+    <!-- الرسالة المنبثقة -->
+    <div class="copy-notification" id="copyNotification">
+        <i class="fas fa-check-circle"></i>
+        <span>تم النسخ بنجاح!</span>
+    </div>
+    
+    <!-- طبقة التعتيم -->
+    <div class="overlay" id="overlay"></div>
     
     <!-- المحتوى الرئيسي -->
     <div class="container">
         <!-- رأس الملف الشخصي -->
         <div class="profile-header">
-            <img src="https://i.postimg.cc/yxKmrQb2/20250920-231813.jpg" alt="الصورة الشخصية" class="profile-avatar">
-            <h1 class="profile-name">عبدالرحمن عادل إسماعيل ناجي الشوكي</h1>
-            <p class="profile-subtitle typing-element" id="main-subtitle">الملف الشخصي - معلومات أساسية</p>
+            <div class="profile-avatar-container">
+                <img src="https://i.postimg.cc/yxKmrQb2/20250920-231813.jpg" alt="لايوجد صورة شخصية" class="profile-avatar">
+                <div class="loading-spinner" id="profileSpinner"></div>
+            </div>
+            <h1 class="profile-name typing-element" id="main-subtitle">عبدالرحمن عادل إسماعيل ناجي الشوكي</h1>
+            
+            <p class="profile-subtitle typing-element" id="main1-subtitle">الملف الشخصي - معلومات أساسية</p>
         </div>
         
         <!-- قسم المعلومات الأساسية -->
@@ -284,7 +534,7 @@
             <div class="info-card typing-element" id="card1-2">
                 <div class="info-row">
                     <div class="info-label">
-                        <i class="fas fa-map-marker-alt"></i>
+                        <i class="fas fa-map-pin"></i>
                         مكان الميلاد:
                     </div>
                     <div class="info-value">اليمن – الضالع</div>
@@ -303,13 +553,18 @@
                 <div class="info-update">آخر تحديث: 29 أكتوبر 2025</div>
             </div>
             
-            <div class="info-card typing-element" id="card1-4">
+              <div class="info-card typing-element" id="card1-4">
                 <div class="info-row">
                     <div class="info-label">
-                        <i class="fas fa-map-pin"></i>
+                        <i class="fas fa-map-marker-alt"></i>
                         مكان المنزل:
                     </div>
-                    <div class="info-value">اليمن – الضالع (إحداثيات GBS)</div>
+                    <div class="info-value">
+                        الإحداثيات - 
+                        <button class="copy-button" data-copy="12.9266236, 44.9577217">
+                            <i class="fas fa-copy"></i> انسخ الإحداثيات
+                        </button>
+                    </div>
                 </div>
                 <div class="info-update">آخر تحديث: 29 أكتوبر 2025</div>
             </div>
@@ -353,7 +608,7 @@
                         <i class="fas fa-tint"></i>
                         فصيلة الدم:
                     </div>
-                    <div class="info-value">B-</div>
+                    <div class="info-value">-B</div>
                 </div>
                 <div class="info-update">آخر تحديث: 29 أكتوبر 2025</div>
             </div>
@@ -361,10 +616,21 @@
             <div class="info-card typing-element" id="card1-9">
                 <div class="info-row">
                     <div class="info-label">
+                        <i class="fa-solid fa-briefcase icon"></i>
+                        المهنة:
+                    </div>
+                    <div class="info-value">طالب</div>
+                </div>
+                <div class="info-update">آخر تحديث: 29 أكتوبر 2025</div>
+            </div>
+            
+            <div class="info-card typing-element" id="card1-10">
+                <div class="info-row">
+                    <div class="info-label">
                         <i class="fas fa-id-card"></i>
                         رقم البطاقة:
                     </div>
-                    <div class="info-value">475474567455</div>
+                    <div class="info-value">20000028882 - قديم</div>
                 </div>
                 <div class="info-update">آخر تحديث: 29 أكتوبر 2025</div>
             </div>
@@ -385,7 +651,10 @@
                     </div>
                     <div class="info-value">
                         عادل إسماعيل ناجي قحطان الشوكي
-                        <img src="https://i.postimg.cc/yxKmrQb2/20250920-231813.jpg" alt="صورة الأب" class="father-image">
+                        <div class="father-image-container">
+                            <img src="https://i.postimg.cc/bwrrsNWT/Picsart-24-08-28-19-12-26-807.jpg" alt="لايوجد صورة" class="father-image">
+                            <div class="loading-spinner"></div>
+                        </div>
                     </div>
                 </div>
                 <div class="info-update">آخر تحديث: 29 أكتوبر 2025</div>
@@ -412,17 +681,26 @@
                 </div>
                 <div class="brothers-list">
                     <div class="brother-card typing-element" id="brother1">
-                        <img src="https://i.postimg.cc/yxKmrQb2/20250920-231813.jpg" alt="خليل" class="brother-avatar">
+                        <div class="brother-avatar-container">
+                            <img src="https://i.postimg.cc/yxKmrQb2/20250920-231813.jpg" alt="لايوجد صورة" class="brother-avatar">
+                            <div class="loading-spinner"></div>
+                        </div>
                         <div class="brother-name">خليل</div>
                         <div class="brother-details">مقيم في السعودية – مواليد 1993 – متزوج</div>
                     </div>
                     <div class="brother-card typing-element" id="brother2">
-                        <img src="https://i.postimg.cc/yxKmrQb2/20250920-231813.jpg" alt="عمر" class="brother-avatar">
+                        <div class="brother-avatar-container">
+                            <img src="https://i.postimg.cc/yxKmrQb2/20250920-231813.jpg" alt="لايوجد صورة" class="brother-avatar">
+                            <div class="loading-spinner"></div>
+                        </div>
                         <div class="brother-name">عمر</div>
                         <div class="brother-details">مقيم في اليمن – مواليد 1995 – متزوج</div>
                     </div>
                     <div class="brother-card typing-element" id="brother3">
-                        <img src="https://i.postimg.cc/yxKmrQb2/20250920-231813.jpg" alt="بكيل" class="brother-avatar">
+                        <div class="brother-avatar-container">
+                            <img src="https://i.postimg.cc/yxKmrQb2/20250920-231813.jpg" alt="لايوجد صورة" class="brother-avatar">
+                            <div class="loading-spinner"></div>
+                        </div>
                         <div class="brother-name">بكيل</div>
                         <div class="brother-details">مقيم في السعودية – مواليد 2001 – متزوج</div>
                     </div>
@@ -445,7 +723,7 @@
                 <div class="info-row">
                     <div class="info-label">
                         <i class="fa-solid fa-hourglass-half"></i>
-                        المتوفون:
+                        المتوفون في العائلة:
                     </div>
                     <div class="info-value">لا يوجد</div>
                 </div>
@@ -488,10 +766,36 @@
                         <i class="fas fa-envelope"></i>
                         البريد الإلكتروني:
                     </div>
-                    <div class="info-value">sasnalsjkl@gmail.com</div>
+                    <div class="info-value">ahmedsleb@gmail.com</div>
                 </div>
                 <div class="info-update">آخر تحديث: 29 أكتوبر 2025</div>
             </div>
+            
+<div class="info-card typing-element" id="card3-3">
+  <div class="info-label">
+    <i class="fas fa-envelope"></i>
+    حسابات التواصل الاجتماعي:
+  </div>
+  <div class="info-value social-grid">
+    <div>
+      <i class="fab fa-facebook-f"></i>
+      <span class="app-link" data-copy="https://www.facebook.com/">Facebook</span>
+    </div>
+    <div>
+      <i class="fab fa-snapchat-ghost"></i>
+      <span class="app-link" data-copy="https://www.snapchat.com/add/example">Snapchat</span>
+    </div>
+    <div>
+      <i class="fab fa-instagram"></i>
+      <span class="app-link" data-copy="https://www.instagram.com/reel/DSTye5KjWJD/?igsh=dnZ4Z3AyZnM5ZGo=">Instagram</span>
+    </div>
+    <div>
+      <i class="fab fa-youtube"></i>
+      <span class="app-link" data-copy="https://www.youtube.com/">Youtube</span>
+    </div>
+  </div>
+  <div class="info-update">آخر تحديث: 29 أكتوبر 2025</div>
+</div>
         </div>
         
         <!-- قسم الملاحظات العامة -->
@@ -524,49 +828,83 @@
             </div>
         </div>
     </div>
+<!-- تحت آخر بطاقة مباشرة -->
+<!-- حقوق الملكية الحالة الأولى -->
+<div class="copyright copyright1">
+تمت إضافة هذه الشخص بواسطة العضو: BLAK7
+</div>
 
+<!-- حقوق الملكية الحالة الثانية -->
+<div class="copyright copyright2">
+ بتاريخ: الأربعاء، 07 يناير 2026، الساعة 03:00 صباحاً    
+</div>
+
+<style>
+    .copyright {
+        text-align: center;   /* توسيط النص */
+    }
+
+    /* الحالة الأولى */
+    .copyright1 {
+        margin-top: -30px;      /* مسافة فوق */
+        margin-bottom: 10px;   /* مسافة تحت */
+        color: #aaa;           /* اللون */
+        font-size: 0.7rem;     /* حجم الخط */
+    }
+
+    /* الحالة الثانية */
+    .copyright2 {
+        margin-top: -10px;      /* مسافة فوق أكبر */
+        margin-bottom: 30px;   /* مسافة تحت أكبر */
+        color: #00aaff;        /* لون مختلف */
+        font-size: 0.8rem;       /* حجم خط أكبر */
+    }
+</style>
     <script>
         // تأثير الكتابة المتدرج مثل الذكاء الاصطناعي
         document.addEventListener('DOMContentLoaded', function() {
             // جميع العناصر التي نريد تطبيق تأثير الكتابة عليها
-            const typingElements = [
-                // العنوان الرئيسي
-                { id: 'main-subtitle', delay: 500 },
-                
-                // قسم المعلومات الأساسية
-                { id: 'section1-title', delay: 1000 },
-                { id: 'card1-1', delay: 1500 },
-                { id: 'card1-2', delay: 2000 },
-                { id: 'card1-3', delay: 2500 },
-                { id: 'card1-4', delay: 3000 },
-                { id: 'card1-5', delay: 3500 },
-                { id: 'card1-6', delay: 4000 },
-                { id: 'card1-7', delay: 4500 },
-                { id: 'card1-8', delay: 5000 },
-                { id: 'card1-9', delay: 5500 },
-                
-                // قسم العائلة
-                { id: 'section2-title', delay: 6000 },
-                { id: 'card2-1', delay: 6500 },
-                { id: 'card2-2', delay: 7000 },
-                { id: 'card2-3', delay: 7500 },
-                { id: 'brother1', delay: 8000 },
-                { id: 'brother2', delay: 8500 },
-                { id: 'brother3', delay: 9000 },
-                { id: 'card2-4', delay: 9500 },
-                { id: 'card2-5', delay: 10000 },
-                { id: 'card2-6', delay: 10500 },
-                
-                // قسم التواصل
-                { id: 'section3-title', delay: 11000 },
-                { id: 'card3-1', delay: 11500 },
-                { id: 'card3-2', delay: 12000 },
-                
-                // قسم الملاحظات العامة
-                { id: 'section4-title', delay: 12500 },
-                { id: 'card4-1', delay: 13000 },
-                { id: 'card4-2', delay: 13500 }
-            ];
+const typingElements = [
+    // العنوان الرئيسي
+    { id: 'main-subtitle', delay: 210 },
+    { id: 'main1-subtitle', delay: 700 },
+    
+    // قسم المعلومات الأساسية
+    { id: 'section1-title', delay: 1200 },
+    { id: 'card1-1', delay: 1700 },
+    { id: 'card1-2', delay: 2200 },
+    { id: 'card1-3', delay: 2700 },
+    { id: 'card1-4', delay: 3200 },
+    { id: 'card1-5', delay: 3700 },
+    { id: 'card1-6', delay: 4200 },
+    { id: 'card1-7', delay: 4700 },
+    { id: 'card1-8', delay: 5200 },
+    { id: 'card1-9', delay: 5700 },
+    { id: 'card1-10', delay: 6200 },
+    
+    // قسم العائلة
+    { id: 'section2-title', delay: 6700 },
+    { id: 'card2-1', delay: 7200 },
+    { id: 'card2-2', delay: 7700 },
+    { id: 'card2-3', delay: 8200 },
+    { id: 'brother1', delay: 8700 },
+    { id: 'brother2', delay: 9200 },
+    { id: 'brother3', delay: 9700 },
+    { id: 'card2-4', delay: 10200 },
+    { id: 'card2-5', delay: 10700 },
+    { id: 'card2-6', delay: 11200 },
+    
+    // قسم التواصل
+    { id: 'section3-title', delay: 11700 },
+    { id: 'card3-1', delay: 12200 },
+    { id: 'card3-2', delay: 12700 },
+    { id: 'card3-3', delay: 13200 },
+    
+    // قسم الملاحظات العامة
+    { id: 'section4-title', delay: 13700 },
+    { id: 'card4-1', delay: 14200 },
+    { id: 'card4-2', delay: 14700 }
+];
             
             // تطبيق تأثير الكتابة على كل عنصر بالترتيب
             typingElements.forEach(element => {
@@ -598,6 +936,94 @@
                 }
             `;
             document.head.appendChild(style);
+            
+            // تأثير تحميل الصور
+            const images = document.querySelectorAll('.profile-avatar, .father-image, .brother-avatar');
+            
+            images.forEach(img => {
+                const container = img.parentElement;
+                const spinner = container.querySelector('.loading-spinner');
+                
+                // عند تحميل الصورة
+                img.addEventListener('load', function() {
+                    spinner.style.display = 'none';
+                    img.classList.add('loaded');
+                });
+                
+                // في حال كانت الصورة محملة مسبقاً
+                if (img.complete) {
+                    spinner.style.display = 'none';
+                    img.classList.add('loaded');
+                }
+                
+                // في حال فشل تحميل الصورة
+                img.addEventListener('error', function() {
+                    spinner.style.display = 'none';
+                    img.classList.add('loaded');
+                    console.log('فشل تحميل الصورة:', img.src);
+                });
+            });
+        });
+
+        // وظيفة نسخ النص وعرض الإشعار
+        function copyToClipboard(text) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            
+            // عرض الإشعار
+            showNotification();
+        }
+
+        // وظيفة عرض الإشعار
+        function showNotification() {
+            const notification = document.getElementById('copyNotification');
+            const overlay = document.getElementById('overlay');
+            
+            notification.classList.add('show');
+            overlay.classList.add('show');
+            
+            // إخفاء الإشعار بعد 2 ثانية
+            setTimeout(() => {
+                notification.classList.remove('show');
+                overlay.classList.remove('show');
+            }, 2000);
+        }
+
+        // إضافة مستمعي الأحداث لأزرار النسخ
+        document.addEventListener('DOMContentLoaded', function() {
+            // زر نسخ الرقم
+            const copyButton = document.querySelector('.copy-button');
+            if (copyButton) {
+                copyButton.addEventListener('click', function() {
+                    const textToCopy = this.getAttribute('data-copy');
+                    copyToClipboard(textToCopy);
+                });
+            }
+            
+            // أزرار نسخ روابط التطبيقات
+            const appLinks = document.querySelectorAll('.app-link');
+            appLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    const textToCopy = this.getAttribute('data-copy');
+                    copyToClipboard(textToCopy);
+                });
+            });
+            
+            // إضافة تأثيرات hover للأزرار
+            const buttons = document.querySelectorAll('.copy-button, .app-link');
+            buttons.forEach(button => {
+                button.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-2px)';
+                });
+                
+                button.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
         });
     </script>
 </body>
