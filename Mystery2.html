@@ -1,222 +1,37 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>رفيق - الإشعارات</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --bg: #000;
-            --card: #0f0f0f;
-            --primary: #9d4edd;
-            --text-dim: #666;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Cairo', sans-serif;
-            -webkit-tap-highlight-color: transparent;
-            -webkit-user-select: none; /* منع التحديد */
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
-
-        /* استثناء لحقول الإدخال إذا أردت إضافتها لاحقاً */
-        input, textarea {
-            -webkit-user-select: text;
-            -moz-user-select: text;
-            -ms-user-select: text;
-            user-select: text;
-        }
-
-        body {
-            background-color: var(--bg);
-            color: #fff;
-            display: flex;
-            justify-content: center;
-            min-height: 100vh;
-            padding: 20px;
-            -webkit-touch-callout: none; /* منع قائمة السياق في iOS */
-        }
-
-        .app-container {
-            width: 100%;
-            max-width: 375px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* باقي الأنماط كما هي... */
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-        }
-
-        .header h2 {
-            font-size: 22px;
-            font-weight: 700;
-        }
-
-        .back-btn {
-            color: var(--text-dim);
-            font-size: 20px;
-            text-decoration: none;
-        }
-
-        .tabs {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-
-        .tab {
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 13px;
-            background: var(--card);
-            color: var(--text-dim);
-            cursor: pointer;
-        }
-
-        .tab.active {
-            background: var(--primary);
-            color: #fff;
-        }
-
-        .notif-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .notif-item {
-            background: var(--card);
-            padding: 18px;
-            border-radius: 20px;
-            display: flex;
-            gap: 15px;
-            border: 1px solid #1a1a1a;
-            position: relative;
-            transition: 0.3s;
-            text-decoration: none;
-            color: inherit;
-        }
-
-        .notif-item.unread::before {
-            content: '';
-            position: absolute;
-            top: 18px;
-            left: 15px;
-            width: 8px;
-            height: 8px;
-            background: var(--primary);
-            border-radius: 50%;
-        }
-
-        .icon-box {
-            width: 45px;
-            height: 45px;
-            background: #1a1a1a;
-            border-radius: 12px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: var(--primary);
-            font-size: 18px;
-            flex-shrink: 0;
-        }
-
-        .content {
-            flex-grow: 1;
-        }
-
-        .content h4 {
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 4px;
-        }
-
-        .content p {
-            font-size: 12px;
-            color: #888;
-            line-height: 1.4;
-        }
-
-        .time {
-            font-size: 10px;
-            color: var(--text-dim);
-            margin-top: 8px;
-            display: block;
-        }
-
-        .clear-all {
-            text-align: center;
-            margin-top: 30px;
-            color: var(--text-dim);
-            font-size: 12px;
-            cursor: pointer;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تجربة منع النسخ</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    -webkit-user-select: none; /* منع النسخ على iOS */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+ */
+    user-select: none; /* باقي المتصفحات */
+  }
+  h1 {
+    color: #333;
+  }
+</style>
 </head>
 <body>
 
-    <div class="app-container">
-        <div class="header">
-            <a href="home.html" class="back-btn"><i class="fa-solid fa-chevron-right"></i></a>
-            <h2>الإشعارات</h2>
-            <div style="width: 20px;"></div> </div>
+<h1>مرحبا عبد الرحمن</h1>
+<p>جرب تضغط مطول على هذا النص أو حاول نسخه.</p>
+<p>إذا لم ينجح النسخ، فالموقع منع النسخ بنجاح.</p>
 
-        <div class="tabs">
-            <div class="tab active">الكل</div>
-            <div class="tab">توجيهات</div>
-            <div class="tab">تنبيهات</div>
-        </div>
+<script>
+  // منع الضغط المطول ونسخ المحتوى
+  document.addEventListener('contextmenu', e => e.preventDefault());
+  document.addEventListener('selectstart', e => e.preventDefault());
+  document.addEventListener('touchstart', e => {
+      if(e.touches.length > 1) e.preventDefault();
+  });
+</script>
 
-        <div class="notif-list">
-            
-            <a href="index00.html" class="notif-item unread">
-                <div class="icon-box"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
-                <div class="content">
-                    <h4>تأمل جديد في انتظارك</h4>
-                    <p>بناءً على إجابتك الأخيرة حول "العطاء".. وضعنا لك فكرة قد تغير زاوية رؤيتك اليوم.</p>
-                    <span class="time">منذ 10 دقائق</span>
-                </div>
-            </a>
-
-            <a href="stages.html" class="notif-item">
-                <div class="icon-box"><i class="fa-solid fa-unlock"></i></div>
-                <div class="content">
-                    <h4>انفتحت مرحلة جديدة!</h4>
-                    <p>المرحلة الثانية من مسار "العائلة" متاحة الآن. هل أنت مستعد للتعمق أكثر؟</p>
-                    <span class="time">منذ ساعتين</span>
-                </div>
-            </a>
-
-            <a href="index00.html" class="notif-item">
-                <div class="icon-box"><i class="fa-solid fa-quote-right"></i></div>
-                <div class="content">
-                    <h4>رسالة قصيرة لك</h4>
-                    <p>"أحياناً التراجع خطوة ليس هزيمة، بل هو استعداد لقفزة أعظم." طاب يومك يا <span class="user-name-notif">صديقي</span>.</p>
-                    <span class="time">أمس</span>
-                </div>
-            </a>
-
-        </div>
-
-        <div class="clear-all" onclick="alert('تم مسح جميع الإشعارات')">مسح كل التنبيهات</div>
-    </div>
-
-    <script>
-        // استعادة الاسم المسجل لتخصيص الإشعارات
-        const savedName = localStorage.getItem('userName') || 'صديقي';
-        document.querySelectorAll('.user-name-notif').forEach(el => el.innerText = savedName);
-    </script>
 </body>
 </html>
