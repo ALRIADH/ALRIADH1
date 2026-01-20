@@ -3,297 +3,220 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الرئيسية - مستشارك النفسي</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Montserrat:wght@600&display=swap" rel="stylesheet">
+    <title>رفيق - الإشعارات</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <style>
+        :root {
+            --bg: #000;
+            --card: #0f0f0f;
+            --primary: #9d4edd;
+            --text-dim: #666;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Cairo', sans-serif;
             -webkit-tap-highlight-color: transparent;
+            -webkit-user-select: none; /* منع التحديد */
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        /* استثناء لحقول الإدخال إذا أردت إضافتها لاحقاً */
+        input, textarea {
+            -webkit-user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
+            user-select: text;
         }
 
         body {
-            background-color: #000;
+            background-color: var(--bg);
             color: #fff;
             display: flex;
             justify-content: center;
-            align-items: center;
             min-height: 100vh;
-            padding: 10px;
+            padding: 20px;
+            -webkit-touch-callout: none; /* منع قائمة السياق في iOS */
         }
 
         .app-container {
             width: 100%;
             max-width: 375px;
-            background-color: *#0f0f0f*;
-            border-radius: 35px;
-            height: 750px;
-            overflow-y: auto;
-            position: relative;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.8);
-            scrollbar-width: none;
+            display: flex;
+            flex-direction: column;
         }
 
-        .app-container::-webkit-scrollbar { display: none; }
-
-        /* الهيدر */
+        /* باقي الأنماط كما هي... */
         .header {
-            padding: 25px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-bottom: 30px;
         }
 
-        .user-greet h2 { font-size: 20px; font-weight: 700; }
-        .user-greet p { color: #888; font-size: 13px; }
+        .header h2 {
+            font-size: 22px;
+            font-weight: 700;
+        }
 
-        .notif-box {
+        .back-btn {
+            color: var(--text-dim);
+            font-size: 20px;
+            text-decoration: none;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .tab {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            background: var(--card);
+            color: var(--text-dim);
+            cursor: pointer;
+        }
+
+        .tab.active {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        .notif-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .notif-item {
+            background: var(--card);
+            padding: 18px;
+            border-radius: 20px;
+            display: flex;
+            gap: 15px;
+            border: 1px solid #1a1a1a;
+            position: relative;
+            transition: 0.3s;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .notif-item.unread::before {
+            content: '';
+            position: absolute;
+            top: 18px;
+            left: 15px;
+            width: 8px;
+            height: 8px;
+            background: var(--primary);
+            border-radius: 50%;
+        }
+
+        .icon-box {
             width: 45px;
             height: 45px;
-            text-decoration: none;   /* يشيل الخط تحت الكلمات */
             background: #1a1a1a;
             border-radius: 12px;
             display: flex;
             justify-content: center;
             align-items: center;
-            color: #9d4edd;
+            color: var(--primary);
+            font-size: 18px;
+            flex-shrink: 0;
         }
 
-        /* بطاقة الحالة النفسية */
-        .mood-card {
-            margin: 0 20px 25px;
-            background: linear-gradient(135deg, #9d4edd, #5a189a);
-            padding: 20px;
-            border-radius: 25px;
+        .content {
+            flex-grow: 1;
         }
 
-        .mood-card h3 { font-size: 18px; margin-bottom: 8px; }
-        .mood-card p { font-size: 13px; opacity: 0.9; margin-bottom: 15px; }
-        
-        .mood-options {
-            display: flex;
-            gap: 10px;
+        .content h4 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 4px;
         }
 
-  .mood-btn {
-    background: rgba(255,255,255,0.2);
-    padding: 8px 12px;
-    border-radius: 12px;
-    font-size: 12px;        /* حجم النص */
-    cursor: pointer;
-    text-decoration: none;   /* يشيل الخط تحت الكلمات */
-    color: #fff;             /* لون النص */
-    display: inline-flex;    /* عشان الأيقونة والنص يكونوا جنب بعض */
-    align-items: center;
-    gap: 6px;                /* مسافة بين الأيقونة والنص */
-    transition: 0.3s;        /* تأثير عند المرور */
-}
-
-.mood-btn:hover {
-    background: rgba(255,255,255,0.4); /* تأثير hover */
-}
-
-        /* الأقسام العلاجية */
-        .section-title {
-            padding: 0 20px;
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 15px;
+        .content p {
+            font-size: 12px;
+            color: #888;
+            line-height: 1.4;
         }
 
-        .section-title h4 { font-size: 16px; }
-        .section-title a { color: #9d4edd; font-size: 12px; text-decoration: none; }
-
-        .categories {
-            display: flex;
-            gap: 15px;
-            padding: 0 20px;
-            margin-bottom: -2px;
-            overflow-x: auto;
-        }
-        .categories1 {
-            display: flex;
-            gap: 15px;
-            padding: 0 20px;
-            margin-bottom: 25px;
-            overflow-x: auto;
+        .time {
+            font-size: 10px;
+            color: var(--text-dim);
+            margin-top: 8px;
+            display: block;
         }
 
-        .cat-card {
-            min-width: 100px;
-            background: #1a1a1a;
-            padding: 15px;
-            border-radius: 20px;
+        .clear-all {
             text-align: center;
-            border: 1px solid #222;
+            margin-top: 30px;
+            color: var(--text-dim);
+            font-size: 12px;
+            cursor: pointer;
         }
-
-        .cat-card i { font-size: 24px; color: #9d4edd; margin-bottom: 10px; }
-        .cat-card p { font-size: 12px; font-weight: 600; }
-
-        /* الأطباء المتوفرون */
-        .doctor-list {
-            padding: 0 20px 100px;
-        }
-
-        .doctor-card {
-            background: #1a1a1a;
-            border-radius: 20px;
-            padding: 15px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 15px;
-            text-decoration: none;
-            color: inherit;
-        }
-
-        .doc-img {
-            width: 60px;
-            height: 60px;
-            background: #333;
-            border-radius: 15px;
-            overflow: hidden;
-        }
-
-        .doc-img img { width: 100%; height: 100%; object-fit: cover; }
-
-        .doc-info h5 { font-size: 14px; margin-bottom: 3px; }
-        .doc-info p { font-size: 11px; color: #888; }
-        .rating { color: #ffb703; font-size: 10px; margin-top: 5px; }
-
-        /* شريط التنقل */
-        .nav-bar {
-            position: absolute;
-            bottom: 20px; left: 20px; right: 20px;
-            background: rgba(26, 26, 26, 0.95);
-            height: 65px;
-            border-radius: 20px;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
-        }
-
-        .nav-item { color: #555; font-size: 18px; text-decoration: none; }
-        .nav-item.active { color: #9d4edd; }
     </style>
 </head>
 <body>
 
     <div class="app-container">
         <div class="header">
-            <div class="user-greet">
-                <h2>مرحباً، شيماء 👋</h2>
-                <p>كيف تشعرين اليوم؟</p>
-            </div>
-            <a href="index00.html" class="notif-box">
-                <i class="fa-solid fa-bell"></i>
-            </a>
+            <a href="home.html" class="back-btn"><i class="fa-solid fa-chevron-right"></i></a>
+            <h2>الإشعارات</h2>
+            <div style="width: 20px;"></div> </div>
+
+        <div class="tabs">
+            <div class="tab active">الكل</div>
+            <div class="tab">توجيهات</div>
+            <div class="tab">تنبيهات</div>
         </div>
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-<div class="mood-card">
-    <h3>تتبع حالتك المزاجية</h3>
-    <p>خصص دقيقة لتقييم يومك والحصول على نصيحة ذكية.</p>
-    <div class="mood-options">
-        <a href="index00.html" class="mood-btn">
-            <i class="fa-regular fa-face-smile"></i> سعيد
-        </a>
-        <a href="index00.html" class="mood-btn">
-            <i class="fa-regular fa-face-meh"></i> هادئ
-        </a>
-        <a href="index00.html" class="mood-btn">
-            <i class="fa-regular fa-face-frown"></i> قلق
-        </a>
-    </div>
-</div>
-
-        <div class="section-title">
-            <h4>الأقسام العلاجية</h4>
-            <a href="index00.html">الكل</a>
-        </div>
-        <div class="categories">
-            <a href="index00.html" style="text-decoration:none; color:inherit;">
-                <div class="cat-card">
-                    <i class="fa-solid fa-brain"></i>
-                    <p>استشارات</p>
-                </div>
-            </a>
-            <a href="index00.html" style="text-decoration:none; color:inherit;">
-                <div class="cat-card">
-                    <i class="fa-solid fa-heart-pulse"></i>
-                    <p>تأمل</p>
-                </div>
-            </a>
-            <a href="index00.html" style="text-decoration:none; color:inherit;">
-                <div class="cat-card">
-                    <i class="fa-solid fa-moon"></i>
-                    <p>نوم عميق</p>
-                </div>
-            </a>
-        </div>
-        <div class="section-title">
-        </div>
-        <div class="categories1">
-            <a href="index00.html" style="text-decoration:none; color:inherit;">
-                <div class="cat-card">
-                    <i class="fa-solid fa-brain"></i>
-                    <p>استشارات</p>
-                </div>
-            </a>
-            <a href="index00.html" style="text-decoration:none; color:inherit;">
-                <div class="cat-card">
-                    <i class="fa-solid fa-heart-pulse"></i>
-                    <p>تأمل</p>
-                </div>
-            </a>
-            <a href="index00.html" style="text-decoration:none; color:inherit;">
-                <div class="cat-card">
-                    <i class="fa-solid fa-moon"></i>
-                    <p>نوم عميق</p>
-                </div>
-            </a>
-        </div>
-
-        <div class="section-title">
-            <h4>أطباء متاحون الآن</h4>
-        </div>
-        <div class="doctor-list">
-            <a href="index00.html" class="doctor-card">
-                <div class="doc-img">
-                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Doc1" alt="doctor">
-                </div>
-                <div class="doc-info">
-                    <h5>د. سارة الأحمد</h5>
-                    <p>متخصصة في العلاج السلوكي المعرفي</p>
-                    <div class="rating">
-                        <i class="fa-solid fa-star"></i> 4.9 (120 مراجعة)
-                    </div>
+        <div class="notif-list">
+            
+            <a href="index00.html" class="notif-item unread">
+                <div class="icon-box"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                <div class="content">
+                    <h4>تأمل جديد في انتظارك</h4>
+                    <p>بناءً على إجابتك الأخيرة حول "العطاء".. وضعنا لك فكرة قد تغير زاوية رؤيتك اليوم.</p>
+                    <span class="time">منذ 10 دقائق</span>
                 </div>
             </a>
 
-            <a href="index00.html" class="doctor-card">
-                <div class="doc-img">
-                    <img src="https://files.catbox.moe/4je8hs.jpg" class="avatar-img" alt="doctor">
-                </div>
-                <div class="doc-info">
-                    <h5>د. أحمد منصور</h5>
-                    <p>خبير في استشارات العلاقات الأسرية</p>
-                    <div class="rating">
-                        <i class="fa-solid fa-star"></i> 4.8 (85 مراجعة)
-                    </div>
+            <a href="stages.html" class="notif-item">
+                <div class="icon-box"><i class="fa-solid fa-unlock"></i></div>
+                <div class="content">
+                    <h4>انفتحت مرحلة جديدة!</h4>
+                    <p>المرحلة الثانية من مسار "العائلة" متاحة الآن. هل أنت مستعد للتعمق أكثر؟</p>
+                    <span class="time">منذ ساعتين</span>
                 </div>
             </a>
+
+            <a href="index00.html" class="notif-item">
+                <div class="icon-box"><i class="fa-solid fa-quote-right"></i></div>
+                <div class="content">
+                    <h4>رسالة قصيرة لك</h4>
+                    <p>"أحياناً التراجع خطوة ليس هزيمة، بل هو استعداد لقفزة أعظم." طاب يومك يا <span class="user-name-notif">صديقي</span>.</p>
+                    <span class="time">أمس</span>
+                </div>
+            </a>
+
         </div>
 
-
+        <div class="clear-all" onclick="alert('تم مسح جميع الإشعارات')">مسح كل التنبيهات</div>
     </div>
 
+    <script>
+        // استعادة الاسم المسجل لتخصيص الإشعارات
+        const savedName = localStorage.getItem('userName') || 'صديقي';
+        document.querySelectorAll('.user-name-notif').forEach(el => el.innerText = savedName);
+    </script>
 </body>
 </html>
